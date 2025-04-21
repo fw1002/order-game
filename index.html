@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-  <meta charset="UTF-8">
-  <title>點餐遊戲 v7</title>
+  <meta charset="UTF-8" />
+  <title>點餐遊戲 v7.1</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -49,6 +49,9 @@
     </div>
   </div>
 
-  <script type="module" src="script.js"></script>
+  <!-- 非模組寫法：Firebase compat CDN + 本地 script -->
+  <script src="https://www.gstatic.com/firebasejs/11.6.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/11.6.0/firebase-database-compat.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>

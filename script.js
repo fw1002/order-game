@@ -1,5 +1,3 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
-import { getDatabase, ref, set, remove, push, get, child } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-database.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBY2JkCQErm8pyh2B1uCZmeuDohi8DNces",
@@ -11,10 +9,10 @@ const firebaseConfig = {
   appId: "1:793590994015:web:d089bf8bea249a3837f7ea"
 };
 
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
-const orderRef = ref(db, "orders");
-const menuRef = ref(db, "menus");
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+const orderRef = db.ref("orders");
+const menuRef = db.ref("menus");
 
 let categories = [];
 let menuItems = [];
@@ -123,7 +121,7 @@ function renderOrder() {
 
 function submitOrder() {
   if (!order.length) return alert("請先點餐");
-  push(orderRef, { items: order, time: new Date().toISOString() });
+  orderRef.push({ items: order, time: new Date().toISOString() });
   alert("訂單已送出");
   order = [];
   renderOrder();
@@ -142,57 +140,49 @@ function renderMenuList() {
 function saveMenu() {
   const name = document.getElementById("menuName").value.trim();
   if (!name) return alert("請輸入菜單名稱");
-  set(ref(db, "menus/" + name), { categories, menuItems });
+  db.ref("menus/" + name).set({ categories, menuItems });
   alert("已儲存至雲端菜單：" + name);
   renderSavedMenus();
 }
 
-async function renderSavedMenus() {
+function renderSavedMenus() {
   const select = document.getElementById("savedMenus");
   select.innerHTML = "<option value=''>--選擇已儲存菜單--</option>";
-  const snapshot = await get(menuRef);
-  if (snapshot.exists()) {
-    Object.keys(snapshot.val()).forEach(name => {
-      const opt = document.createElement("option");
-      opt.value = name;
-      opt.textContent = name;
-      select.appendChild(opt);
-    });
-  }
+  menuRef.once("value", snapshot => {
+    if (snapshot.exists()) {
+      Object.keys(snapshot.val()).forEach(name => {
+        const opt = document.createElement("option");
+        opt.value = name;
+        opt.textContent = name;
+        select.appendChild(opt);
+      });
+    }
+  });
 }
 
-async function loadMenu(name) {
+function loadMenu(name) {
   if (!name) return;
-  const snapshot = await get(child(menuRef, name));
-  if (snapshot.exists()) {
-    const data = snapshot.val();
-    categories = data.categories || [];
-    menuItems = data.menuItems || [];
-    renderCategoryList();
-    renderCategoryOptions();
-    renderMenu();
-    renderMenuList();
-  }
+  db.ref("menus/" + name).once("value", snapshot => {
+    if (snapshot.exists()) {
+      const data = snapshot.val();
+      categories = data.categories || [];
+      menuItems = data.menuItems || [];
+      renderCategoryList();
+      renderCategoryOptions();
+      renderMenu();
+      renderMenuList();
+    }
+  });
 }
 
 function deleteMenu() {
   const name = document.getElementById("savedMenus").value;
   if (!name) return alert("請選擇要刪除的菜單");
   if (confirm("確定要刪除菜單：" + name + "？")) {
-    remove(ref(db, "menus/" + name));
+    db.ref("menus/" + name).remove();
     alert("已刪除");
     renderSavedMenus();
   }
 }
-
-window.switchMode = switchMode;
-window.addCategory = addCategory;
-window.deleteCategory = deleteCategory;
-window.addItem = addItem;
-window.submitOrder = submitOrder;
-window.saveMenu = saveMenu;
-window.loadMenu = loadMenu;
-window.deleteMenu = deleteMenu;
-window.addToOrder = addToOrder;
 
 switchMode("order");
