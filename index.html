@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <title>點餐遊戲</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="top-bar">
+    <button onclick="switchMode('order')">開始點餐</button>
+    <button onclick="switchMode('edit')">編輯菜單</button>
+  </div>
+
+  <div id="order-mode" class="mode">
+    <h1>顧客點餐畫面</h1>
+    <div id="category-buttons"></div>
+    <div id="menu-items" class="menu-items"></div>
+    <div class="order-section">
+      <h2>點餐清單</h2>
+      <ul id="order-list"></ul>
+      <p id="total">總金額：$0</p>
+      <button onclick="submitOrderToFirebase()">送出訂單</button>
+    </div>
+  </div>
+
+  <div id="edit-mode" class="mode" style="display:none;">
+    <h1>編輯模式</h1>
+    <div class="edit-controls">
+      <label>畫面背景色：
+        <select id="bg-color-select" onchange="updateBackgroundColor()">
+          <option value="#ffffff">白色</option>
+          <option value="#fdf5e6">米色</option>
+          <option value="#e0f7fa">淡藍</option>
+          <option value="#fff9c4">淡黃</option>
+          <option value="#fce4ec">淡粉紅</option>
+        </select>
+      </label>
+    </div>
+    <div class="category-editor">
+      <h3>分類管理</h3>
+      <ul id="category-list"></ul>
+      <input type="text" id="new-category-name" placeholder="新增分類名稱">
+      <input type="color" id="new-category-color" value="#ffffff">
+      <button onclick="addCategory()">新增分類</button>
+    </div>
+    <div class="custom-item">
+      <h3>新增餐點</h3>
+      <input type="text" id="item-name" placeholder="餐點名稱">
+      <select id="item-category"></select>
+      <input type="number" id="item-price" placeholder="一般價格">
+      <input type="number" id="item-large-price" placeholder="大份價格">
+      <button onclick="addCustomItem()">加入餐點</button>
+    </div>
+    <div class="menu-editor">
+      <h3>餐點管理</h3>
+      <ul id="menu-item-list"></ul>
+    </div>
+  </div>
+
+  <script type="module" src="script.js"></script>
+</body>
+</html>
