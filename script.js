@@ -98,8 +98,8 @@ function renderMenu() {
     menu.innerHTML += `<div class="menu-item" style="background:${cat?.color}">
       <strong>${item.name}</strong><br>
       ${item.category}<br>
-      一般 $${item.price} <button onclick="addToOrder('${item.name}', ${item.price})">選</button><br>
-      大份 $${item.largePrice} <button onclick="addToOrder('${item.name}(大)', ${item.largePrice})">選</button>
+      一般 $${item.price} <button onclick="addToOrder('${item.name}', ${item.price})">選擇</button><br>
+      大份 $${item.largePrice} <button onclick="addToOrder('${item.name}(大)', ${item.largePrice})">選擇</button>
     </div>`;
   });
 }
@@ -197,5 +197,6 @@ window.submitOrder = submitOrder;
 window.saveMenu = saveMenu;
 window.loadMenu = loadMenu;
 window.deleteMenu = deleteMenu;
+window.addToOrder = addToOrder;
 
 switchMode("order");
