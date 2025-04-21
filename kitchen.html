@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <title>廚房畫面</title>
+  <style>
+    body { font-family: sans-serif; padding: 20px; background: #fff8e1; }
+    .order-box { border: 1px solid #ccc; padding: 10px; margin: 10px; background: #fff; }
+  </style>
+</head>
+<body>
+  <h1>📦 廚房訂單列表</h1>
+  <div id="orders"></div>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+    import { getDatabase, ref, onChildAdded, remove } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-database.js";
+    const firebaseConfig = {
+      apiKey: "AIzaSyBY2JkCQErm8pyh2B1uCZmeuDohi8DNces",
+      authDomain: "order-game-3a2c3.firebaseapp.com",
+      databaseURL: "https://order-game-3a2c3-default-rtdb.firebaseio.com",
+      projectId: "order-game-3a2c3",
+      storageBucket: "order-game-3a2c3.firebasestorage.app",
+      messagingSenderId: "793590994015",
+      appId: "1:793590994015:web:d089bf8bea249a3837f7ea"
+    };
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+    const orderRef = ref(db, "orders");
+    const ordersDiv = document.getElementById("orders");
+    onChildAdded(orderRef, (snapshot) => {
+      const order = snapshot.val();
+      const key = snapshot.key;
+      const box = document.createElement("div");
+      box.className = "order-box";
+      box.innerHTML = \`
+        <strong>時間：</strong> \${new Date(order.time).toLocaleTimeString()}<br>
+        <strong>餐點內容：</strong>
+        <ul>\${order.items.map(item => \`<li>\${item.name} - $\${item.price}</li>\`).join("")}</ul>
+        <button onclick="markDone('\${key}', this)">完成</button>
+      \`;
+      ordersDiv.appendChild(box);
+    });
+    window.markDone = (key, btn) => {
+      const itemRef = ref(db, "orders/" + key);
+      remove(itemRef);
+      btn.parentElement.remove();
+    };
+  </script>
+</body>
+</html>
