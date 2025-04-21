@@ -1,1 +1,53 @@
-<!-- v7 kitchen.html -->
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <title>廚房模式</title>
+  <style>
+    body { font-family: sans-serif; padding: 20px; background-color: #fff8e1; }
+    .order-box { border: 1px solid #ccc; background: #fff; padding: 10px; margin: 10px 0; border-radius: 8px; }
+    .order-box ul { padding-left: 20px; }
+    .order-box button { padding: 5px 10px; background: #e53935; color: white; border: none; border-radius: 5px; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <h1>📦 廚房訂單畫面</h1>
+  <div id="orders"></div>
+  <script src="https://www.gstatic.com/firebasejs/11.6.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/11.6.0/firebase-database-compat.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyBY2JkCQErm8pyh2B1uCZmeuDohi8DNces",
+      authDomain: "order-game-3a2c3.firebaseapp.com",
+      databaseURL: "https://order-game-3a2c3-default-rtdb.firebaseio.com",
+      projectId: "order-game-3a2c3",
+      storageBucket: "order-game-3a2c3.appspot.com",
+      messagingSenderId: "793590994015",
+      appId: "1:793590994015:web:d089bf8bea249a3837f7ea"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+    const orderRef = db.ref("orders");
+    const ordersDiv = document.getElementById("orders");
+
+    orderRef.on("child_added", snapshot => {
+      const order = snapshot.val();
+      const key = snapshot.key;
+      const box = document.createElement("div");
+      box.className = "order-box";
+      box.innerHTML = \`
+        <strong>時間：</strong> \${new Date(order.time).toLocaleTimeString()}<br>
+        <strong>餐點內容：</strong>
+        <ul>\${order.items.map(item => \`<li>\${item.name} - $\${item.price}</li>\`).join("")}</ul>
+        <button onclick="removeOrder('\${key}', this)">完成</button>
+      \`;
+      ordersDiv.appendChild(box);
+    });
+
+    function removeOrder(key, btn) {
+      db.ref("orders/" + key).remove();
+      btn.parentElement.remove();
+    }
+  </script>
+</body>
+</html>
