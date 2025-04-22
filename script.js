@@ -71,26 +71,7 @@ function renderCategoryOptions() {
   });
 }
 
-
 function addItem() {
-  const name = document.getElementById("itemName").value.trim();
-  const category = document.getElementById("itemCategory").value;
-  const priceInput = document.getElementById("itemPrice").value.trim();
-  const largePriceInput = document.getElementById("itemLargePrice").value.trim();
-
-  if (!name || !category || !priceInput) {
-    alert("請輸入餐點名稱、分類與一般價格");
-    return;
-  }
-
-  const price = parseInt(priceInput);
-  const largePrice = largePriceInput ? parseInt(largePriceInput) : null;
-
-  menuItems.push({ name, category, price, largePrice });
-  renderMenu();
-  renderMenuList();
-}
-
   const name = document.getElementById("itemName").value.trim();
   const category = document.getElementById("itemCategory").value;
   const price = parseInt(document.getElementById("itemPrice").value);
@@ -101,7 +82,6 @@ function addItem() {
   renderMenuList();
 }
 
-
 function renderMenu(filter = null) {
   const menu = document.getElementById("menu");
   const catButtons = document.getElementById("category-buttons");
@@ -110,26 +90,14 @@ function renderMenu(filter = null) {
   categories.forEach(cat => {
     catButtons.innerHTML += `<button onclick="renderMenu('${cat.name}')">${cat.name}</button>`;
   });
-
-  const items = menuItems
-    .filter(item => !filter || item.category === filter)
-    .sort((a, b) => {
-      if (a.category === b.category) {
-        return a.name.localeCompare(b.name, "zh-Hant");
-      }
-      return a.category.localeCompare(b.category, "zh-Hant");
-    });
-
-  items.forEach(item => {
+  menuItems.filter(item => !filter || item.category === filter).forEach(item => {
     const cat = categories.find(c => c.name === item.category);
     menu.innerHTML += `<div class="menu-item" style="background:${cat?.color}">
       <strong>${item.name}</strong><br>${item.category}<br>
       一般 $${item.price} <button onclick="addToOrder('${item.name}', ${item.price})">選</button><br>
-      ${item.largePrice ? `大份 $${item.largePrice} <button onclick="addToOrder('${item.name} (大)', ${item.largePrice})">選</button>` : ""}
+      大份 $${item.largePrice} <button onclick="addToOrder('${item.name} (大)', ${item.largePrice})">選</button>
     </div>`;
   });
-}
-
 }
 
 function addToOrder(name, price) {
@@ -176,6 +144,8 @@ function saveMenu() {
   db.ref("menus/" + name).set({ categories, menuItems });
   alert("已儲存至雲端菜單：" + name);
   renderSavedMenus();
+  document.getElementById("savedMenus").value = name;
+  loadMenu(name);
 }
 
 function renderSavedMenus() {
