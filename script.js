@@ -144,6 +144,8 @@ function saveMenu() {
   db.ref("menus/" + name).set({ categories, menuItems });
   alert("已儲存至雲端菜單：" + name);
   renderSavedMenus();
+  document.getElementById("savedMenus").value = name;
+  loadMenu(name);
 }
 
 function renderSavedMenus() {
