@@ -1,11 +1,13 @@
+
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8" />
-  <title>廚房模式 - 接收訂單</title>
+  <title>廚房模式 - 多分店</title>
   <style>
     body { font-family: sans-serif; background: #fffde7; padding: 20px; }
     h1 { color: #d84315; }
+    select { font-size: 16px; margin-bottom: 15px; padding: 5px; }
     .order-box {
       border: 2px solid #ff9800;
       border-radius: 8px;
@@ -28,9 +30,15 @@
 </head>
 <body>
   <h1>🍜 廚房即時訂單畫面</h1>
+  <label for="branchSelect">選擇分店：</label>
+  <select id="branchSelect">
+    <option value="台北站前店">台北站前店</option>
+    <option value="桃園中正店">桃園中正店</option>
+    <option value="高雄左營店">高雄左營店</option>
+  </select>
+
   <div id="orders"></div>
 
-  <!-- Firebase compat 版本 -->
   <script src="https://www.gstatic.com/firebasejs/11.6.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/11.6.0/firebase-database-compat.js"></script>
   <script>
@@ -46,30 +54,39 @@
 
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
-    const orderRef = db.ref("orders");
-    const ordersDiv = document.getElementById("orders");
+    let currentRef = null;
 
-    // 監聽新的訂單
-    orderRef.on("child_added", snapshot => {
-      const order = snapshot.val();
-      const key = snapshot.key;
-      const box = document.createElement("div");
-      box.className = "order-box";
+    function switchBranch(branchName) {
+      const ordersDiv = document.getElementById("orders");
+      ordersDiv.innerHTML = "";
+      if (currentRef) currentRef.off();
+      currentRef = db.ref("orders/" + branchName);
+      currentRef.on("child_added", snapshot => {
+        const order = snapshot.val();
+        const key = snapshot.key;
+        const box = document.createElement("div");
+        box.className = "order-box";
+        const time = new Date(order.time).toLocaleTimeString("zh-TW", { hour12: false });
+        box.innerHTML = `
+          <strong>訂單時間：</strong> ${time}<br>
+          <strong>餐點：</strong>
+          <ul>${order.items.map(item => `<li>${item.name} - $${item.price}</li>`).join("")}</ul>
+          <button onclick="removeOrder('${branchName}', '${key}', this)">✅ 完成</button>
+        `;
+        ordersDiv.prepend(box);
+      });
+    }
 
-      const time = new Date(order.time).toLocaleTimeString("zh-TW", { hour12: false });
-      box.innerHTML = `
-        <strong>訂單時間：</strong> ${time}<br>
-        <strong>餐點：</strong>
-        <ul>${order.items.map(item => `<li>${item.name} - $${item.price}</li>`).join("")}</ul>
-        <button onclick="removeOrder('${key}', this)">✅ 完成</button>
-      `;
-      ordersDiv.prepend(box);
-    });
-
-    function removeOrder(key, btn) {
-      db.ref("orders/" + key).remove();
+    function removeOrder(branch, key, btn) {
+      db.ref("orders/" + branch + "/" + key).remove();
       btn.parentElement.remove();
     }
+
+    document.getElementById("branchSelect").addEventListener("change", function() {
+      switchBranch(this.value);
+    });
+
+    switchBranch(document.getElementById("branchSelect").value);
   </script>
 </body>
 </html>

@@ -11,7 +11,6 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
-const orderRef = db.ref("orders");
 const menuRef = db.ref("menus");
 
 let categories = [];
@@ -121,7 +120,9 @@ function renderOrder() {
 
 function submitOrder() {
   if (!order.length) return alert("請先點餐");
-  orderRef.push({ items: order, time: new Date().toISOString() });
+  const menuName = document.getElementById("savedMenus").value.trim() || "default";
+  const orderPath = db.ref("orders/" + menuName);
+  orderPath.push({ items: order, time: new Date().toISOString() });
   alert("訂單已送出");
   order = [];
   renderOrder();
