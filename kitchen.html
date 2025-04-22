@@ -3,7 +3,7 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8" />
-  <title>廚房模式 - 多分店</title>
+  <title>廚房模式 - 即時接單（動態分店）</title>
   <style>
     body { font-family: sans-serif; background: #fffde7; padding: 20px; }
     h1 { color: #d84315; }
@@ -31,11 +31,7 @@
 <body>
   <h1>🍜 廚房即時訂單畫面</h1>
   <label for="branchSelect">選擇分店：</label>
-  <select id="branchSelect">
-    <option value="台北站前店">台北站前店</option>
-    <option value="桃園中正店">桃園中正店</option>
-    <option value="高雄左營店">高雄左營店</option>
-  </select>
+  <select id="branchSelect"></select>
 
   <div id="orders"></div>
 
@@ -54,6 +50,7 @@
 
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
+    const menuRef = db.ref("menus");
     let currentRef = null;
 
     function switchBranch(branchName) {
@@ -82,11 +79,26 @@
       btn.parentElement.remove();
     }
 
-    document.getElementById("branchSelect").addEventListener("change", function() {
-      switchBranch(this.value);
-    });
+    function initBranches() {
+      const select = document.getElementById("branchSelect");
+      menuRef.once("value", snapshot => {
+        select.innerHTML = "";
+        snapshot.forEach(child => {
+          const opt = document.createElement("option");
+          opt.value = child.key;
+          opt.textContent = child.key;
+          select.appendChild(opt);
+        });
+        if (select.options.length > 0) {
+          switchBranch(select.value);
+        }
+      });
+      select.addEventListener("change", () => {
+        switchBranch(select.value);
+      });
+    }
 
-    switchBranch(document.getElementById("branchSelect").value);
+    initBranches();
   </script>
 </body>
 </html>
