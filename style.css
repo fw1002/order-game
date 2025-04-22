@@ -46,7 +46,7 @@ body {
   content: "";
   position: absolute;
   inset: 0;
-  background: rgba(0,0,0,0.5);
+  background: rgba(0,0,0,0.4);
   border-radius: 12px;
   z-index: 0;
 }
