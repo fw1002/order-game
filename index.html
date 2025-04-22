@@ -5,14 +5,14 @@
   <meta charset="UTF-8" />
   <title>點餐系統</title>
   <link rel="stylesheet" href="style.css" />
-  <script src="https://www.gstatic.com/firebasejs/11.6.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/11.6.0/firebase-database-compat.js"></script>
-  <script src="script.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/11.6.0/firebase-app-compat.js" defer></script>
+  <script src="https://www.gstatic.com/firebasejs/11.6.0/firebase-database-compat.js" defer></script>
+  <script src="script.js" defer></script>
 </head>
 <body>
   <div class="top-bar">
-    <button onclick="switchMode('edit')">編輯模式</button>
     <button onclick="showMenuSelector()">選擇菜單</button>
+    <button onclick="switchMode('edit')">編輯模式</button>
   </div>
 
   <div id="menuSelector" style="display:none; text-align:center; margin-top:20px;">
@@ -57,19 +57,9 @@
     <button onclick="deleteMenu()">刪除菜單</button>
   </div>
 
-  <script>
-    const firebaseConfig = {
-      apiKey: "AIzaSyBY2JkCQErm8pyh2B1uCZmeuDohi8DNces",
-      authDomain: "order-game-3a2c3.firebaseapp.com",
-      databaseURL: "https://order-game-3a2c3-default-rtdb.firebaseio.com",
-      projectId: "order-game-3a2c3",
-      storageBucket: "order-game-3a2c3.appspot.com",
-      messagingSenderId: "793590994015",
-      appId: "1:793590994015:web:d089bf8bea249a3837f7ea"
-    };
-    firebase.initializeApp(firebaseConfig);
-
-    window.showMenuSelector = function() {
+  <!-- 自訂功能腳本：掛在 window 上 -->
+  <script defer>
+    window.showMenuSelector = function () {
       document.getElementById("menuSelector").style.display = "block";
       const picker = document.getElementById("menuPicker");
       picker.innerHTML = "<option disabled selected>載入中...</option>";
@@ -82,13 +72,13 @@
           picker.appendChild(opt);
         });
       });
-    }
+    };
 
-    function loadAndStartOrder() {
+    window.loadAndStartOrder = function () {
       const name = document.getElementById("menuPicker").value;
       loadMenu(name);
       switchMode("order");
-    }
+    };
   </script>
 </body>
 </html>
