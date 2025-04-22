@@ -96,7 +96,7 @@ function renderMenu(filter = null) {
     menu.innerHTML += \`<div class="menu-item" style="background:\${cat?.color}">
       <strong>\${item.name}</strong><br>\${item.category}<br>
       一般 $ \${item.price} <button onclick="addToOrder('\${item.name}', \${item.price})">選</button><br>
-      大份 $ \${item.largePrice} <button onclick="addToOrder('\${item.name}（大）', \${item.largePrice})">選</button>
+      大份 $ \${item.largePrice} <button onclick="addToOrder('\${item.name}(大)', \${item.largePrice})">選</button>
     </div>\`;
   });
 }
@@ -132,7 +132,7 @@ function renderMenuList() {
   ul.innerHTML = "";
   menuItems.forEach((item, i) => {
     const li = document.createElement("li");
-    li.innerHTML = \`\${item.name}（\${item.category}） - $\${item.price}/$\${item.largePrice} <button onclick="menuItems.splice(\${i},1);renderMenu();renderMenuList()">刪除</button>\`;
+    li.innerHTML = \`\${item.name}(\${item.category}) - $\${item.price}/$\${item.largePrice} <button onclick="menuItems.splice(\${i},1);renderMenu();renderMenuList()">刪除</button>\`;
     ul.appendChild(li);
   });
 }
