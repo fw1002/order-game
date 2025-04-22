@@ -56,7 +56,7 @@ function renderCategoryList() {
   ul.innerHTML = "";
   categories.forEach((cat, i) => {
     const li = document.createElement("li");
-    li.innerHTML = \`\${cat.name} <input type="color" value="\${cat.color}" onchange="categories[\${i}].color=this.value"> <button onclick="deleteCategory(\${i})">刪除</button>\`;
+    li.innerHTML = `${cat.name} <input type="color" value="${cat.color}" onchange="categories[${i}].color=this.value"> <button onclick="deleteCategory(${i})">刪除</button>`;
     ul.appendChild(li);
   });
 }
@@ -89,15 +89,15 @@ function renderMenu(filter = null) {
   menu.innerHTML = "";
   catButtons.innerHTML = "<button onclick='renderMenu()'>全部</button>";
   categories.forEach(cat => {
-    catButtons.innerHTML += \`<button onclick="renderMenu('\${cat.name}')">\${cat.name}</button>\`;
+    catButtons.innerHTML += `<button onclick="renderMenu('${cat.name}')">${cat.name}</button>`;
   });
   menuItems.filter(item => !filter || item.category === filter).forEach(item => {
     const cat = categories.find(c => c.name === item.category);
-    menu.innerHTML += \`<div class="menu-item" style="background:\${cat?.color}">
-      <strong>\${item.name}</strong><br>\${item.category}<br>
-      一般 $ \${item.price} <button onclick="addToOrder('\${item.name}', \${item.price})">選</button><br>
-      大份 $ \${item.largePrice} <button onclick="addToOrder('\${item.name}(大)', \${item.largePrice})">選</button>
-    </div>\`;
+    menu.innerHTML += `<div class="menu-item" style="background:${cat?.color}">
+      <strong>${item.name}</strong><br>${item.category}<br>
+      一般 $${item.price} <button onclick="addToOrder('${item.name}', ${item.price})">選</button><br>
+      大份 $${item.largePrice} <button onclick="addToOrder('${item.name} (大)', ${item.largePrice})">選</button>
+    </div>`;
   });
 }
 
@@ -113,7 +113,7 @@ function renderOrder() {
   order.forEach(item => {
     total += item.price;
     const li = document.createElement("li");
-    li.textContent = \`\${item.name} - $\${item.price}\`;
+    li.textContent = `${item.name} - $${item.price}`;
     list.appendChild(li);
   });
   document.getElementById("totalPrice").textContent = "總金額：$" + total;
@@ -132,7 +132,7 @@ function renderMenuList() {
   ul.innerHTML = "";
   menuItems.forEach((item, i) => {
     const li = document.createElement("li");
-    li.innerHTML = \`\${item.name}(\${item.category}) - $\${item.price}/$\${item.largePrice} <button onclick="menuItems.splice(\${i},1);renderMenu();renderMenuList()">刪除</button>\`;
+    li.innerHTML = `${item.name} (${item.category}) - $${item.price}/$${item.largePrice} <button onclick="menuItems.splice(${i},1);renderMenu();renderMenuList()">刪除</button>`;
     ul.appendChild(li);
   });
 }
