@@ -76,6 +76,7 @@
 
     window.loadAndStartOrder = function () {
       const name = document.getElementById("menuPicker").value;
+      document.getElementById("savedMenus").value = name;
       loadMenu(name);
       switchMode("order");
     };
