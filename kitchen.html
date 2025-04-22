@@ -2,17 +2,35 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8" />
-  <title>廚房模式</title>
+  <title>廚房模式 - 接收訂單</title>
   <style>
-    body { font-family: sans-serif; padding: 20px; background-color: #fff8e1; }
-    .order-box { border: 1px solid #ccc; background: #fff; padding: 10px; margin: 10px 0; border-radius: 8px; }
-    .order-box ul { padding-left: 20px; }
-    .order-box button { padding: 5px 10px; background: #e53935; color: white; border: none; border-radius: 5px; cursor: pointer; }
+    body { font-family: sans-serif; background: #fffde7; padding: 20px; }
+    h1 { color: #d84315; }
+    .order-box {
+      border: 2px solid #ff9800;
+      border-radius: 8px;
+      background: #fff3e0;
+      padding: 15px;
+      margin-bottom: 15px;
+      box-shadow: 2px 2px 8px rgba(0,0,0,0.1);
+    }
+    .order-box ul { margin-left: 20px; }
+    .order-box button {
+      margin-top: 10px;
+      padding: 8px 12px;
+      background-color: #f44336;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
-  <h1>📦 廚房訂單畫面</h1>
+  <h1>🍜 廚房即時訂單畫面</h1>
   <div id="orders"></div>
+
+  <!-- Firebase compat 版本 -->
   <script src="https://www.gstatic.com/firebasejs/11.6.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/11.6.0/firebase-database-compat.js"></script>
   <script>
@@ -25,23 +43,27 @@
       messagingSenderId: "793590994015",
       appId: "1:793590994015:web:d089bf8bea249a3837f7ea"
     };
+
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
     const orderRef = db.ref("orders");
     const ordersDiv = document.getElementById("orders");
 
+    // 監聽新的訂單
     orderRef.on("child_added", snapshot => {
       const order = snapshot.val();
       const key = snapshot.key;
       const box = document.createElement("div");
       box.className = "order-box";
-      box.innerHTML = \`
-        <strong>時間：</strong> \${new Date(order.time).toLocaleTimeString()}<br>
-        <strong>餐點內容：</strong>
-        <ul>\${order.items.map(item => \`<li>\${item.name} - $\${item.price}</li>\`).join("")}</ul>
-        <button onclick="removeOrder('\${key}', this)">完成</button>
-      \`;
-      ordersDiv.appendChild(box);
+
+      const time = new Date(order.time).toLocaleTimeString("zh-TW", { hour12: false });
+      box.innerHTML = `
+        <strong>訂單時間：</strong> ${time}<br>
+        <strong>餐點：</strong>
+        <ul>${order.items.map(item => `<li>${item.name} - $${item.price}</li>`).join("")}</ul>
+        <button onclick="removeOrder('${key}', this)">✅ 完成</button>
+      `;
+      ordersDiv.prepend(box);
     });
 
     function removeOrder(key, btn) {
