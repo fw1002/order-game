@@ -67,25 +67,9 @@
       messagingSenderId: "793590994015",
       appId: "1:793590994015:web:d089bf8bea249a3837f7ea"
     };
-    
-    window.onload = () => {
-      // 自動初始化下拉清單（非立即顯示）
-      const picker = document.getElementById("menuPicker");
-      firebase.database().ref("menus").once("value", snapshot => {
-        picker.innerHTML = "";
-        snapshot.forEach(child => {
-          const opt = document.createElement("option");
-          opt.value = child.key;
-          opt.textContent = child.key;
-          picker.appendChild(opt);
-        });
-      });
-    };
+    firebase.initializeApp(firebaseConfig);
 
-    function showMenuSelector() {
-      document.getElementById("menuSelector").style.display = "block";
-    }
-
+    window.showMenuSelector = function() {
       document.getElementById("menuSelector").style.display = "block";
       const picker = document.getElementById("menuPicker");
       picker.innerHTML = "<option disabled selected>載入中...</option>";
