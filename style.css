@@ -40,18 +40,17 @@ body {
 
 /* 餐點卡片樣式 */
 .menu-item {
-  display: inline-block;
-  width: 200px;
-  margin: 10px;
+  flex: 0 0 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 160px;
   padding: 15px;
   border-radius: 12px;
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  /* color: white;  ← 移除這行，讓 renderMenu 中的 textColor 生效 */
   font-weight: bold;
   background: #6c63ff;
-  min-height: 160px; /* ← 為保持卡片高度一致，這行也要加上 */
 }
-
 
 /* 不使用遮罩背景 */
 .menu-item::before {
@@ -113,4 +112,12 @@ input[type="color"] {
   border: none;
   background: none;
   cursor: pointer;
+}
+
+#menu {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: flex-start;
+  align-items: stretch;
 }
