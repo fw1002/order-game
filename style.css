@@ -121,3 +121,14 @@ input[type="color"] {
   justify-content: flex-start;
   align-items: stretch;
 }
+
+#savedMenus {
+  background-color: #fff7e6;
+  border: 2px solid #ffa726;
+  color: #333;
+  padding: 8px 12px;
+  font-size: 18px;
+  border-radius: 8px;
+  font-weight: bold;
+  box-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+}
