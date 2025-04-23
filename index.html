@@ -34,6 +34,18 @@
     <div>
       <input type="text" id="newCategory" placeholder="分類名稱" />
       <input type="color" id="categoryColor" value="#ffffff">
+      <!-- 分類文字顏色選擇 -->
+<div style="margin: 10px 0;">
+  <label>
+    <input type="radio" name="categoryTextColor" value="#ffffff" checked />
+    <span style="color: #ffffff; background-color: #333; padding: 4px 8px; border-radius: 6px;">白色字</span>
+  </label>
+  <label style="margin-left: 10px;">
+    <input type="radio" name="categoryTextColor" value="#333333" />
+    <span style="color: #333;">深灰字</span>
+  </label>
+</div>
+
       <button onclick="addCategory()">新增分類</button>
       <ul id="categoryList"></ul>
     </div>
@@ -43,17 +55,6 @@
       <select id="itemCategory"></select>
       <input type="number" id="itemPrice" placeholder="一般價格" />
       <input type="number" id="itemLargePrice" placeholder="大份價格" />
-      <div style="margin: 10px 0;">
-  <label>
-    <input type="radio" name="textColor" value="#ffffff" checked />
-    <span style="color: #ffffff; background-color: #333; padding: 4px 8px; border-radius: 6px;">白色字</span>
-  </label>
-  <label style="margin-left: 10px;">
-    <input type="radio" name="textColor" value="#333333" />
-    <span style="color: #333;">深灰字</span>
-  </label>
-</div>
-
       <button onclick="addItem()">新增餐點</button>
       <ul id="menuList"></ul>
     </div>
