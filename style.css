@@ -78,3 +78,28 @@ body {
 .order-list li {
   margin: 6px 0;
 }
+
+/* 編輯模式標題變大 */
+#edit-mode h2 {
+  font-size: 26px;
+  color: #333;
+  margin-bottom: 12px;
+}
+
+#edit-mode input,
+#edit-mode select,
+#edit-mode button {
+  font-size: 18px;
+  padding: 10px;
+  margin: 6px 0;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.edit-section {
+  background: #f9f9f9;
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 24px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
