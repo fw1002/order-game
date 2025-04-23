@@ -31,12 +31,19 @@ function switchMode(mode) {
 }
 
 function addCategory() {
-  const name = document.getElementById("newCategory").value.trim();
+  const name = document.getElementById("newCategory").value.trim(); // ← 用你的 ID
   const color = document.getElementById("categoryColor").value;
-  if (!name) return alert("請輸入分類名稱");
-  categories.push({ name, color });
+  const textColor = document.querySelector('input[name="categoryTextColor"]:checked')?.value || "#ffffff";
+
+  if (!name || !color) {
+    alert("請輸入分類名稱與顏色");
+    return;
+  }
+
+  categories.push({ name, color, textColor });
   renderCategoryList();
   renderCategoryOptions();
+  renderMenu(); // ✅ 即時更新菜單顯示
 }
 
 function deleteCategory(index) {
@@ -77,14 +84,14 @@ function addItem() {
   const price = parseInt(document.getElementById("itemPrice").value);
   const largePriceInput = document.getElementById("itemLargePrice").value.trim();
   const largePrice = largePriceInput ? parseInt(largePriceInput) : null;
-  const textColor = document.querySelector('input[name="textColor"]:checked')?.value || "#ffffff";
 
   if (!name || isNaN(price)) return alert("請填寫餐點名稱與一般價格");
 
-  menuItems.push({ name, category, price, largePrice, textColor });
+  menuItems.push({ name, category, price, largePrice });
   renderMenu();
   renderMenuList();
 }
+
 
 function renderMenu(filter = null) {
   const menu = document.getElementById("menu");
@@ -106,7 +113,7 @@ function renderMenu(filter = null) {
 
   items.forEach(item => {
     const cat = categories.find(c => c.name === item.category);
-    const textColor = item.textColor || "#ffffff";
+    const textColor = cat?.textColor || "#ffffff";  // ✅ 修正這裡
     const card = document.createElement("div");
     card.className = "menu-item";
     card.style.backgroundColor = cat?.color || "#999";
@@ -117,8 +124,8 @@ function renderMenu(filter = null) {
       <div style="font-weight: normal;">${item.category}</div>
       <div>一般 $${item.price} <button onclick="addToOrder('${item.name}', ${item.price})">選</button></div>
       ${item.largePrice != null
-  ? `<div>大份 $${item.largePrice} <button onclick="addToOrder('${item.name}（大份）', ${item.largePrice})">選</button></div>`
-  : `<div style="height: 1.8em;"></div>`}
+        ? `<div>大份 $${item.largePrice} <button onclick="addToOrder('${item.name}（大份）', ${item.largePrice})">選</button></div>`
+        : `<div style="height: 1.8em;"></div>`}
     `;
 
     menu.appendChild(card);
