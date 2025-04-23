@@ -75,9 +75,13 @@ function addItem() {
   const name = document.getElementById("itemName").value.trim();
   const category = document.getElementById("itemCategory").value;
   const price = parseInt(document.getElementById("itemPrice").value);
-  const largePrice = parseInt(document.getElementById("itemLargePrice").value);
-  if (!name || isNaN(price) || isNaN(largePrice)) return alert("請填寫完整餐點資訊");
-  menuItems.push({ name, category, price, largePrice });
+  const largePriceInput = document.getElementById("itemLargePrice").value.trim();
+  const largePrice = largePriceInput ? parseInt(largePriceInput) : null;
+  const textColor = document.querySelector('input[name="textColor"]:checked')?.value || "#ffffff";
+
+  if (!name || isNaN(price)) return alert("請填寫餐點名稱與一般價格");
+
+  menuItems.push({ name, category, price, largePrice, textColor });
   renderMenu();
   renderMenuList();
 }
@@ -90,15 +94,35 @@ function renderMenu(filter = null) {
   categories.forEach(cat => {
     catButtons.innerHTML += `<button onclick="renderMenu('${cat.name}')">${cat.name}</button>`;
   });
-  menuItems.filter(item => !filter || item.category === filter).forEach(item => {
+
+  const items = menuItems
+    .filter(item => !filter || item.category === filter)
+    .sort((a, b) => {
+      if (a.category === b.category) {
+        return a.name.localeCompare(b.name, "zh-Hant");
+      }
+      return a.category.localeCompare(b.category, "zh-Hant");
+    });
+
+  items.forEach(item => {
     const cat = categories.find(c => c.name === item.category);
-    menu.innerHTML += `<div class="menu-item" style="background:${cat?.color}">
-      <strong>${item.name}</strong><br>${item.category}<br>
-      一般 $${item.price} <button onclick="addToOrder('${item.name}', ${item.price})">選</button><br>
-      大份 $${item.largePrice} <button onclick="addToOrder('${item.name} (大)', ${item.largePrice})">選</button>
-    </div>`;
+    const textColor = item.textColor || "#ffffff";
+    const card = document.createElement("div");
+    card.className = "menu-item";
+    card.style.backgroundColor = cat?.color || "#999";
+    card.style.color = textColor;
+
+    card.innerHTML = `
+      <div style="font-size: 20px;">${item.name}</div>
+      <div style="font-weight: normal;">${item.category}</div>
+      <div>一般 $${item.price} <button onclick="addToOrder('${item.name}', ${item.price})">選</button></div>
+      ${item.largePrice != null ? `<div>大份 $${item.largePrice} <button onclick="addToOrder('${item.name}（大份）', ${item.largePrice})">選</button></div>` : ""}
+    `;
+
+    menu.appendChild(card);
   });
 }
+
 
 function addToOrder(name, price) {
   order.push({ name, price });
