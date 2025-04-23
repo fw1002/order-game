@@ -103,3 +103,12 @@ body {
   margin-bottom: 24px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.05);
 }
+
+input[type="color"] {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
