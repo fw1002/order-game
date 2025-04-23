@@ -116,7 +116,9 @@ function renderMenu(filter = null) {
       <div style="font-size: 20px;">${item.name}</div>
       <div style="font-weight: normal;">${item.category}</div>
       <div>一般 $${item.price} <button onclick="addToOrder('${item.name}', ${item.price})">選</button></div>
-      ${item.largePrice != null ? `<div>大份 $${item.largePrice} <button onclick="addToOrder('${item.name}（大份）', ${item.largePrice})">選</button></div>` : ""}
+      ${item.largePrice != null
+  ? `<div>大份 $${item.largePrice} <button onclick="addToOrder('${item.name}（大份）', ${item.largePrice})">選</button></div>`
+  : `<div style="height: 1.8em;"></div>`}
     `;
 
     menu.appendChild(card);
