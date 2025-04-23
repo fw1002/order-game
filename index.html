@@ -80,5 +80,32 @@
   <script src="https://www.gstatic.com/firebasejs/11.6.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/11.6.0/firebase-database-compat.js"></script>
   <script src="script.js"></script>
+
+<!-- 👨‍🍳 廚房模式浮動按鈕 -->
+<style>
+  #kitchen-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #ff7043;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 50px;
+    padding: 12px 20px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    z-index: 999;
+    cursor: pointer;
+  }
+
+  #kitchen-btn:hover {
+    background-color: #ff5722;
+  }
+</style>
+
+<button id="kitchen-btn" onclick="location.href='kitchen.html'">
+  👨‍🍳 廚房模式
+</button>
+
 </body>
 </html>
