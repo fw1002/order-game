@@ -31,11 +31,17 @@
     border: 1px solid #ccc;
   }
 
-  .mobile-section {
-    padding: 20px;
-    min-height: 100vh;
-    box-sizing: border-box;
-  }
+ .mobile-section {
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+#mobile-category {
+  max-height: 25vh;
+  overflow-y: auto;
+  padding-bottom: 8px;
+  margin-bottom: 12px;
+}
 
   .mobile-section h2 {
     font-size: 24px;
@@ -94,7 +100,7 @@
 
   <!-- 手機版 Top-bar -->
   <div class="mobile-top-bar">
-    <select id="savedMenusMobile" onchange="loadMenu(this.value); renderMenu();">
+    <select id="savedMenusMobile" onchange="loadMenu(this.value, renderMenu)">
       <option value="">請選擇菜單</option>
     </select>
     <button onclick="startOrderMobile()">開始點餐</button>
