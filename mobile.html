@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>點餐遊戲｜手機版</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-size: 18px;
+      font-family: "Segoe UI", sans-serif;
+      background-color: #fff8e1;
+    }
+
+    .mobile-section {
+      padding: 20px;
+      min-height: 100vh;
+      box-sizing: border-box;
+    }
+
+    .mobile-section h2 {
+      font-size: 24px;
+      margin-bottom: 12px;
+      color: #ff7043;
+    }
+
+    .mobile-section button, .mobile-section select, .mobile-section input {
+      font-size: 18px;
+      padding: 10px;
+      width: 100%;
+      margin-bottom: 12px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    .menu-card {
+      background: #ffe0b2;
+      padding: 16px;
+      margin-bottom: 16px;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .menu-card button {
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 區塊1：分類按鈕 -->
+  <div class="mobile-section" id="mobile-category">
+    <h2>選擇分類</h2>
+    <div id="categoryButtonsMobile"></div>
+  </div>
+
+  <!-- 區塊2：餐點清單 -->
+  <div class="mobile-section" id="mobile-menu">
+    <h2>餐點清單</h2>
+    <div id="menuMobile"></div>
+  </div>
+
+  <!-- 區塊3：已點清單 -->
+  <div class="mobile-section" id="mobile-order">
+    <h2>已點項目</h2>
+    <ul id="orderListMobile"></ul>
+    <p id="totalPriceMobile">總金額：$0</p>
+  </div>
+
+  <!-- 區塊4：送出按鈕 -->
+  <div class="mobile-section" id="mobile-submit">
+    <button onclick="submitOrder()">送出訂單</button>
+  </div>
+
+  <!-- 引入共用 Firebase & JS -->
+  <script src="https://www.gstatic.com/firebasejs/11.6.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/11.6.0/firebase-database-compat.js"></script>
+  <script src="script.js"></script>
+
+  <!-- ✅ 將手機 ID 替換為原版 script.js 可識別的 ID -->
+  <script>
+    document.getElementById("menuMobile").id = "menu";
+    document.getElementById("categoryButtonsMobile").id = "category-buttons";
+    document.getElementById("orderListMobile").id = "orderList";
+    document.getElementById("totalPriceMobile").id = "totalPrice";
+  </script>
+
+</body>
+</html>
