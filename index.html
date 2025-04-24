@@ -110,6 +110,7 @@
     document.getElementById("order-mode-btn").style.display = mode === "edit" ? "inline-block" : "none";
 
     if (mode === 'edit') {
+      loadSavedMenus();
       setTimeout(() => {
         alert("請選擇已儲存的菜單，或開始編輯新菜單。");
       }, 200);
