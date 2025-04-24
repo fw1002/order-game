@@ -132,3 +132,60 @@ input[type="color"] {
   font-weight: bold;
   box-shadow: 2px 2px 4px rgba(0,0,0,0.1);
 }
+
+@media (max-width: 600px) {
+  html, body {
+    margin: 0;
+    padding: 0;
+    font-size: 18px;
+    line-height: 1.6;
+    background-color: #fff;
+    overflow-x: hidden;
+  }
+
+  .top-bar, .header {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+    align-items: stretch;
+  }
+
+  .menu-item {
+    width: 100%;
+    box-sizing: border-box;
+    margin: 10px 0;
+    padding: 16px;
+    font-size: 18px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+
+  .menu-item button {
+    font-size: 18px;
+    padding: 10px 16px;
+    margin-top: 6px;
+    width: 100%;
+  }
+
+  select, input, button {
+    font-size: 18px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  h1, h2, h3 {
+    font-size: 22px;
+    margin-top: 16px;
+  }
+
+  #menu, #order, #category-buttons {
+    padding: 0 10px;
+  }
+
+  .order-box {
+    font-size: 18px;
+    padding: 16px;
+    margin: 10px 0;
+  }
+}
