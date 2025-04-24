@@ -73,49 +73,28 @@
   }
 
   @media (max-width: 600px) {
-    /* 分類區塊設定 */
-    #mobile-category {
-      max-height: 25vh;
-      overflow-y: auto;
-      padding-bottom: 10px;
-    }
-
-    #category-buttons {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      justify-content: space-between;
-    }
-
-    #category-buttons button {
-      flex: 1 1 calc(33% - 8px);
-      padding: 10px 8px;
-      font-size: 16px;
-      min-width: 90px;
-    }
-
-    /* ✅ 餐點區塊兩欄排列 */
-    #menu {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      justify-content: space-between;
-    }
-
-    .menu-card {
-      flex: 1 1 calc(50% - 12px);
-      box-sizing: border-box;
-      padding: 12px;
-      font-size: 16px;
-    }
-
-    .menu-card button {
-      padding: 6px 8px;
-      font-size: 15px;
-      margin-top: 8px;
-    }
+  /* 分類區塊設定 */
+  #mobile-category {
+    max-height: 25vh;
+    overflow-y: auto;
+    padding-bottom: 10px;
   }
-    @media (max-width: 600px) {
+
+  #category-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: space-between;
+  }
+
+  #category-buttons button {
+    flex: 1 1 calc(33% - 8px);
+    padding: 10px 8px;
+    font-size: 16px;
+    min-width: 90px;
+  }
+
+  /* ✅ 餐點區塊兩欄排列 */
   #menu {
     display: flex;
     flex-wrap: wrap;
@@ -126,9 +105,16 @@
   .menu-card {
     flex: 1 1 calc(50% - 12px); /* 每列兩張卡片，扣掉 gap */
     box-sizing: border-box;
+    padding: 12px;
+    font-size: 16px;
+  }
+
+  .menu-card button {
+    padding: 6px 8px;
+    font-size: 15px;
+    margin-top: 8px;
   }
 }
-
 </style>
 
 
