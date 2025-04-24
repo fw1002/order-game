@@ -176,7 +176,11 @@ function renderOrder() {
 function submitOrder() {
   if (!order.length) return alert("請先點餐");
 
-  const select = document.getElementById("savedMenus");
+  // ✅ 同時支援桌機與手機版的下拉選單 ID
+  const select =
+    document.getElementById("savedMenus") ||
+    document.getElementById("savedMenusMobile");
+
   const menuName = select?.value.trim() || "default";
   const orderPath = db.ref("orders/" + menuName);
   orderPath.push({ items: order, time: new Date().toISOString() });
@@ -185,6 +189,7 @@ function submitOrder() {
   order = [];
   renderOrder();
 }
+
 
 function renderMenuList() {
   const ul = document.getElementById("menuList");
