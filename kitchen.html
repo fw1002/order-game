@@ -100,5 +100,13 @@
 
     initBranches();
   </script>
+<script>
+  const btn = document.createElement("button");
+  btn.textContent = "🏠 回主畫面";
+  btn.style = "position: fixed; bottom: 20px; right: 20px; z-index: 999; padding: 12px 18px; font-size: 16px; background-color: #4caf50; color: white; border: none; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);";
+  btn.onclick = () => location.href = "index.html";
+  document.body.appendChild(btn);
+</script>
+
 </body>
 </html>
