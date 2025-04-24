@@ -197,7 +197,7 @@ function renderSavedMenus() {
   });
 }
 
-function loadMenu(name) {
+function loadMenu(name, callback) {
   if (!name) return;
   db.ref("menus/" + name).once("value", snapshot => {
     if (snapshot.exists()) {
@@ -208,9 +208,12 @@ function loadMenu(name) {
       renderCategoryOptions();
       renderMenu();
       renderMenuList();
+
+      if (typeof callback === "function") callback(); // ✅ 只有手機頁面會使用到這個
     }
   });
 }
+
 
 function deleteMenu() {
   const name = document.getElementById("savedMenus").value;
