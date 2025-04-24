@@ -18,18 +18,26 @@ let menuItems = [];
 let order = [];
 
 function switchMode(mode) {
-  document.getElementById("order-mode").style.display = mode === "order" ? "block" : "none";
-  document.getElementById("edit-mode").style.display = mode === "edit" ? "block" : "none";
-  document.getElementById("order-mode-btn").style.display = mode === "edit" ? "inline-block" : "none"; // 添加這行
+  const orderMode = document.getElementById("order-mode");
+  const editMode = document.getElementById("edit-mode");
+  const orderModeBtn = document.getElementById("order-mode-btn");
+
+  // ✅ 只有在 DOM 元素存在時才操作 style
+  if (orderMode) orderMode.style.display = mode === "order" ? "block" : "none";
+  if (editMode) editMode.style.display = mode === "edit" ? "block" : "none";
+  if (orderModeBtn) orderModeBtn.style.display = mode === "edit" ? "inline-block" : "none";
+
+  // ✅ 以下也加判斷，只呼叫 render 函式中存在的元件
   if (mode === "edit") {
-    renderCategoryList();
-    renderMenuList();
-    renderSavedMenus();
+    if (typeof renderCategoryList === "function") renderCategoryList();
+    if (typeof renderMenuList === "function") renderMenuList();
+    if (typeof renderSavedMenus === "function") renderSavedMenus();
   } else {
-    renderMenu();
-    renderOrder();
+    if (typeof renderMenu === "function") renderMenu();
+    if (typeof renderOrder === "function") renderOrder();
   }
 }
+
 
 function addCategory() {
   const name = document.getElementById("newCategory").value.trim(); // ← 用你的 ID
@@ -60,6 +68,7 @@ function deleteCategory(index) {
 
 function renderCategoryList() {
   const ul = document.getElementById("categoryList");
+  if (!ul) return; // ✅ 若找不到（如手機版），就不做任何操作，避免錯誤
   ul.innerHTML = "";
   categories.forEach((cat, i) => {
     const li = document.createElement("li");
@@ -67,6 +76,7 @@ function renderCategoryList() {
     ul.appendChild(li);
   });
 }
+
 
 function renderCategoryOptions() {
   const select = document.getElementById("itemCategory");
