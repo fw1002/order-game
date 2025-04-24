@@ -14,7 +14,7 @@
 </head>
 <body>
   <div class="top-bar">
-  <button onclick="switchMode('edit')">編輯模式</button>
+  <button onclick="switchMode('edit'); showEditModePrompt()">編輯模式</button>
   <button id="order-mode-btn" onclick="switchMode('order')" style="display: none;">開始點餐</button>
 </div>
 
@@ -104,20 +104,12 @@
 </style>
 
 <script>
-  function switchMode(mode) {
-    document.getElementById("edit-mode").style.display = mode === "edit" ? "block" : "none";
-    document.getElementById("order-mode").style.display = mode === "order" ? "block" : "none";
-    document.getElementById("order-mode-btn").style.display = mode === "edit" ? "inline-block" : "none";
-
-    if (mode === 'edit') {
-      loadSavedMenus();
-      setTimeout(() => {
-        alert("請選擇已儲存的菜單，或開始編輯新菜單。");
-      }, 200);
-    }
+  function showEditModePrompt() {
+    setTimeout(() => {
+      alert("請選擇已儲存的菜單，或開始編輯新菜單。");
+    }, 200);
   }
 </script>
-
     
 <button id="kitchen-btn" onclick="location.href='kitchen.html'">
   👨‍🍳 廚房模式
