@@ -31,17 +31,17 @@
     border: 1px solid #ccc;
   }
 
- .mobile-section {
-  padding: 16px;
-  box-sizing: border-box;
-}
+  .mobile-section {
+    padding: 16px;
+    box-sizing: border-box;
+  }
 
-#mobile-category {
-  max-height: 25vh;
-  overflow-y: auto;
-  padding-bottom: 8px;
-  margin-bottom: 12px;
-}
+  #mobile-category {
+    max-height: 25vh;
+    overflow-y: auto;
+    padding-bottom: 8px;
+    margin-bottom: 12px;
+  }
 
   .mobile-section h2 {
     font-size: 24px;
@@ -73,6 +73,7 @@
   }
 
   @media (max-width: 600px) {
+    /* 分類區塊設定 */
     #mobile-category {
       max-height: 25vh;
       overflow-y: auto;
@@ -92,8 +93,30 @@
       font-size: 16px;
       min-width: 90px;
     }
+
+    /* ✅ 餐點區塊兩欄排列 */
+    #menu {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: space-between;
+    }
+
+    .menu-card {
+      flex: 1 1 calc(50% - 12px);
+      box-sizing: border-box;
+      padding: 12px;
+      font-size: 16px;
+    }
+
+    .menu-card button {
+      padding: 6px 8px;
+      font-size: 15px;
+      margin-top: 8px;
+    }
   }
 </style>
+
 
 </head>
 <body>
