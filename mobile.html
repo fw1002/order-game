@@ -7,63 +7,88 @@
   <title>點餐遊戲｜手機版</title>
   <link rel="stylesheet" href="style.css" />
   <style>
-    body {
-      margin: 0;
-      padding: 0;
-      font-size: 18px;
-      font-family: "Segoe UI", sans-serif;
-      background-color: #fff8e1;
+  body {
+    margin: 0;
+    padding: 0;
+    font-size: 18px;
+    font-family: "Segoe UI", sans-serif;
+    background-color: #fff8e1;
+  }
+
+  .mobile-top-bar {
+    padding: 16px;
+    background: #ffe0b2;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+
+  .mobile-top-bar select,
+  .mobile-top-bar button {
+    width: 100%;
+    padding: 12px;
+    font-size: 18px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+  }
+
+  .mobile-section {
+    padding: 20px;
+    min-height: 100vh;
+    box-sizing: border-box;
+  }
+
+  .mobile-section h2 {
+    font-size: 24px;
+    margin-bottom: 12px;
+    color: #ff7043;
+  }
+
+  .mobile-section select,
+  .mobile-section button,
+  .mobile-section input {
+    width: 100%;
+    padding: 10px;
+    font-size: 18px;
+    margin-bottom: 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+  }
+
+  .menu-card {
+    background: #ffe0b2;
+    padding: 16px;
+    margin-bottom: 16px;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  }
+
+  .menu-card button {
+    margin-top: 10px;
+  }
+
+  @media (max-width: 600px) {
+    #mobile-category {
+      max-height: 25vh;
+      overflow-y: auto;
+      padding-bottom: 10px;
     }
 
-    .mobile-top-bar {
-      padding: 16px;
-      background: #ffe0b2;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    #category-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: space-between;
     }
 
-    .mobile-top-bar select,
-    .mobile-top-bar button {
-      width: 100%;
-      padding: 12px;
-      font-size: 18px;
-      margin-bottom: 10px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
+    #category-buttons button {
+      flex: 1 1 calc(33% - 8px);
+      padding: 10px 8px;
+      font-size: 16px;
+      min-width: 90px;
     }
+  }
+</style>
 
-    .mobile-section {
-      padding: 20px;
-      min-height: 100vh;
-      box-sizing: border-box;
-    }
-
-    .mobile-section h2 {
-      font-size: 24px;
-      margin-bottom: 12px;
-      color: #ff7043;
-    }
-
-    .mobile-section button, .mobile-section select, .mobile-section input {
-      font-size: 18px;
-      padding: 10px;
-      width: 100%;
-      margin-bottom: 12px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-    }
-
-    .menu-card {
-      background: #ffe0b2;
-      padding: 16px;
-      margin-bottom: 16px;
-      border-radius: 10px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    }
-
-    .menu-card button {
-      margin-top: 10px;
-    }
-  </style>
 </head>
 <body>
 
