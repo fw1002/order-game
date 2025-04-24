@@ -1,4 +1,3 @@
-
 const firebaseConfig = {
   apiKey: "AIzaSyBY2JkCQErm8pyh2B1uCZmeuDohi8DNces",
   authDomain: "order-game-3a2c3.firebaseapp.com",
@@ -22,12 +21,10 @@ function switchMode(mode) {
   const editMode = document.getElementById("edit-mode");
   const orderModeBtn = document.getElementById("order-mode-btn");
 
-  // ✅ 只有在 DOM 元素存在時才操作 style
   if (orderMode) orderMode.style.display = mode === "order" ? "block" : "none";
   if (editMode) editMode.style.display = mode === "edit" ? "block" : "none";
   if (orderModeBtn) orderModeBtn.style.display = mode === "edit" ? "inline-block" : "none";
 
-  // ✅ 以下也加判斷，只呼叫 render 函式中存在的元件
   if (mode === "edit") {
     if (typeof renderCategoryList === "function") renderCategoryList();
     if (typeof renderMenuList === "function") renderMenuList();
@@ -38,11 +35,15 @@ function switchMode(mode) {
   }
 }
 
-
 function addCategory() {
-  const name = document.getElementById("newCategory").value.trim(); // ← 用你的 ID
-  const color = document.getElementById("categoryColor").value;
-  const textColor = document.querySelector('input[name="categoryTextColor"]:checked')?.value || "#ffffff";
+  const nameEl = document.getElementById("newCategory");
+  const colorEl = document.getElementById("categoryColor");
+  const textColorEl = document.querySelector('input[name="categoryTextColor"]:checked');
+
+  if (!nameEl || !colorEl) return;
+  const name = nameEl.value.trim();
+  const color = colorEl.value;
+  const textColor = textColorEl?.value || "#ffffff";
 
   if (!name || !color) {
     alert("請輸入分類名稱與顏色");
@@ -52,7 +53,7 @@ function addCategory() {
   categories.push({ name, color, textColor });
   renderCategoryList();
   renderCategoryOptions();
-  renderMenu(); // ✅ 即時更新菜單顯示
+  renderMenu();
 }
 
 function deleteCategory(index) {
@@ -68,7 +69,7 @@ function deleteCategory(index) {
 
 function renderCategoryList() {
   const ul = document.getElementById("categoryList");
-  if (!ul) return; // ✅ 若找不到（如手機版），就不做任何操作，避免錯誤
+  if (!ul) return;
   ul.innerHTML = "";
   categories.forEach((cat, i) => {
     const li = document.createElement("li");
@@ -77,9 +78,9 @@ function renderCategoryList() {
   });
 }
 
-
 function renderCategoryOptions() {
   const select = document.getElementById("itemCategory");
+  if (!select) return;
   select.innerHTML = "";
   categories.forEach(cat => {
     const opt = document.createElement("option");
@@ -90,10 +91,17 @@ function renderCategoryOptions() {
 }
 
 function addItem() {
-  const name = document.getElementById("itemName").value.trim();
-  const category = document.getElementById("itemCategory").value;
-  const price = parseInt(document.getElementById("itemPrice").value);
-  const largePriceInput = document.getElementById("itemLargePrice").value.trim();
+  const nameEl = document.getElementById("itemName");
+  const categoryEl = document.getElementById("itemCategory");
+  const priceEl = document.getElementById("itemPrice");
+  const largePriceEl = document.getElementById("itemLargePrice");
+
+  if (!nameEl || !categoryEl || !priceEl || !largePriceEl) return;
+
+  const name = nameEl.value.trim();
+  const category = categoryEl.value;
+  const price = parseInt(priceEl.value);
+  const largePriceInput = largePriceEl.value.trim();
   const largePrice = largePriceInput ? parseInt(largePriceInput) : null;
 
   if (!name || isNaN(price)) return alert("請填寫餐點名稱與一般價格");
@@ -103,10 +111,11 @@ function addItem() {
   renderMenuList();
 }
 
-
 function renderMenu(filter = null) {
   const menu = document.getElementById("menu");
   const catButtons = document.getElementById("category-buttons");
+  if (!menu || !catButtons) return;
+
   menu.innerHTML = "";
   catButtons.innerHTML = "<button onclick='renderMenu()'>全部</button>";
   categories.forEach(cat => {
@@ -124,7 +133,7 @@ function renderMenu(filter = null) {
 
   items.forEach(item => {
     const cat = categories.find(c => c.name === item.category);
-    const textColor = cat?.textColor || "#ffffff";  // ✅ 修正這裡
+    const textColor = cat?.textColor || "#ffffff";
     const card = document.createElement("div");
     card.className = "menu-item";
     card.style.backgroundColor = cat?.color || "#999";
@@ -143,7 +152,6 @@ function renderMenu(filter = null) {
   });
 }
 
-
 function addToOrder(name, price) {
   order.push({ name, price });
   renderOrder();
@@ -151,6 +159,9 @@ function addToOrder(name, price) {
 
 function renderOrder() {
   const list = document.getElementById("orderList");
+  const totalLabel = document.getElementById("totalPrice");
+  if (!list || !totalLabel) return;
+
   list.innerHTML = "";
   let total = 0;
   order.forEach(item => {
@@ -159,14 +170,17 @@ function renderOrder() {
     li.textContent = `${item.name} - $${item.price}`;
     list.appendChild(li);
   });
-  document.getElementById("totalPrice").textContent = "總金額：$" + total;
+  totalLabel.textContent = "總金額：$" + total;
 }
 
 function submitOrder() {
   if (!order.length) return alert("請先點餐");
-  const menuName = document.getElementById("savedMenus").value.trim() || "default";
+
+  const select = document.getElementById("savedMenus");
+  const menuName = select?.value.trim() || "default";
   const orderPath = db.ref("orders/" + menuName);
   orderPath.push({ items: order, time: new Date().toISOString() });
+
   alert("訂單已送出");
   order = [];
   renderOrder();
@@ -174,26 +188,34 @@ function submitOrder() {
 
 function renderMenuList() {
   const ul = document.getElementById("menuList");
+  if (!ul) return;
   ul.innerHTML = "";
   menuItems.forEach((item, i) => {
     const li = document.createElement("li");
-    li.innerHTML = `${item.name} (${item.category}) - $${item.price}/$${item.largePrice} <button onclick="menuItems.splice(${i},1);renderMenu();renderMenuList()">刪除</button>`;
+    li.innerHTML = `${item.name} (${item.category}) - $${item.price}${item.largePrice !== null ? `/$${item.largePrice}` : ""} <button onclick="menuItems.splice(${i},1);renderMenu();renderMenuList()">刪除</button>`;
     ul.appendChild(li);
   });
 }
 
 function saveMenu() {
-  const name = document.getElementById("menuName").value.trim();
+  const input = document.getElementById("menuName");
+  if (!input) return;
+  const name = input.value.trim();
   if (!name) return alert("請輸入菜單名稱");
+
   db.ref("menus/" + name).set({ categories, menuItems });
   alert("已儲存至雲端菜單：" + name);
   renderSavedMenus();
-  document.getElementById("savedMenus").value = name;
+
+  const select = document.getElementById("savedMenus");
+  if (select) select.value = name;
+
   loadMenu(name);
 }
 
 function renderSavedMenus() {
   const select = document.getElementById("savedMenus");
+  if (!select) return;
   select.innerHTML = "<option value=''>--選擇已儲存菜單--</option>";
   menuRef.once("value", snapshot => {
     if (snapshot.exists()) {
@@ -214,20 +236,22 @@ function loadMenu(name, callback) {
       const data = snapshot.val();
       categories = data.categories || [];
       menuItems = data.menuItems || [];
-      renderCategoryList();
-      renderCategoryOptions();
-      renderMenu();
-      renderMenuList();
 
-      if (typeof callback === "function") callback(); // ✅ 只有手機頁面會使用到這個
+      if (typeof renderCategoryList === "function") renderCategoryList();
+      if (typeof renderCategoryOptions === "function") renderCategoryOptions();
+      if (typeof renderMenu === "function") renderMenu();
+      if (typeof renderMenuList === "function") renderMenuList();
+
+      if (typeof callback === "function") callback(); // ✅ 手機版會用這個補 renderMenu
     }
   });
 }
 
-
 function deleteMenu() {
-  const name = document.getElementById("savedMenus").value;
+  const select = document.getElementById("savedMenus");
+  const name = select?.value;
   if (!name) return alert("請選擇要刪除的菜單");
+
   if (confirm("確定要刪除菜單：" + name + "？")) {
     db.ref("menus/" + name).remove();
     alert("已刪除");
@@ -235,4 +259,5 @@ function deleteMenu() {
   }
 }
 
+// 預設切換到點餐模式
 switchMode("order");
