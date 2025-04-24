@@ -5,28 +5,60 @@
   <meta charset="UTF-8" />
   <title>廚房模式 - 即時接單（動態分店）</title>
   <style>
-    body { font-family: sans-serif; background: #fffde7; padding: 20px; }
-    h1 { color: #d84315; }
-    select { font-size: 16px; margin-bottom: 15px; padding: 5px; }
-    .order-box {
-      border: 2px solid #ff9800;
-      border-radius: 8px;
-      background: #fff3e0;
-      padding: 15px;
-      margin-bottom: 15px;
-      box-shadow: 2px 2px 8px rgba(0,0,0,0.1);
-    }
-    .order-box ul { margin-left: 20px; }
-    .order-box button {
-      margin-top: 10px;
-      padding: 8px 12px;
-      background-color: #f44336;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-  </style>
+  body {
+    font-family: "Segoe UI", "Helvetica Neue", sans-serif;
+    background: #fffde7;
+    padding: 24px;
+    font-size: 20px;          /* 整體字變大 */
+    line-height: 1.8;
+    color: #333333;
+  }
+
+  h1 {
+    color: #d84315;
+    font-size: 28px;          /* 標題更大更醒目 */
+    margin-bottom: 20px;
+  }
+
+  select {
+    font-size: 20px;          /* 選單字體變大 */
+    margin-bottom: 20px;
+    padding: 10px;
+    border-radius: 8px;
+  }
+
+  .order-box {
+    border: 2px solid #ff9800;
+    border-radius: 10px;
+    background: #fff3e0;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 3px 3px 10px rgba(0,0,0,0.1);
+    font-size: 20px;
+  }
+
+  .order-box strong {
+    font-size: 22px;
+    display: inline-block;
+    margin-bottom: 8px;
+  }
+
+  button {
+    font-size: 18px;
+    padding: 10px 20px;
+    border-radius: 8px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+
+  button:hover {
+    background-color: #43a047;
+  }
+</style>
+
 </head>
 <body>
   <h1>🍜 廚房即時訂單畫面</h1>
