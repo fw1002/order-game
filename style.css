@@ -195,5 +195,24 @@ input[type="color"] {
   .edit-section, .order-box {
     width: 100%;
   }
-}
 
+  .top-bar button {
+    font-size: 18px;
+    padding: 12px 18px;
+    margin: 6px 0;
+    background-color: #ff7043;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    width: 100%;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+
+  .top-bar {
+    display: flex;
+    flex-direction: column;
+    padding: 12px;
+    gap: 10px;
+    background-color: #fff3e0;
+  }
+}
