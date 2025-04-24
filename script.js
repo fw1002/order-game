@@ -20,6 +20,7 @@ let order = [];
 function switchMode(mode) {
   document.getElementById("order-mode").style.display = mode === "order" ? "block" : "none";
   document.getElementById("edit-mode").style.display = mode === "edit" ? "block" : "none";
+  document.getElementById("order-mode-btn").style.display = mode === "edit" ? "inline-block" : "none"; // 添加這行
   if (mode === "edit") {
     renderCategoryList();
     renderMenuList();
