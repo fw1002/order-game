@@ -115,6 +115,20 @@
       margin-top: 8px;
     }
   }
+    @media (max-width: 600px) {
+  #menu {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: space-between;
+  }
+
+  .menu-card {
+    flex: 1 1 calc(50% - 12px); /* 每列兩張卡片，扣掉 gap */
+    box-sizing: border-box;
+  }
+}
+
 </style>
 
 
