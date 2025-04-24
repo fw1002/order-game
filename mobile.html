@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
@@ -12,6 +13,22 @@
       font-size: 18px;
       font-family: "Segoe UI", sans-serif;
       background-color: #fff8e1;
+    }
+
+    .mobile-top-bar {
+      padding: 16px;
+      background: #ffe0b2;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .mobile-top-bar select,
+    .mobile-top-bar button {
+      width: 100%;
+      padding: 12px;
+      font-size: 18px;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
     }
 
     .mobile-section {
@@ -49,11 +66,14 @@
   </style>
 </head>
 <body>
-<!-- 手機版 Top-bar 按鈕區 -->
-<div class="mobile-top-bar">
-  <button onclick="switchMode('order')">開始點餐</button>
-  <button onclick="switchMode('edit')">編輯模式</button>
-</div>
+
+  <!-- 手機版 Top-bar -->
+  <div class="mobile-top-bar">
+    <select id="savedMenusMobile" onchange="loadMenu(this.value)">
+      <option value="">請選擇菜單</option>
+    </select>
+    <button onclick="startOrderMobile()">開始點餐</button>
+  </div>
 
   <!-- 區塊1：分類按鈕 -->
   <div class="mobile-section" id="mobile-category">
@@ -84,12 +104,49 @@
   <script src="https://www.gstatic.com/firebasejs/11.6.0/firebase-database-compat.js"></script>
   <script src="script.js"></script>
 
-  <!-- ✅ 將手機 ID 替換為原版 script.js 可識別的 ID -->
+  <!-- ✅ 將手機 ID 替換為 script.js 可識別的版本 -->
   <script>
     document.getElementById("menuMobile").id = "menu";
     document.getElementById("categoryButtonsMobile").id = "category-buttons";
     document.getElementById("orderListMobile").id = "orderList";
     document.getElementById("totalPriceMobile").id = "totalPrice";
+  </script>
+
+  <!-- ✅ 載入 Firebase 所有菜單選項 -->
+  <script>
+    function loadSavedMenusMobile() {
+      const select = document.getElementById("savedMenusMobile");
+      select.innerHTML = '<option value="">請選擇菜單</option>';
+
+      firebase.database().ref("menus").once("value").then(snapshot => {
+        const menus = snapshot.val();
+        if (!menus) {
+          const option = document.createElement("option");
+          option.textContent = "尚無儲存菜單";
+          option.disabled = true;
+          select.appendChild(option);
+          return;
+        }
+
+        for (const name in menus) {
+          const option = document.createElement("option");
+          option.value = name;
+          option.textContent = name;
+          select.appendChild(option);
+        }
+      });
+    }
+
+    function startOrderMobile() {
+      const selected = document.getElementById("savedMenusMobile").value;
+      if (!selected) {
+        alert("請先選擇一個菜單！");
+        return;
+      }
+      document.getElementById("mobile-category").scrollIntoView({ behavior: "smooth" });
+    }
+
+    window.addEventListener("DOMContentLoaded", loadSavedMenusMobile);
   </script>
 
 </body>
