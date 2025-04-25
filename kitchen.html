@@ -87,44 +87,38 @@
     const menuRef = db.ref("menus");
     let currentRef = null;
 
-    function switchBranch(branchName) {
-      const ordersDiv = document.getElementById("orders");
-      ordersDiv.innerHTML = "";
-      if (currentRef) currentRef.off();
-      currentRef = db.ref("orders/" + branchName);
-      currentRef.on("child_added", snapshot => {
-        const order = snapshot.val();
-        const key = snapshot.key;
-        const status = order.status || "";
-        let statusLabel = "";
-        let boxOpacity = "1";
+function switchBranch(branchName) {
+  const ordersDiv = document.getElementById("orders");
+  ordersDiv.innerHTML = "";
+  if (currentRef) currentRef.off();
+  currentRef = db.ref("orders/" + branchName);
+  currentRef.on("child_added", snapshot => {
+    const order = snapshot.val();
+    const key = snapshot.key;
+    const status = order.status || "";
 
-        if (status === "completed") {
-          statusLabel = "<div style='color:green; font-weight:bold;'>（已完成）</div>";
-          boxOpacity = "0.6";
-        } else if (status === "cancelled") {
-          statusLabel = "<div style='color:red; font-weight:bold;'>（已取消）</div>";
-          boxOpacity = "0.5";
-        }
-
-        const box = document.createElement("div");
-        box.className = "order-box";
-        box.style.opacity = boxOpacity;
-        const time = new Date(order.time).toLocaleTimeString("zh-TW", { hour12: false });
-
-        box.innerHTML = `
-          <strong>訂單時間：</strong> ${time}<br>
-          <strong>餐點：</strong>
-          <ul>${order.items.map(item => `<li>${item.name} - $${item.price}</li>`).join("")}</ul>
-          ${statusLabel}
-          ${!status ? `
-            <button onclick="markOrderCompleted('${branchName}', '${key}', this)">✅ 完成</button>
-            <button onclick="markOrderCancelled('${branchName}', '${key}', this)" style="margin-left:10px; background-color:#f44336;">❌ 取消</button>
-          ` : ""}
-        `;
-        ordersDiv.prepend(box);
-      });
+    // 🔥 這裡加上：如果是已完成或已取消，就跳過，不畫出來
+    if (status === "completed" || status === "cancelled") {
+      return;
     }
+
+    // ✅ 只畫出「待處理」的訂單
+    const box = document.createElement("div");
+    box.className = "order-box";
+    box.style.opacity = "1";  // 新訂單不用改透明度
+    const time = new Date(order.time).toLocaleTimeString("zh-TW", { hour12: false });
+
+    box.innerHTML = `
+      <strong>訂單時間：</strong> ${time}<br>
+      <strong>餐點：</strong>
+      <ul>${order.items.map(item => `<li>${item.name} - $${item.price}</li>`).join("")}</ul>
+      <button onclick="markOrderCompleted('${branchName}', '${key}', this)">✅ 完成</button>
+      <button onclick="markOrderCancelled('${branchName}', '${key}', this)" style="margin-left:10px; background-color:#f44336;">❌ 取消</button>
+    `;
+    ordersDiv.prepend(box);
+  });
+}
+
 
     function markOrderCompleted(branch, key, btn) {
       db.ref("orders/" + branch + "/" + key).update({ status: "completed" });
