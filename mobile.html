@@ -119,11 +119,12 @@
   }
 
   .menu-item {
-    flex: 1 1 calc(50% - 12px); /* 每列兩張卡片，扣掉 gap */
-    box-sizing: border-box;
-    padding: 12px;
-    font-size: 16px;
-  }
+  flex: 0 0 calc(50% - 12px); /* 不讓它彈性伸展 */
+  max-width: calc(50% - 12px); /* 多一層保險 */
+  box-sizing: border-box;
+  padding: 12px;
+  font-size: 16px;
+}
 
   .menu-item button {
     padding: 6px 8px;
