@@ -1,20 +1,18 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-  <meta charset="UTF-8" />
-  <link rel="manifest" href="manifest.json">
 <script>
   const isMobile = window.innerWidth <= 600;
   const path = location.pathname;
+  const isIndex = path.endsWith("/") || path.endsWith("/index.html") || path.includes("/order-game");
 
-  const isIndex = path.endsWith("/") || path.endsWith("/index.html") || path === "/order-game" || path === "/order-game/";
-  if (isMobile && isIndex) {
-    console.log("📲 Mobile detected, redirecting to mobile.html");
+  if (isMobile && isIndex && !location.pathname.includes("mobile.html")) {
     location.replace("mobile.html");
   }
 </script>
 
-
+  <meta charset="UTF-8" />
+  <link rel="manifest" href="manifest.json">
   <script>
   if ("serviceWorker" in navigator) {
     navigator.serviceWorker.register("service-worker.js");
