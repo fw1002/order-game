@@ -4,13 +4,16 @@
   <meta charset="UTF-8" />
   <link rel="manifest" href="manifest.json">
 <script>
-  // ✅ 更保險地檢查是否是首頁（支援 index.html 和 /）
   const isMobile = window.innerWidth <= 600;
-  const isIndex = location.pathname.endsWith("index.html") || location.pathname === "/";
+  const path = location.pathname;
+
+  const isIndex = path.endsWith("/") || path.endsWith("/index.html") || path === "/order-game" || path === "/order-game/";
   if (isMobile && isIndex) {
+    console.log("📲 Mobile detected, redirecting to mobile.html");
     location.replace("mobile.html");
   }
 </script>
+
 
   <script>
   if ("serviceWorker" in navigator) {
