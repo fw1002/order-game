@@ -120,17 +120,18 @@ function switchBranch(branchName) {
 }
 
 
-    function markOrderCompleted(branch, key, btn) {
-      db.ref("orders/" + branch + "/" + key).update({ status: "completed" });
-      btn.parentElement.style.opacity = "0.6";
-      btn.parentElement.innerHTML += "<div style='color:green; font-weight:bold;'>（已完成）</div>";
-    }
+function markOrderCompleted(branch, key, btn) {
+  db.ref("orders/" + branch + "/" + key).update({ status: "completed" });
+  btn.parentElement.remove(); // ✅ 更新資料後，直接從畫面上移除這個訂單
+}
 
-    function markOrderCancelled(branch, key, btn) {
-      db.ref("orders/" + branch + "/" + key).update({ status: "cancelled" });
-      btn.parentElement.style.opacity = "0.5";
-      btn.parentElement.innerHTML += "<div style='color:red; font-weight:bold;'>（已取消）</div>";
-    }
+function markOrderCancelled(branch, key, btn) {
+  db.ref("orders/" + branch + "/" + key).update({ status: "cancelled" });
+  btn.parentElement.remove(); // ✅ 更新資料後，直接從畫面上移除這個訂單
+}
+
+
+    
 
     function initBranches() {
       const select = document.getElementById("branchSelect");
