@@ -1,23 +1,17 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-<script>
-  const width = window.innerWidth;
-  const path = location.pathname;
-  const isMobile = width <= 600;
-  const isIndex = path.endsWith("/") || path.endsWith("/index.html") || path.includes("/order-game");
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const isMobile = window.innerWidth <= 600;
+      const path = location.pathname;
+      const isIndex = path.endsWith("/") || path.endsWith("/index.html") || path.includes("/order-game");
 
-  console.log("寬度:", width);
-  console.log("路徑:", path);
-  console.log("是否是手機:", isMobile);
-  console.log("是否首頁:", isIndex);
-
-  if (isMobile && isIndex && !path.includes("mobile.html")) {
-    location.replace("mobile.html");
-  }
-</script>
-
-
+      if (isMobile && isIndex && !location.pathname.includes("mobile.html")) {
+        location.replace("mobile.html");
+      }
+    });
+    </script>
   <meta charset="UTF-8" />
   <link rel="manifest" href="manifest.json">
   <script>
