@@ -169,8 +169,8 @@ function renderOrder() {
     total += item.price;
 
     const li = document.createElement("li");
-    li.innerHTML = `${item.name} - $${item.price} 
-      <button class="delete-btn" onclick="removeOrderItem(${index})" style="margin-left: 10px;">🗑️</button>`;
+  li.innerHTML = `${item.name} - $${item.price} 
+  <button class="delete-btn" onclick="removeOrderItem(${index})">🗑️</button>`;
 
     list.appendChild(li);
   });
