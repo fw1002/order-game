@@ -4,11 +4,14 @@
   <meta charset="UTF-8" />
   <link rel="manifest" href="manifest.json">
 <script>
-    // 自動導向 mobile.html 如果是手機寬度
-    if (window.innerWidth <= 600 && location.pathname.includes("index.html")) {
-      location.replace("mobile.html");
-    }
-  </script>
+  // ✅ 更保險地檢查是否是首頁（支援 index.html 和 /）
+  const isMobile = window.innerWidth <= 600;
+  const isIndex = location.pathname.endsWith("index.html") || location.pathname === "/";
+  if (isMobile && isIndex) {
+    location.replace("mobile.html");
+  }
+</script>
+
   <script>
   if ("serviceWorker" in navigator) {
     navigator.serviceWorker.register("service-worker.js");
