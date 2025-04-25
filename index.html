@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="manifest" href="manifest.json">
+  <script>
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("service-worker.js");
+  }
+</script>
+
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       const isMobile = window.innerWidth <= 600;
@@ -11,15 +20,8 @@
         location.replace("mobile.html");
       }
     });
-    </script>
-  <meta charset="UTF-8" />
-  <link rel="manifest" href="manifest.json">
-  <script>
-  if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("service-worker.js");
-  }
-</script>
-
+  </script>
+  
   <title>點餐遊戲v8_MbyF</title>
   <link rel="stylesheet" href="style.css" />
 </head>
