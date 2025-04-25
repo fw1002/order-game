@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
@@ -9,14 +8,14 @@
     font-family: "Segoe UI", "Helvetica Neue", sans-serif;
     background: #fffde7;
     padding: 24px;
-    font-size: 20px;          /* 整體字變大 */
+    font-size: 20px;
     line-height: 1.8;
     color: #333333;
   }
 
   h1 {
     color: #d84315;
-    font-size: 28px;          /* 標題更大更醒目 */
+    font-size: 28px;
     margin-bottom: 20px;
   }
 
@@ -24,7 +23,7 @@
     background-color: #74c177;
     border: 5px solid #d84315;
     color: #333;
-    font-size: 38px;          /* 選單字體變大 */
+    font-size: 38px;
     margin-bottom: 38px;
     padding: 10px;
     border-radius: 8px;
@@ -96,22 +95,47 @@
       currentRef.on("child_added", snapshot => {
         const order = snapshot.val();
         const key = snapshot.key;
+        const status = order.status || "";
+        let statusLabel = "";
+        let boxOpacity = "1";
+
+        if (status === "completed") {
+          statusLabel = "<div style='color:green; font-weight:bold;'>（已完成）</div>";
+          boxOpacity = "0.6";
+        } else if (status === "cancelled") {
+          statusLabel = "<div style='color:red; font-weight:bold;'>（已取消）</div>";
+          boxOpacity = "0.5";
+        }
+
         const box = document.createElement("div");
         box.className = "order-box";
+        box.style.opacity = boxOpacity;
         const time = new Date(order.time).toLocaleTimeString("zh-TW", { hour12: false });
+
         box.innerHTML = `
           <strong>訂單時間：</strong> ${time}<br>
           <strong>餐點：</strong>
           <ul>${order.items.map(item => `<li>${item.name} - $${item.price}</li>`).join("")}</ul>
-          <button onclick="removeOrder('${branchName}', '${key}', this)">✅ 完成</button>
+          ${statusLabel}
+          ${!status ? `
+            <button onclick="markOrderCompleted('${branchName}', '${key}', this)">✅ 完成</button>
+            <button onclick="markOrderCancelled('${branchName}', '${key}', this)" style="margin-left:10px; background-color:#f44336;">❌ 取消</button>
+          ` : ""}
         `;
         ordersDiv.prepend(box);
       });
     }
 
-    function removeOrder(branch, key, btn) {
-      db.ref("orders/" + branch + "/" + key).remove();
-      btn.parentElement.remove();
+    function markOrderCompleted(branch, key, btn) {
+      db.ref("orders/" + branch + "/" + key).update({ status: "completed" });
+      btn.parentElement.style.opacity = "0.6";
+      btn.parentElement.innerHTML += "<div style='color:green; font-weight:bold;'>（已完成）</div>";
+    }
+
+    function markOrderCancelled(branch, key, btn) {
+      db.ref("orders/" + branch + "/" + key).update({ status: "cancelled" });
+      btn.parentElement.style.opacity = "0.5";
+      btn.parentElement.innerHTML += "<div style='color:red; font-weight:bold;'>（已取消）</div>";
     }
 
     function initBranches() {
@@ -135,6 +159,7 @@
 
     initBranches();
   </script>
+
 <script>
   const btn = document.createElement("button");
   btn.textContent = "🏠 回主畫面";
