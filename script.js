@@ -73,7 +73,21 @@ function renderCategoryList() {
   ul.innerHTML = "";
   categories.forEach((cat, i) => {
     const li = document.createElement("li");
-    li.innerHTML = `${cat.name} <input type="color" value="${cat.color}" onchange="categories[${i}].color=this.value"> <button onclick="deleteCategory(${i})">刪除</button>`;
+    li.innerHTML = `
+      ${cat.name}
+      <input type="color" value="${cat.color}" onchange="categories[${i}].color=this.value; renderMenu(); saveCurrentMenu()">
+
+      <label style="margin-left:10px;">
+        <input type="radio" name="textColor-${i}" value="#ffffff" ${cat.textColor === "#ffffff" ? "checked" : ""} onchange="categories[${i}].textColor=this.value; renderMenu(); saveCurrentMenu()">
+        白色字
+      </label>
+      <label style="margin-left:10px;">
+        <input type="radio" name="textColor-${i}" value="#333333" ${cat.textColor === "#333333" ? "checked" : ""} onchange="categories[${i}].textColor=this.value; renderMenu(); saveCurrentMenu()">
+        深灰字
+      </label>
+
+      <button onclick="deleteCategory(${i})" style="margin-left:10px;">刪除</button>
+    `;
     ul.appendChild(li);
   });
 }
@@ -277,3 +291,11 @@ function deleteMenu() {
 
 // 預設切換到點餐模式
 switchMode("order");
+
+function saveCurrentMenu() {
+  const select = document.getElementById("savedMenus");
+  const menuName = select?.value;
+  if (!menuName) return; // 沒選菜單就不做
+
+  db.ref("menus/" + menuName).set({ categories, menuItems });
+}
