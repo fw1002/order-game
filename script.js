@@ -164,14 +164,25 @@ function renderOrder() {
 
   list.innerHTML = "";
   let total = 0;
-  order.forEach(item => {
+
+  order.forEach((item, index) => {
     total += item.price;
+
     const li = document.createElement("li");
-    li.textContent = `${item.name} - $${item.price}`;
+    li.innerHTML = `${item.name} - $${item.price} 
+      <button onclick="removeOrderItem(${index})" style="margin-left: 10px;">🗑️</button>`;
+
     list.appendChild(li);
   });
+
   totalLabel.textContent = "總金額：$" + total;
 }
+
+function removeOrderItem(index) {
+  order.splice(index, 1);
+  renderOrder();
+}
+
 
 function submitOrder() {
   if (!order.length) return alert("請先點餐");
