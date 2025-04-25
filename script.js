@@ -170,7 +170,7 @@ function renderOrder() {
 
     const li = document.createElement("li");
     li.innerHTML = `${item.name} - $${item.price} 
-      <button onclick="removeOrderItem(${index})" style="margin-left: 10px;">🗑️</button>`;
+      <button class="delete-btn" onclick="removeOrderItem(${index})" style="margin-left: 10px;">🗑️</button>`;
 
     list.appendChild(li);
   });
