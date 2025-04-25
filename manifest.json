@@ -1,7 +1,7 @@
 {
   "name": "點餐遊戲",
   "short_name": "點餐遊戲",
-  "start_url": "./index.html",
+  "start_url": ".",  // ← 表示目前的頁面（mobile.html 或 index.html）
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#ffa726",
