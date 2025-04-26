@@ -269,16 +269,18 @@ function saveMenu() {
     } else {
       showStatusMessage("✅ 已儲存並載入菜單：" + name);
 
-      renderSavedMenus();
+      renderSavedMenus(); // 先更新下拉選單
 
-      const select = document.getElementById("savedMenus");
-      if (select) select.value = name;
+      // ❗重要：render完後，這時候才去選剛儲存的菜單
+      setTimeout(() => {
+        const select = document.getElementById("savedMenus");
+        if (select) select.value = name;
 
-      loadMenu(name);
+        loadMenu(name); // 再載入剛儲存的菜單
+      }, 100); // 稍微延遲一下，讓畫面更新完成
     }
   });
 }
-
 
 function renderSavedMenus() {
   const select = document.getElementById("savedMenus");
