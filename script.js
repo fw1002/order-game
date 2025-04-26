@@ -429,7 +429,7 @@ function loadMenu(name, callback) {
       if (typeof renderCategoryOptions === "function") renderCategoryOptions();
       if (typeof renderMenu === "function") renderMenu();
       if (typeof renderMenuList === "function") renderMenuList();
-
+      if (typeof renderOrderHistory === "function") renderOrderHistory(); // 🔥 新增這行！
       if (typeof callback === "function") callback(); // ✅ 手機版會用這個補 renderMenu
     }
   });
