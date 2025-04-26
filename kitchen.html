@@ -109,6 +109,7 @@ function switchBranch(branchName) {
     const timeObj = new Date(order.time);
     const formattedTime = timeObj.toLocaleDateString("zh-TW") + " " +
                       timeObj.toLocaleTimeString("zh-TW", { hour: '2-digit', minute: '2-digit', hour12: false });
+    const total = order.items.reduce((sum, item) => sum + (item.price || 0), 0); // 🔥 加總金額
 
 
     box.innerHTML = `
