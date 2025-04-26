@@ -106,10 +106,13 @@ function switchBranch(branchName) {
     const box = document.createElement("div");
     box.className = "order-box";
     box.style.opacity = "1";  // 新訂單不用改透明度
-    const time = new Date(order.time).toLocaleTimeString("zh-TW", { hour12: false });
+    const timeObj = new Date(order.time);
+    const formattedTime = timeObj.toLocaleDateString("zh-TW") + " " +
+                      timeObj.toLocaleTimeString("zh-TW", { hour: '2-digit', minute: '2-digit', hour12: false });
+
 
     box.innerHTML = `
-      <strong>訂單時間：</strong> ${time}<br>
+      <strong>訂單時間：</strong> ${formattedTime}<br>
       <strong>餐點：</strong>
       <ul>${order.items.map(item => `<li>${item.name} - $${item.price}</li>`).join("")}</ul>
       <button onclick="markOrderCompleted('${branchName}', '${key}', this)">✅ 完成</button>
