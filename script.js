@@ -39,21 +39,21 @@ function switchMode(mode) {
 
 // 🔥 顯示訂單歷史（加上篩選器正式修正完成版）
 function renderOrderHistory() {
-  const historyDiv = document.getElementById("orderHistory");
-  if (!historyDiv) return;
+  const listArea = document.getElementById("orderListArea");
+  if (!listArea) return;
 
-  historyDiv.innerHTML = "載入中...";
+  listArea.innerHTML = "載入中...";
 
   const menuName = currentMenuName.trim();
   if (!menuName) {
-    historyDiv.innerHTML = "請先選擇菜單。";
+    listArea.innerHTML = "請先選擇菜單。";
     return;
   }
 
   const orderRef = db.ref("orders/" + menuName);
   orderRef.once("value", snapshot => {
     if (!snapshot.exists()) {
-      historyDiv.innerHTML = "目前沒有任何訂單。";
+      listArea.innerHTML = "目前沒有任何訂單。";
       return;
     }
 
@@ -63,12 +63,10 @@ function renderOrderHistory() {
       orders.push({ key: child.key, ...orderData });
     });
 
-    // 依時間新到舊排序
     orders.sort((a, b) => new Date(b.time) - new Date(a.time));
 
-    // 🔥 加入篩選條件判斷
     const filterSelect = document.getElementById("orderFilter");
-    const filter = filterSelect ? filterSelect.value : "all"; // 預設 all
+    const filter = filterSelect ? filterSelect.value : "all";
     const now = new Date();
 
     const filteredOrders = orders.filter(order => {
@@ -80,8 +78,7 @@ function renderOrderHistory() {
       return true;
     });
 
-    // 🔥 根據篩選後的訂單們來畫畫面
-    historyDiv.innerHTML = filteredOrders.map(order => {
+    listArea.innerHTML = filteredOrders.map(order => {
       const timeObj = new Date(order.time);
       const formattedTime = timeObj.toLocaleDateString('zh-TW') + " " +
                              timeObj.toLocaleTimeString('zh-TW', { hour: '2-digit', minute: '2-digit', hour12: false });
@@ -109,6 +106,7 @@ function renderOrderHistory() {
     }).join("") || "<div>目前沒有符合條件的訂單。</div>";
   });
 }
+
 
 
 
