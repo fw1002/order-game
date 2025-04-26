@@ -78,7 +78,7 @@ function renderOrderHistory() {
 
       let actionButton = "";
       if (order.status === "cancelled") {
-        actionButton = `<button onclick="loadCancelledOrderToCart(${encodeURIComponent(JSON.stringify(order.items))})" style="margin-top:10px;">重新修改並送出</button>`;
+        actionButton = `<button onclick="loadCancelledOrderToCart('${encodeURIComponent(JSON.stringify(order.items))}')" style="margin-top:10px;">重新修改並送出</button>`;
       }
 
       return `
