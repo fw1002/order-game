@@ -470,6 +470,12 @@ if (savedMenuName) {
   loadMenu(savedMenuName);
 }
 
+function scrollToOrderHistory() {
+  const historySection = document.getElementById("orderHistory");
+  if (historySection) {
+    historySection.scrollIntoView({ behavior: "smooth" });
+  }
+}
 
 function saveCurrentMenu() {
   const select = document.getElementById("savedMenus");
