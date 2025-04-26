@@ -260,25 +260,65 @@ function saveMenu() {
 
   showStatusMessage("⏳ 儲存中，請稍候...");
 
-  db.ref("menus/" + name).set({ categories, menuItems }, (error) => {
-    if (error) {
-      showStatusMessage("❌ 儲存失敗，請再試一次");
-      console.error(error);
+  const menuRef = db.ref("menus/" + name);
+
+  menuRef.once("value", snapshot => {
+    const data = snapshot.val();
+
+    if (data) {
+      // 已存在的菜單，要求輸入密碼驗證
+      const inputPassword = prompt("這是已存在的菜單，請輸入密碼以儲存修改：");
+      if (!inputPassword) {
+        showStatusMessage("❌ 已取消儲存");
+        return;
+      }
+      if (inputPassword !== data.password) {
+        showStatusMessage("❌ 密碼錯誤，無法儲存");
+        return;
+      }
+      // 密碼正確，允許儲存
+      menuRef.set({ categories, menuItems, password: data.password }, (error) => {
+        if (error) {
+          showStatusMessage("❌ 儲存失敗");
+          console.error(error);
+        } else {
+          showStatusMessage("✅ 已儲存並載入菜單：" + name);
+          renderSavedMenus();
+          setTimeout(() => {
+            const select = document.getElementById("savedMenus");
+            if (select) select.value = name;
+            currentMenuName = name;
+            loadMenu(name);
+          }, 100);
+        }
+      });
+
     } else {
-      showStatusMessage("✅ 已儲存並載入菜單：" + name);
-
-      renderSavedMenus(); // 更新下拉選單
-
-      setTimeout(() => {
-        const select = document.getElementById("savedMenus");
-        if (select) select.value = name;
-
-        currentMenuName = name; // ✅ 這行是最關鍵！！更新成剛儲存的菜單名
-        loadMenu(name);         // 再載入這個新菜單
-      }, 100);
+      // 新菜單，要求設定新密碼
+      const newPassword = prompt("這是新菜單，請設定一組密碼保護：");
+      if (!newPassword) {
+        showStatusMessage("❌ 未設定密碼，已取消儲存");
+        return;
+      }
+      menuRef.set({ categories, menuItems, password: newPassword }, (error) => {
+        if (error) {
+          showStatusMessage("❌ 儲存失敗");
+          console.error(error);
+        } else {
+          showStatusMessage("✅ 已儲存並載入菜單：" + name);
+          renderSavedMenus();
+          setTimeout(() => {
+            const select = document.getElementById("savedMenus");
+            if (select) select.value = name;
+            currentMenuName = name;
+            loadMenu(name);
+          }, 100);
+        }
+      });
     }
   });
 }
+
 
 
 function renderSavedMenus() {
@@ -321,12 +361,26 @@ function deleteMenu() {
   const name = select?.value;
   if (!name) return alert("請選擇要刪除的菜單");
 
-  if (confirm("確定要刪除菜單：" + name + "？")) {
-    db.ref("menus/" + name).remove();
-    alert("已刪除");
-    renderSavedMenus();
-  }
+  db.ref("menus/" + name).once("value", snapshot => {
+    const data = snapshot.val();
+    if (!data) return alert("找不到該菜單資料");
+
+    const inputPassword = prompt("請輸入密碼以刪除菜單：" + name);
+    if (!inputPassword) return alert("已取消刪除");
+
+    if (inputPassword !== data.password) {
+      return alert("❌ 密碼錯誤，無法刪除");
+    }
+
+    // 密碼正確，確認後刪除
+    if (confirm("確定要刪除菜單：" + name + "？")) {
+      db.ref("menus/" + name).remove();
+      alert("✅ 已刪除菜單：" + name);
+      renderSavedMenus();
+    }
+  });
 }
+
 
 // 預設切換到點餐模式
 switchMode("order");
