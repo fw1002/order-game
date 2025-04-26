@@ -36,6 +36,83 @@ function switchMode(mode) {
   }
 }
 
+// 🔥 顯示訂單歷史
+function renderOrderHistory() {
+  const historyDiv = document.getElementById("orderHistory");
+  if (!historyDiv) return;
+
+  historyDiv.innerHTML = "載入中...";
+
+  const menuName = currentMenuName.trim();
+  if (!menuName) {
+    historyDiv.innerHTML = "請先選擇菜單。";
+    return;
+  }
+
+  const orderRef = db.ref("orders/" + menuName);
+  orderRef.once("value", snapshot => {
+    if (!snapshot.exists()) {
+      historyDiv.innerHTML = "目前沒有任何訂單。";
+      return;
+    }
+
+    const orders = [];
+    snapshot.forEach(child => {
+      const orderData = child.val();
+      orders.push({ key: child.key, ...orderData });
+    });
+
+    // 依時間新到舊排序
+    orders.sort((a, b) => new Date(b.time) - new Date(a.time));
+
+    historyDiv.innerHTML = orders.map(order => {
+      const timeObj = new Date(order.time);
+      const formattedTime = timeObj.toLocaleDateString('zh-TW') + " " +
+                             timeObj.toLocaleTimeString('zh-TW', { hour: '2-digit', minute: '2-digit', hour12: false });
+
+      const statusText = order.status === "completed" ? "✅ 已完成"
+                       : order.status === "cancelled" ? "❌ 已取消"
+                       : "🟢 待處理";
+
+      const itemList = order.items.map(item => `<li>${item.name} - $${item.price}</li>`).join("");
+
+      let actionButton = "";
+      if (order.status === "cancelled") {
+        actionButton = `<button onclick="loadCancelledOrderToCart(${encodeURIComponent(JSON.stringify(order.items))})" style="margin-top:10px;">重新修改並送出</button>`;
+      }
+
+      return `
+        <div style="border:1px solid #ccc; padding:10px; margin-bottom:10px; border-radius:8px; background:#f9f9f9;">
+          <strong>時間：</strong> ${formattedTime}<br>
+          <strong>狀態：</strong> ${statusText}<br>
+          <strong>餐點：</strong>
+          <ul>${itemList}</ul>
+          ${actionButton}
+        </div>
+      `;
+    }).join("");
+  });
+}
+
+// 🔥 把取消的訂單項目重新載入到點餐車
+function loadCancelledOrderToCart(encodedItems) {
+  try {
+    const items = JSON.parse(decodeURIComponent(encodedItems));
+    if (!Array.isArray(items)) return;
+
+    if (!confirm("將清空目前點餐車，重新載入這筆訂單，確定嗎？")) return;
+
+    order = []; // 清空原本的點餐車
+    items.forEach(item => {
+      order.push({ name: item.name, price: item.price });
+    });
+    renderOrder();
+    alert("✅ 已載入取消的訂單，可以修改後重新送出！");
+  } catch (error) {
+    console.error("載入取消訂單失敗：", error);
+    alert("❌ 無法載入取消的訂單，請稍後再試。");
+  }
+}
 
 function showStatusMessage(text) {
   let statusDiv = document.getElementById("statusMessage");
@@ -237,6 +314,7 @@ function submitOrder() {
   alert("訂單已送出");
   order = [];
   renderOrder();
+  renderOrderHistory(); // ✅ 每次送出新訂單後刷新訂單紀錄
 }
 
 
