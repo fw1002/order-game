@@ -37,23 +37,24 @@ function switchMode(mode) {
   }
 }
 
-// 🔥 顯示訂單歷史（加上篩選器）
+// 🔥 顯示訂單歷史（加上篩選器正式修正完成版）
 function renderOrderHistory() {
   const historyDiv = document.getElementById("orderHistory");
-  if (!historyDiv) return;
+  const listArea = document.getElementById("orderListArea");
+  if (!historyDiv || !listArea) return;
 
-  historyDiv.innerHTML = "載入中...";
+  listArea.innerHTML = "載入中...";
 
   const menuName = currentMenuName.trim();
   if (!menuName) {
-    historyDiv.innerHTML = "請先選擇菜單。";
+    listArea.innerHTML = "請先選擇菜單。";
     return;
   }
 
   const orderRef = db.ref("orders/" + menuName);
   orderRef.once("value", snapshot => {
     if (!snapshot.exists()) {
-      historyDiv.innerHTML = "目前沒有任何訂單。";
+      listArea.innerHTML = "目前沒有任何訂單。";
       return;
     }
 
@@ -66,29 +67,29 @@ function renderOrderHistory() {
     // 依時間新到舊排序
     orders.sort((a, b) => new Date(b.time) - new Date(a.time));
 
-    // 🔥 加：讀取目前篩選條件
+    // 🔥 讀取目前篩選條件
     const filterSelect = document.getElementById("orderFilter");
     const filter = filterSelect ? filterSelect.value : "all";
     const now = new Date();
 
-    historyDiv.innerHTML = orders.map(order => {
+    // 🔥 開始根據篩選畫出訂單
+    const orderHtml = orders.map(order => {
       const timeObj = new Date(order.time);
       const formattedTime = timeObj.toLocaleDateString('zh-TW') + " " +
                              timeObj.toLocaleTimeString('zh-TW', { hour: '2-digit', minute: '2-digit', hour12: false });
 
-      // 🔥 加：根據篩選條件判斷是否要顯示
+      // 判斷是否符合篩選
       let show = false;
       if (filter === "all") {
         show = true;
       } else if (filter === "today") {
-        const isToday = now.toDateString() === timeObj.toDateString();
-        show = isToday;
+        show = now.toDateString() === timeObj.toDateString();
       } else if (filter === "2hours") {
         show = (now - timeObj) <= 2 * 60 * 60 * 1000;
       } else if (filter === "1hour") {
         show = (now - timeObj) <= 1 * 60 * 60 * 1000;
       }
-      if (!show) return ""; // ❗不符合條件就不畫出來
+      if (!show) return ""; // ❌ 不符合篩選就不畫
 
       const statusText = order.status === "completed" ? "✅ 已完成"
                        : order.status === "cancelled" ? "❌ 已取消"
@@ -110,9 +111,13 @@ function renderOrderHistory() {
           ${actionButton}
         </div>
       `;
-    }).join("") || "<div>目前沒有符合條件的訂單。</div>"; // 🔥 如果沒有符合的，顯示提示
+    }).filter(html => html).join(""); // 🔥 避免有空字串進來
+
+    // 🔥 畫到 listArea，而不是 historyDiv
+    listArea.innerHTML = orderHtml || "<div>目前沒有符合條件的訂單。</div>";
   });
 }
+
 
 
 // 🔥 把取消的訂單項目重新載入到點餐車
