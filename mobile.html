@@ -153,13 +153,17 @@
 </head>
 <body>
 
-  <!-- 手機版 Top-bar -->
-  <div class="mobile-top-bar">
-    <select id="savedMenusMobile" onchange="loadMenu(this.value, renderMenu)">
-      <option value="">請選擇菜單</option>
-    </select>
-    <button onclick="startOrderMobile()">開始點餐</button>
+<!-- 手機版 Top-bar -->
+<div class="mobile-top-bar">
+  <select id="savedMenusMobile" onchange="loadMenu(this.value, renderMenu)">
+    <option value="">請選擇菜單</option>
+  </select>
+  <div style="display: flex; justify-content: center; gap: 8px; margin-top: 10px;">
+    <button onclick="startOrderMobile()" style="flex: 1; padding: 10px 14px; font-size: 18px;">開始點餐</button>
+    <button onclick="scrollToOrderHistory()" style="flex: 1; background-color: #90caf9; color: #333; padding: 10px 14px; font-size: 16px; border: none; border-radius: 6px; cursor: pointer;">點餐紀錄</button>
   </div>
+</div>
+
 
   <!-- 區塊1：分類按鈕 -->
   <div class="mobile-section" id="mobile-category">
@@ -185,6 +189,12 @@
     <button onclick="submitOrder()">送出訂單</button>
   </div>
 
+  <!-- 區塊5：點餐紀錄 -->
+  <div id="orderHistory" style="margin-top: 30px;">
+    <h2>📋 我的訂單紀錄</h2>
+  </div>
+
+  
   <!-- 引入共用 Firebase & JS -->
   <script src="https://www.gstatic.com/firebasejs/11.6.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/11.6.0/firebase-database-compat.js"></script>
