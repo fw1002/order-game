@@ -12,6 +12,7 @@ firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 const menuRef = db.ref("menus");
 
+let currentMenuName = "";
 let categories = [];
 let menuItems = [];
 let order = [];
@@ -34,6 +35,7 @@ function switchMode(mode) {
     if (typeof renderOrder === "function") renderOrder();
   }
 }
+
 
 function showStatusMessage(text) {
   let statusDiv = document.getElementById("statusMessage");
@@ -300,6 +302,7 @@ function renderSavedMenus() {
 
 function loadMenu(name, callback) {
   if (!name) return;
+  currentMenuName = name; // 🔥 這行是新的，放在最前面，記住現在是哪個菜單
   db.ref("menus/" + name).once("value", snapshot => {
     if (snapshot.exists()) {
       const data = snapshot.val();
