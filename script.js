@@ -35,6 +35,33 @@ function switchMode(mode) {
   }
 }
 
+function showStatusMessage(text) {
+  let statusDiv = document.getElementById("statusMessage");
+  if (!statusDiv) {
+    statusDiv = document.createElement("div");
+    statusDiv.id = "statusMessage";
+    statusDiv.style.position = "fixed";
+    statusDiv.style.top = "20px";
+    statusDiv.style.left = "50%";
+    statusDiv.style.transform = "translateX(-50%)";
+    statusDiv.style.backgroundColor = "#333";
+    statusDiv.style.color = "#fff";
+    statusDiv.style.padding = "10px 20px";
+    statusDiv.style.borderRadius = "10px";
+    statusDiv.style.boxShadow = "0 0 10px rgba(0,0,0,0.3)";
+    statusDiv.style.zIndex = "9999";
+    document.body.appendChild(statusDiv);
+  }
+  statusDiv.textContent = text;
+  statusDiv.style.display = "block";
+
+  clearTimeout(statusDiv.timer);
+  statusDiv.timer = setTimeout(() => {
+    statusDiv.style.display = "none";
+  }, 2500); // 2.5秒後自動消失
+}
+
+
 function addCategory() {
   const nameEl = document.getElementById("newCategory");
   const colorEl = document.getElementById("categoryColor");
@@ -233,15 +260,25 @@ function saveMenu() {
   const name = input.value.trim();
   if (!name) return alert("請輸入菜單名稱");
 
-  db.ref("menus/" + name).set({ categories, menuItems });
-  alert("已儲存至雲端菜單：" + name);
-  renderSavedMenus();
+  showStatusMessage("⏳ 儲存中，請稍候...");
 
-  const select = document.getElementById("savedMenus");
-  if (select) select.value = name;
+  db.ref("menus/" + name).set({ categories, menuItems }, (error) => {
+    if (error) {
+      showStatusMessage("❌ 儲存失敗，請再試一次");
+      console.error(error);
+    } else {
+      showStatusMessage("✅ 已儲存並載入菜單：" + name);
 
-  loadMenu(name);
+      renderSavedMenus();
+
+      const select = document.getElementById("savedMenus");
+      if (select) select.value = name;
+
+      loadMenu(name);
+    }
+  });
 }
+
 
 function renderSavedMenus() {
   const select = document.getElementById("savedMenus");
