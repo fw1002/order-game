@@ -418,6 +418,7 @@ function renderSavedMenus() {
 function loadMenu(name, callback) {
   if (!name) return;
   currentMenuName = name; // 🔥 這行是新的，放在最前面，記住現在是哪個菜單
+  localStorage.setItem('currentMenuName', name); // 🔥 存到 localStorage
   db.ref("menus/" + name).once("value", snapshot => {
     if (snapshot.exists()) {
       const data = snapshot.val();
@@ -462,6 +463,13 @@ function deleteMenu() {
 
 // 預設切換到點餐模式
 switchMode("order");
+
+// 🔥 頁面載入時自動從 localStorage 載入之前選過的菜單
+const savedMenuName = localStorage.getItem('currentMenuName');
+if (savedMenuName) {
+  loadMenu(savedMenuName);
+}
+
 
 function saveCurrentMenu() {
   const select = document.getElementById("savedMenus");
