@@ -31,37 +31,19 @@
   <button id="order-mode-btn" onclick="switchMode('order')" style="display: none;">開始點餐</button>
 </div>
 
-<div id="order-mode" class="section">
-  <h2>點餐畫面</h2>
-
-  <div id="category-buttons"></div>
-  <div id="menu"></div>
-
-  <div class="order-list">
-    <h3>已點項目</h3>
-    <ul id="orderList"></ul>
-    <p id="totalPrice">總金額：$0</p>
-    <button class="button" onclick="submitOrder()">送出訂單</button>
-  </div> <!-- ✅ 正確結束 order-list -->
-
-  <div id="orderHistory" style="margin-top: 30px;">
-  <div style="display: flex; justify-content: space-between; align-items: center;">
+  <div id="order-mode" class="section">
+    <h2>點餐畫面</h2>
+    <div id="category-buttons"></div>
+    <div id="menu"></div>
+    <div class="order-list">
+      <h3>已點項目</h3>
+      <ul id="orderList"></ul>
+      <p id="totalPrice">總金額：$0</p>
+      <button class="button" onclick="submitOrder()">送出訂單</button>
     <h2>📋 我的訂單紀錄</h2>
-    <select id="orderFilter" onchange="renderOrderHistory()" style="padding: 6px; font-size: 16px;">
-      <option value="all">全部</option>
-      <option value="today">今天</option>
-      <option value="2hours">過去2小時</option>
-      <option value="1hour" selected>過去1小時</option>
-    </select>
-  </div> <!-- 📋 我的訂單紀錄標題區 -->
-  
-  <div id="orderListArea" style="margin-top: 20px;">
-    <!-- 訂單內容會動態插入這裡 -->
+    <div id="orderHistory"></div>
+    </div>
   </div>
-
-</div> <!-- ✅ 正確結束 orderHistory -->
-
-
 
   
   <div id="edit-mode" class="section" style="display:none">
@@ -110,6 +92,10 @@
     </div>
   </div>
 
+  <!-- 非模組寫法：Firebase compat CDN + 本地 script -->
+  <script src="https://www.gstatic.com/firebasejs/11.6.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/11.6.0/firebase-database-compat.js"></script>
+  <script src="script.js"></script>
 
 <!-- 👨‍🍳 廚房模式浮動按鈕 -->
 <style>
@@ -145,10 +131,5 @@
   👨‍🍳 廚房模式
 </button>
 
-  <!-- 非模組寫法：Firebase compat CDN + 本地 script -->
-  <script src="https://www.gstatic.com/firebasejs/11.6.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/11.6.0/firebase-database-compat.js"></script>
-  <script src="script.js"></script>
-    
 </body>
 </html>
