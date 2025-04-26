@@ -16,7 +16,6 @@ let currentMenuName = "";
 let categories = [];
 let menuItems = [];
 let order = [];
-let currentFilter = "1hour"; // ✅ 預設只顯示過去1小時的訂單
 
 function switchMode(mode) {
   const orderMode = document.getElementById("order-mode");
@@ -37,23 +36,23 @@ function switchMode(mode) {
   }
 }
 
-// 🔥 顯示訂單歷史（加上篩選器正式修正完成版）
+// 🔥 顯示訂單歷史
 function renderOrderHistory() {
-  const listArea = document.getElementById("orderListArea");
-  if (!listArea) return;
+  const historyDiv = document.getElementById("orderHistory");
+  if (!historyDiv) return;
 
-  listArea.innerHTML = "載入中...";
+  historyDiv.innerHTML = "載入中...";
 
   const menuName = currentMenuName.trim();
   if (!menuName) {
-    listArea.innerHTML = "請先選擇菜單。";
+    historyDiv.innerHTML = "請先選擇菜單。";
     return;
   }
 
   const orderRef = db.ref("orders/" + menuName);
   orderRef.once("value", snapshot => {
     if (!snapshot.exists()) {
-      listArea.innerHTML = "目前沒有任何訂單。";
+      historyDiv.innerHTML = "目前沒有任何訂單。";
       return;
     }
 
@@ -63,22 +62,10 @@ function renderOrderHistory() {
       orders.push({ key: child.key, ...orderData });
     });
 
+    // 依時間新到舊排序
     orders.sort((a, b) => new Date(b.time) - new Date(a.time));
 
-    const filterSelect = document.getElementById("orderFilter");
-    const filter = filterSelect ? filterSelect.value : "all";
-    const now = new Date();
-
-    const filteredOrders = orders.filter(order => {
-      const orderTime = new Date(order.time);
-      if (filter === "all") return true;
-      if (filter === "today") return now.toDateString() === orderTime.toDateString();
-      if (filter === "2hours") return (now - orderTime) <= 2 * 60 * 60 * 1000;
-      if (filter === "1hour") return (now - orderTime) <= 1 * 60 * 60 * 1000;
-      return true;
-    });
-
-    listArea.innerHTML = filteredOrders.map(order => {
+    historyDiv.innerHTML = orders.map(order => {
       const timeObj = new Date(order.time);
       const formattedTime = timeObj.toLocaleDateString('zh-TW') + " " +
                              timeObj.toLocaleTimeString('zh-TW', { hour: '2-digit', minute: '2-digit', hour12: false });
@@ -103,13 +90,9 @@ function renderOrderHistory() {
           ${actionButton}
         </div>
       `;
-    }).join("") || "<div>目前沒有符合條件的訂單。</div>";
+    }).join("");
   });
 }
-
-
-
-
 
 // 🔥 把取消的訂單項目重新載入到點餐車
 function loadCancelledOrderToCart(encodedItems) {
