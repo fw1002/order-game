@@ -114,6 +114,7 @@ function switchBranch(branchName) {
     box.innerHTML = `
       <strong>訂單時間：</strong> ${formattedTime}<br>
       <strong>餐點：</strong>
+      <strong>總金額：</strong> $${total}<br> <!-- 🔥 顯示總金額 -->
       <ul>${order.items.map(item => `<li>${item.name} - $${item.price}</li>`).join("")}</ul>
       <button onclick="markOrderCompleted('${branchName}', '${key}', this)">✅ 完成</button>
       <button onclick="markOrderCancelled('${branchName}', '${key}', this)" style="margin-left:10px; background-color:#f44336;">❌ 取消</button>
