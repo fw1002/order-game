@@ -45,19 +45,22 @@
   </div> <!-- ✅ 正確結束 order-list -->
 
   <div id="orderHistory" style="margin-top: 30px;">
-    <div style="display: flex; justify-content: space-between; align-items: center;">
-      <h2>📋 我的訂單紀錄</h2>
-      <select id="orderFilter" onchange="renderOrderHistory()" style="padding: 6px; font-size: 16px;">
-        <option value="all">全部</option>
-        <option value="today">今天</option>
-        <option value="2hours">過去2小時</option>
-        <option value="1hour" selected>過去1小時</option>
-      </select>
-    </div> <!-- 📋 我的訂單紀錄標題區 -->
-    <!-- ⚡ 注意：訂單內容(render出來的)會插在這裡 -->
-  </div> <!-- ✅ 正確結束 orderHistory -->
+  <div style="display: flex; justify-content: space-between; align-items: center;">
+    <h2>📋 我的訂單紀錄</h2>
+    <select id="orderFilter" onchange="renderOrderHistory()" style="padding: 6px; font-size: 16px;">
+      <option value="all">全部</option>
+      <option value="today">今天</option>
+      <option value="2hours">過去2小時</option>
+      <option value="1hour" selected>過去1小時</option>
+    </select>
+  </div> <!-- 📋 我的訂單紀錄標題區 -->
+  
+  <div id="orderListArea" style="margin-top: 20px;">
+    <!-- 訂單內容會動態插入這裡 -->
+  </div>
 
-</div> <!-- ✅ 最後正確關閉 order-mode -->
+</div> <!-- ✅ 正確結束 orderHistory -->
+
 
 
   
