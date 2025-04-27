@@ -33,6 +33,17 @@ function switchMode(mode) {
   } else {
     if (typeof renderMenu === "function") renderMenu();
     if (typeof renderOrder === "function") renderOrder();
+    if (typeof renderOrderHistory === "function") renderOrderHistory();
+    if (typeof updateCurrentMenuName === "function") updateCurrentMenuName();
+
+  }
+}
+
+function updateCurrentMenuName() {
+  const menuDiv = document.getElementById("currentMenuName");
+  const savedMenu = localStorage.getItem("selectedMenu");
+  if (menuDiv) {
+    menuDiv.textContent = savedMenu ? `目前菜單：${savedMenu}` : "";
   }
 }
 
