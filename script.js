@@ -84,6 +84,8 @@ function renderOrderHistory() {
 
       const itemList = order.items.map(item => `<li>${item.name} - $${item.price}</li>`).join("");
 
+      const total = order.items.reduce((sum, item) => sum + (item.price || 0), 0); // 🔥 加在這裡
+
       let actionButton = "";
       if (order.status === "cancelled") {
         actionButton = `<button onclick="loadCancelledOrderToCart('${encodeURIComponent(JSON.stringify(order.items))}')" style="margin-top:10px;">重新修改並送出</button>`;
@@ -93,6 +95,7 @@ function renderOrderHistory() {
         <div style="border:1px solid #ccc; padding:10px; margin-bottom:10px; border-radius:8px; background:#f9f9f9;">
           <strong>時間：</strong> ${formattedTime}<br>
           <strong>狀態：</strong> ${statusText}<br>
+          <strong>總金額：</strong> $${total}<br> <!-- 🔥 加在這裡 -->
           <strong>餐點：</strong>
           <ul>${itemList}</ul>
           ${actionButton}
