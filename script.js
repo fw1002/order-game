@@ -34,18 +34,11 @@ function switchMode(mode) {
     if (typeof renderMenu === "function") renderMenu();
     if (typeof renderOrder === "function") renderOrder();
     if (typeof renderOrderHistory === "function") renderOrderHistory();
-    if (typeof updateCurrentMenuName === "function") updateCurrentMenuName();
 
   }
 }
 
-function updateCurrentMenuName() {
-  const menuDiv = document.getElementById("currentMenuName");
-  const savedMenu = localStorage.getItem("selectedMenu");
-  if (menuDiv) {
-    menuDiv.textContent = savedMenu ? `目前菜單：${savedMenu}` : "";
-  }
-}
+
 
 // 🔥 顯示訂單歷史
 function renderOrderHistory() {
@@ -490,6 +483,13 @@ switchMode("order");
 const savedMenuName = localStorage.getItem('currentMenuName');
 if (savedMenuName) {
   loadMenu(savedMenuName);
+}
+
+// 🔥 順便更新畫面上目前菜單名稱
+  const menuDiv = document.getElementById("currentMenuName");
+  if (menuDiv) {
+    menuDiv.textContent = `目前菜單：${savedMenuName}`;
+  }
 }
 
 function scrollToOrderHistory() {
