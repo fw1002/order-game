@@ -64,8 +64,16 @@ function renderOrderHistory() {
 
     // 依時間新到舊排序
     orders.sort((a, b) => new Date(b.time) - new Date(a.time));
-
-    historyDiv.innerHTML = orders.map(order => {
+    
+    // 🔥 只挑出今天的訂單
+    const now = new Date();
+    const todayOrders = orders.filter(order => {
+      const orderTime = new Date(order.time);
+      return now.toDateString() === orderTime.toDateString();
+    });
+    
+    // 🔥 然後用 todayOrders 去 .map() 畫出來
+    historyDiv.innerHTML = todayOrders.map(order => {
       const timeObj = new Date(order.time);
       const formattedTime = timeObj.toLocaleDateString('zh-TW') + " " +
                              timeObj.toLocaleTimeString('zh-TW', { hour: '2-digit', minute: '2-digit', hour12: false });
