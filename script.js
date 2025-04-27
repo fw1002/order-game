@@ -485,7 +485,11 @@ if (savedMenuName) {
   loadMenu(savedMenuName);
 }
 
-
+// 🔥 順便更新畫面上目前菜單名稱
+  const menuDiv = document.getElementById("currentMenuName");
+  if (menuDiv) {
+    menuDiv.textContent = 目前菜單：${savedMenuName};
+  }
 
 function scrollToOrderHistory() {
   const historySection = document.getElementById("orderHistory");
