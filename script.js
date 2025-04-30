@@ -1,12 +1,15 @@
+// 初始化
 const firebaseConfig = {
-  apiKey: "AIzaSyBY2JkCQErm8pyh2B1uCZmeuDohi8DNces",
-  authDomain: "order-game-3a2c3.firebaseapp.com",
-  databaseURL: "https://order-game-3a2c3-default-rtdb.firebaseio.com",
-  projectId: "order-game-3a2c3",
-  storageBucket: "order-game-3a2c3.appspot.com",
-  messagingSenderId: "793590994015",
-  appId: "1:793590994015:web:d089bf8bea249a3837f7ea"
+  apiKey: "AIzaSyBpXLkIwSKwuNIHcBOd1LfUNl-SQ7Hw9iY",
+  authDomain: "order-game-home.firebaseapp.com",
+  databaseURL: "https://order-game-home-default-rtdb.firebaseio.com",
+  projectId: "order-game-home",
+  storageBucket: "order-game-home.appspot.com",
+  messagingSenderId: "1002665277636",
+  appId: "1:1002665277636:web:042f46862f9cbc06907191",
+  measurementId: "G-YJ4P4QZRJV"
 };
+
 
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
