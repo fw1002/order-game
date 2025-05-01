@@ -64,7 +64,7 @@
 </head>
 <body>
   <h1>🍜 廚房即時訂單畫面</h1>
-  <label for="branchSelect">選擇分店：</label>
+  <label for="branchSelect">選擇菜單/ 分店：</label>
   <select id="branchSelect"></select>
 
   <div id="orders"></div>
@@ -98,32 +98,38 @@ function switchBranch(branchName) {
     const key = snapshot.key;
     const status = order.status || "";
 
-    // 🔥 這裡加上：如果是已完成或已取消，就跳過，不畫出來
+    // 🔥 跳過已完成或已取消訂單
     if (status === "completed" || status === "cancelled") {
       return;
     }
 
-    // ✅ 只畫出「待處理」的訂單
     const box = document.createElement("div");
     box.className = "order-box";
-    box.style.opacity = "1";  // 新訂單不用改透明度
+    box.style.opacity = "1";
     const timeObj = new Date(order.time);
     const formattedTime = timeObj.toLocaleDateString("zh-TW") + " " +
-                      timeObj.toLocaleTimeString("zh-TW", { hour: '2-digit', minute: '2-digit', hour12: false });
-    const total = order.items.reduce((sum, item) => sum + (item.price || 0), 0); // 🔥 加總金額
+                          timeObj.toLocaleTimeString("zh-TW", { hour: '2-digit', minute: '2-digit', hour12: false });
+    const total = order.items.reduce((sum, item) => sum + (item.price || 0), 0);
 
+    // 🔁 新增備註顯示
+    const itemListHTML = order.items.map(item => {
+      const noteLine = item.note ? `<div style="font-size: 1.1em; color: #555;">備註：${item.note}</div>` : "";
+      return `<li>${item.name} - $${item.price}${noteLine}</li>`;
+    }).join("");
 
     box.innerHTML = `
       <strong>訂單時間：</strong> ${formattedTime}<br>
       <strong>餐點：</strong>
-      <strong>總金額：</strong> $${total}<br> <!-- 🔥 顯示總金額 -->
-      <ul>${order.items.map(item => `<li>${item.name} - $${item.price}</li>`).join("")}</ul>
+      <ul>${itemListHTML}</ul>
+      <strong>總金額：</strong> $${total}<br>
       <button onclick="markOrderCompleted('${branchName}', '${key}', this)">✅ 完成</button>
       <button onclick="markOrderCancelled('${branchName}', '${key}', this)" style="margin-left:10px; background-color:#f44336;">❌ 取消</button>
     `;
+
     ordersDiv.prepend(box);
   });
 }
+
 
 
 function markOrderCompleted(branch, key, btn) {
