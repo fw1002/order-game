@@ -87,8 +87,14 @@ function renderOrderHistory() {
 
       const statusText = order.status === "completed" ? "✅ 已完成"
                        : order.status === "cancelled" ? "❌ 已取消"
+                       : order.status === "cooking" ? "🍳 製作中"
                        : "🟢 待處理";
 
+      let cardBgColor = "#f9f9f9";
+      if (order.status === "completed") cardBgColor = "#e0f7e9";
+      else if (order.status === "cancelled") cardBgColor = "#ffe0e0";
+      else if (order.status === "cooking") cardBgColor = "#fff3e0";
+      
       const itemList = order.items.map(item => {
         const noteLine = item.note ? `<div style="font-size: 0.9em; color: #555;">備註：${item.note}</div>` : "";
         return `<li>${item.name} - $${item.price}${noteLine}</li>`;
@@ -103,7 +109,7 @@ function renderOrderHistory() {
       }
 
       return `
-        <div style="border:1px solid #ccc; padding:10px; margin-bottom:10px; border-radius:8px; background:#f9f9f9;">
+        <div style="border:1px solid #ccc; padding:10px; margin-bottom:10px; border-radius:8px; background:${cardBgColor};">
           <strong>時間：</strong> ${formattedTime}<br>
           <strong>狀態：</strong> ${statusText}<br>
           <strong>總金額：</strong> $${total}<br> <!-- 🔥 加在這裡 -->
