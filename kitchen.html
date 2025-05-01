@@ -133,6 +133,9 @@ function switchBranch(branchName) {
 
 
 function markOrderCooking(branch, key, btn) {
+  const confirmed = confirm("確定要將此訂單標記為『製作中』嗎？");
+  if (!confirmed) return;
+
   db.ref("orders/" + branch + "/" + key).update({ status: "cooking" });
   btn.disabled = true;
   btn.textContent = "🍳 製作中";
