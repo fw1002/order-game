@@ -249,7 +249,7 @@ function addItem() {
   renderMenuList();
 }
 
-function renderMenu(filter = null) {
+function renderMenu(filter = null) { 
   const menu = document.getElementById("menu");
   const catButtons = document.getElementById("category-buttons");
   if (!menu || !catButtons) return;
@@ -269,7 +269,7 @@ function renderMenu(filter = null) {
       return a.category.localeCompare(b.category, "zh-Hant");
     });
 
-  items.forEach(item => {
+  items.forEach((item, index) => {
     const cat = categories.find(c => c.name === item.category);
     const textColor = cat?.textColor || "#ffffff";
     const card = document.createElement("div");
@@ -280,11 +280,11 @@ function renderMenu(filter = null) {
     card.innerHTML = `
       <div style="font-size: 20px;">${item.name}</div>
       <div style="font-weight: normal;">${item.category}</div>
-      <div>一般 $${item.price} <button onclick="addToOrder('${item.name}', ${item.price})">選</button></div>
+      <div>一般 $${item.price} <button onclick="addToOrder('${item.name}', ${item.price}, ${index}, '一般')">選</button></div>
       ${item.largePrice != null
-        ? `<div>大份 $${item.largePrice} <button onclick="addToOrder('${item.name}（大份）', ${item.largePrice})">選</button></div>`
+        ? `<div>大份 $${item.largePrice} <button onclick="addToOrder('${item.name}（大份）', ${item.largePrice}, ${index}, '大份')">選</button></div>`
         : `<div style="height: 1.8em;"></div>`}
-        <div>
+      <div>
         備註：<input type="text" id="note-${index}" placeholder="例如：不要辣" style="width: 100%; margin-top: 4px;" />
       </div>
     `;
@@ -292,6 +292,7 @@ function renderMenu(filter = null) {
     menu.appendChild(card);
   });
 }
+
 
 function addToOrder(name, price, index, portion = "") {
   const noteInput = document.getElementById(`note-${index}`);
