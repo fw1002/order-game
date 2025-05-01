@@ -89,7 +89,11 @@ function renderOrderHistory() {
                        : order.status === "cancelled" ? "❌ 已取消"
                        : "🟢 待處理";
 
-      const itemList = order.items.map(item => `<li>${item.name} - $${item.price}</li>`).join("");
+      const itemList = order.items.map(item => {
+        const noteLine = item.note ? `<div style="font-size: 0.9em; color: #555;">備註：${item.note}</div>` : "";
+        return `<li>${item.name} - $${item.price}${noteLine}</li>`;
+      }).join("");
+
 
       const total = order.items.reduce((sum, item) => sum + (item.price || 0), 0); // 🔥 加在這裡
 
