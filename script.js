@@ -19,6 +19,7 @@ let currentMenuName = "";
 let categories = [];
 let menuItems = [];
 let order = [];
+let currentOrderRef = null;
 
 function switchMode(mode) {
   const orderMode = document.getElementById("order-mode");
@@ -56,8 +57,15 @@ function renderOrderHistory() {
     return;
   }
 
+  // ✅ 如果之前綁過監聽，要先解除
+  if (currentOrderRef) {
+    currentOrderRef.off();
+  }
+
   const orderRef = db.ref("orders/" + menuName);
-  orderRef.once("value", snapshot => {
+  currentOrderRef = orderRef;
+
+  orderRef.on("value", snapshot => {
     if (!snapshot.exists()) {
       historyDiv.innerHTML = "目前沒有任何訂單。";
       return;
@@ -69,6 +77,7 @@ function renderOrderHistory() {
       orders.push({ key: child.key, ...orderData });
     });
 
+    
     // 依時間新到舊排序
     orders.sort((a, b) => new Date(b.time) - new Date(a.time));
     
