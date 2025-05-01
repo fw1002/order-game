@@ -285,7 +285,7 @@ function renderMenu(filter = null) {
         ? `<div>大份 $${item.largePrice} <button onclick="addToOrder('${item.name}（大份）', ${item.largePrice}, ${index}, '大份')">選</button></div>`
         : `<div style="height: 1.8em;"></div>`}
       <div>
-        備註：<input type="text" id="note-${index}" placeholder="例如：不要辣" style="width: 100%; margin-top: 4px;" />
+        備註：<input type="text" id="note-${index}" placeholder="例如：不要◯◯" style="width: 95%; margin-top: 4px; box-sizing: border-box;" />
       </div>
     `;
 
