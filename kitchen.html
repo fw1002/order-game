@@ -132,6 +132,11 @@ function switchBranch(branchName) {
 }
 
 
+function markOrderCooking(branch, key, btn) {
+  db.ref("orders/" + branch + "/" + key).update({ status: "cooking" });
+  btn.disabled = true;
+  btn.textContent = "🍳 製作中";
+}
 
 function markOrderCompleted(branch, key, btn) {
   db.ref("orders/" + branch + "/" + key).update({ status: "completed" });
