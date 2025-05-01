@@ -1,11 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="apple-touch-icon" href="icon-192.png">
-  <!-- ✅ manifest 放這裡最穩定 -->
   <link rel="manifest" href="manifest.json" />
   <title>點餐遊戲｜手機版</title>
   <link rel="stylesheet" href="style.css" />
@@ -46,7 +44,6 @@
     margin-bottom: 12px;
   }
 
-    
   .mobile-section h2 {
     font-size: 24px;
     margin-bottom: 12px;
@@ -73,80 +70,17 @@
   }
 
   .menu-card button {
-  width: 95%;
-  padding: 6px 8px;
-  font-size: 15px;
-  margin-top: 10px;
-  border-radius: 8px;
-  border: none;
-  box-sizing: border-box;
+    width: 95%;
+    padding: 6px 8px;
+    font-size: 15px;
+    margin-top: 10px;
+    border-radius: 8px;
+    border: none;
+    box-sizing: border-box;
   }
-  
+
   .mobile-section button.delete-btn {
-  width: auto;
-  padding: 4px 6px;
-  font-size: 14px;
-  margin-left: 8px;
-  border: 1px solid red;
-  background-color: transparent;
-  color: red;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.mobile-section button.delete-btn:hover {
-  background-color: rgba(255, 0, 0, 0.1);
-}
-
-
-  @media (max-width: 600px) {
-  /* 分類區塊設定 */
-  #mobile-category {
-    max-height: 25vh;
-    overflow-y: auto;
-    padding-bottom: 10px;
-  }
-
-  #category-buttons {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    justify-content: space-between;
-  }
-
-  #category-buttons button {
-    flex: 1 1 calc(33% - 8px);
-    padding: 10px 8px;
-    font-size: 16px;
-    min-width: 90px;
-  }
-
-  /* ✅ 餐點區塊兩欄排列 */
-  #menu {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    justify-content: space-between;
-  }
-
-  .menu-item {
-  flex: 0 0 calc(50% - 12px); /* 不讓它彈性伸展 */
-  max-width: calc(50% - 12px); /* 多一層保險 */
-  box-sizing: border-box;
-  padding: 12px;
-  font-size: 16px;
-}
-
-  .menu-item button {
-  width: 95%;
-  padding: 6px 8px;
-  font-size: 15px;
-  margin-top: 8px;
-  border-radius: 8px;
-  border: none;
-  box-sizing: border-box;
-  }
-    .delete-btn {
+    width: auto;
     padding: 4px 6px;
     font-size: 14px;
     margin-left: 8px;
@@ -154,20 +88,57 @@
     background-color: transparent;
     color: red;
     border-radius: 4px;
+    cursor: pointer;
   }
 
-  .delete-btn:hover {
+  .mobile-section button.delete-btn:hover {
     background-color: rgba(255, 0, 0, 0.1);
   }
-}
 
-</style>
+  @media (max-width: 600px) {
+    #menu {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: space-between;
+    }
 
+    .menu-item {
+      flex: 0 0 calc(50% - 12px);
+      max-width: calc(50% - 12px);
+      box-sizing: border-box;
+      padding: 12px;
+      font-size: 16px;
+    }
 
+    .menu-item button {
+      width: 95%;
+      padding: 6px 8px;
+      font-size: 15px;
+      margin-top: 8px;
+      border-radius: 8px;
+      border: none;
+      box-sizing: border-box;
+    }
+
+    .delete-btn {
+      padding: 4px 6px;
+      font-size: 14px;
+      margin-left: 8px;
+      border: 1px solid red;
+      background-color: transparent;
+      color: red;
+      border-radius: 4px;
+    }
+
+    .delete-btn:hover {
+      background-color: rgba(255, 0, 0, 0.1);
+    }
+  }
+  </style>
 </head>
 <body>
 
-<!-- 手機版 Top-bar -->
 <div class="mobile-top-bar">
   <select id="savedMenusMobile" onchange="loadMenu(this.value, renderMenu)">
     <option value="">請選擇菜單</option>
@@ -178,86 +149,76 @@
   </div>
 </div>
 
+<div class="mobile-section" id="mobile-category">
+  <h2>選擇分類</h2>
+  <div id="categoryButtonsMobile"></div>
+</div>
 
-  <!-- 區塊1：分類按鈕 -->
-  <div class="mobile-section" id="mobile-category">
-    <h2>選擇分類</h2>
-    <div id="categoryButtonsMobile"></div>
-  </div>
+<div class="mobile-section" id="mobile-menu">
+  <h2>餐點清單</h2>
+  <div id="menuMobile"></div>
+</div>
 
-  <!-- 區塊2：餐點清單 -->
-  <div class="mobile-section" id="mobile-menu">
-    <h2>餐點清單</h2>
-    <div id="menuMobile"></div>
-  </div>
+<div class="mobile-section" id="mobile-order">
+  <h2>已點項目</h2>
+  <ul id="orderListMobile"></ul>
+  <p id="totalPriceMobile">總金額：$0</p>
+</div>
 
-  <!-- 區塊3：已點清單 -->
-  <div class="mobile-section" id="mobile-order">
-    <h2>已點項目</h2>
-    <ul id="orderListMobile"></ul>
-    <p id="totalPriceMobile">總金額：$0</p>
-  </div>
+<div class="mobile-section" id="mobile-submit">
+  <button onclick="submitOrder()">送出訂單</button>
+</div>
 
-  <!-- 區塊4：送出按鈕 -->
-  <div class="mobile-section" id="mobile-submit">
-    <button onclick="submitOrder()">送出訂單</button>
-  </div>
+<div id="orderHistory" style="margin-top: 30px;">
+  <h2>📋 您『今天』的訂單紀錄</h2>
+</div>
 
-  <!-- 區塊5：點餐紀錄 -->
-  <div id="orderHistory" style="margin-top: 30px;">
-    <h2>📋 您『今天』的訂單紀錄</h2>
-  </div>
+<script src="https://www.gstatic.com/firebasejs/11.6.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/11.6.0/firebase-database-compat.js"></script>
+<script src="script.js"></script>
 
-  
-  <!-- 引入共用 Firebase & JS -->
-  <script src="https://www.gstatic.com/firebasejs/11.6.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/11.6.0/firebase-database-compat.js"></script>
-  <script src="script.js"></script>
+<script>
+  document.getElementById("menuMobile").id = "menu";
+  document.getElementById("categoryButtonsMobile").id = "category-buttons";
+  document.getElementById("orderListMobile").id = "orderList";
+  document.getElementById("totalPriceMobile").id = "totalPrice";
+</script>
 
-  <!-- ✅ 將手機 ID 替換為 script.js 可識別的版本 -->
-  <script>
-    document.getElementById("menuMobile").id = "menu";
-    document.getElementById("categoryButtonsMobile").id = "category-buttons";
-    document.getElementById("orderListMobile").id = "orderList";
-    document.getElementById("totalPriceMobile").id = "totalPrice";
-  </script>
+<script>
+  function loadSavedMenusMobile() {
+    const select = document.getElementById("savedMenusMobile");
+    select.innerHTML = '<option value="">請選擇菜單</option>';
 
-  <!-- ✅ 載入 Firebase 所有菜單選項 -->
-  <script>
-    function loadSavedMenusMobile() {
-      const select = document.getElementById("savedMenusMobile");
-      select.innerHTML = '<option value="">請選擇菜單</option>';
-
-      firebase.database().ref("menus").once("value").then(snapshot => {
-        const menus = snapshot.val();
-        if (!menus) {
-          const option = document.createElement("option");
-          option.textContent = "尚無儲存菜單";
-          option.disabled = true;
-          select.appendChild(option);
-          return;
-        }
-
-        for (const name in menus) {
-          const option = document.createElement("option");
-          option.value = name;
-          option.textContent = name;
-          select.appendChild(option);
-        }
-      });
-    }
-
-    function startOrderMobile() {
-      const selected = document.getElementById("savedMenusMobile").value;
-      if (!selected) {
-        alert("請先選擇一個菜單！");
+    firebase.database().ref("menus").once("value").then(snapshot => {
+      const menus = snapshot.val();
+      if (!menus) {
+        const option = document.createElement("option");
+        option.textContent = "尚無儲存菜單";
+        option.disabled = true;
+        select.appendChild(option);
         return;
       }
-      document.getElementById("mobile-category").scrollIntoView({ behavior: "smooth" });
-    }
 
-    window.addEventListener("DOMContentLoaded", loadSavedMenusMobile);
-  </script>
+      for (const name in menus) {
+        const option = document.createElement("option");
+        option.value = name;
+        option.textContent = name;
+        select.appendChild(option);
+      }
+    });
+  }
+
+  function startOrderMobile() {
+    const selected = document.getElementById("savedMenusMobile").value;
+    if (!selected) {
+      alert("請先選擇一個菜單！");
+      return;
+    }
+    document.getElementById("mobile-category").scrollIntoView({ behavior: "smooth" });
+  }
+
+  window.addEventListener("DOMContentLoaded", loadSavedMenusMobile);
+</script>
 
 </body>
 </html>
