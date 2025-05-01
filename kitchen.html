@@ -122,6 +122,7 @@ function switchBranch(branchName) {
       <strong>餐點：</strong>
       <ul>${itemListHTML}</ul>
       <strong>總金額：</strong> $${total}<br>
+      <button onclick="markOrderCooking('${branchName}', '${key}', this)" style="background-color:#ff9800;">🍳 製作中</button>
       <button onclick="markOrderCompleted('${branchName}', '${key}', this)">✅ 完成</button>
       <button onclick="markOrderCancelled('${branchName}', '${key}', this)" style="margin-left:10px; background-color:#f44336;">❌ 取消</button>
     `;
