@@ -66,7 +66,7 @@
   <h1>🍜 廚房即時訂單畫面</h1>
   <label for="branchSelect">選擇菜單/ 分店：</label>
   <select id="branchSelect"></select>
-
+  <audio id="newOrderSound" src="AUDIO001.mp3" preload="auto" style="display:none;"></audio>
   <div id="orders"></div>
 
   <script src="https://www.gstatic.com/firebasejs/11.6.0/firebase-app-compat.js"></script>
@@ -102,6 +102,10 @@ function switchBranch(branchName) {
     if (status === "completed" || status === "cancelled") {
       return;
     }
+
+     // 🔔 播放新訂單提示音
+    const sound = document.getElementById("newOrderSound");
+    if (sound) sound.play().catch(e => console.log("音效播放失敗：", e));
 
     const box = document.createElement("div");
     box.className = "order-box";
