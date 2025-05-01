@@ -284,14 +284,20 @@ function renderMenu(filter = null) {
       ${item.largePrice != null
         ? `<div>大份 $${item.largePrice} <button onclick="addToOrder('${item.name}（大份）', ${item.largePrice})">選</button></div>`
         : `<div style="height: 1.8em;"></div>`}
+        <div>
+        備註：<input type="text" id="note-${index}" placeholder="例如：不要辣" style="width: 100%; margin-top: 4px;" />
+      </div>
     `;
 
     menu.appendChild(card);
   });
 }
 
-function addToOrder(name, price) {
-  order.push({ name, price });
+function addToOrder(name, price, index, portion = "") {
+  const noteInput = document.getElementById(`note-${index}`);
+  const note = noteInput ? noteInput.value.trim() : "";
+
+  order.push({ name, price, note, portion });
   renderOrder();
 }
 
@@ -306,15 +312,23 @@ function renderOrder() {
   order.forEach((item, index) => {
     total += item.price;
 
+    let itemHTML = `${item.name} - $${item.price}`;
+    if (item.note) {
+      itemHTML += `<div style="font-size: 0.9em; color: #555;">備註：${item.note}</div>`;
+    }
+
     const li = document.createElement("li");
-  li.innerHTML = `${item.name} - $${item.price} 
-  <button class="delete-btn" onclick="removeOrderItem(${index})">🗑️</button>`;
+    li.innerHTML = `
+      ${itemHTML}
+      <button class="delete-btn" onclick="removeOrderItem(${index})">🗑️</button>
+    `;
 
     list.appendChild(li);
   });
 
   totalLabel.textContent = "總金額：$" + total;
 }
+
 
 function removeOrderItem(index) {
   order.splice(index, 1);
