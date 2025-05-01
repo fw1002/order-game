@@ -142,13 +142,20 @@ function markOrderCooking(branch, key, btn) {
 }
 
 function markOrderCompleted(branch, key, btn) {
+  const confirmed = confirm("確定要將此訂單標記為『已完成』嗎？");
+  if (!confirmed) return;
+
   db.ref("orders/" + branch + "/" + key).update({ status: "completed" });
-  btn.parentElement.remove(); // ✅ 更新資料後，直接從畫面上移除這個訂單
+  btn.parentElement.remove();
 }
 
+
 function markOrderCancelled(branch, key, btn) {
+  const confirmed = confirm("確定要取消此訂單嗎？取消後將無法復原。");
+  if (!confirmed) return;
+
   db.ref("orders/" + branch + "/" + key).update({ status: "cancelled" });
-  btn.parentElement.remove(); // ✅ 更新資料後，直接從畫面上移除這個訂單
+  btn.parentElement.remove();
 }
 
 
