@@ -134,7 +134,7 @@ function renderOrderHistory() {
 
 // 🎯 播放音效函式
 function playCompletionSound() {
-  const audio = new Audio("assets/sounds/completed.mp3"); // 確保這檔案存在
+  const audio = new Audio("completed.mp3"); // 確保這檔案存在
   audio.play();
 }
 
