@@ -10,22 +10,6 @@ const firebaseConfig = {
   measurementId: "G-YJ4P4QZRJV"
 };
 
-// === 音效函式區（共用） ===
-function playCompletionSound() {
-  if (completionAudio) {
-    completionAudio.currentTime = 0;
-    completionAudio.play().catch(err => console.warn("❌ 播放 completed.mp3 失敗", err));
-  }
-}
-
-function playNewOrderSound() {
-  if (newOrderAudio) {
-    newOrderAudio.currentTime = 0;
-    newOrderAudio.play().catch(err => console.warn("❌ 播放 AUDIO001.mp3 失敗", err));
-  }
-}
-
-
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 const menuRef = db.ref("menus");
@@ -588,35 +572,44 @@ function saveCurrentMenu() {
   db.ref("menus/" + menuName).set({ categories, menuItems });
 }
 
-let completionAudio = null;
-let newOrderAudio = null;
+let audioCtx;
+let completedBuffer = null;
+let newOrderBuffer = null;
 
-function initAudiosForiOS() {
-  // 完成訂單音效
-  completionAudio = new Audio("completed.mp3");
-  completionAudio.load();
-  completionAudio.play().then(() => {
-    completionAudio.pause();
-    completionAudio.currentTime = 0;
-    console.log("🔊 completed.mp3 解鎖成功");
-  }).catch(err => {
-    console.warn("❌ 解鎖 completed.mp3 失敗：", err);
-  });
+async function initAudiosForiOS() {
+  try {
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
-  // 新訂單音效
-  newOrderAudio = new Audio("AUDIO001.mp3");
-  newOrderAudio.load();
-  newOrderAudio.play().then(() => {
-    newOrderAudio.pause();
-    newOrderAudio.currentTime = 0;
-    console.log("🔊 new_order.mp3 解鎖成功");
-  }).catch(err => {
-    console.warn("❌ 解鎖 new_order.mp3 失敗：", err);
-  });
+    const completedData = await fetch("completed.mp3").then(res => res.arrayBuffer());
+    completedBuffer = await audioCtx.decodeAudioData(completedData);
+
+    const newOrderData = await fetch("AUDIO001.mp3").then(res => res.arrayBuffer());
+    newOrderBuffer = await audioCtx.decodeAudioData(newOrderData);
+
+    console.log("🔊 音效已解鎖並預載完成");
+  } catch (err) {
+    console.warn("❌ 音效解鎖失敗：", err);
+  }
 }
 
-// ✅ 保證 DOM 載入後再綁定觸控與點擊（避免 iOS 錯過觸發）
+function playCompletionSound() {
+  if (!audioCtx || !completedBuffer) return;
+  const source = audioCtx.createBufferSource();
+  source.buffer = completedBuffer;
+  source.connect(audioCtx.destination);
+  source.start(0);
+}
+
+function playNewOrderSound() {
+  if (!audioCtx || !newOrderBuffer) return;
+  const source = audioCtx.createBufferSource();
+  source.buffer = newOrderBuffer;
+  source.connect(audioCtx.destination);
+  source.start(0);
+}
+
 window.addEventListener("DOMContentLoaded", () => {
   document.body.addEventListener("touchstart", initAudiosForiOS, { once: true });
-  document.body.addEventListener("click", initAudiosForiOS, { once: true }); // 更保險
+  document.body.addEventListener("click", initAudiosForiOS, { once: true });
 });
+
