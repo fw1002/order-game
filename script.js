@@ -18,9 +18,12 @@ let currentMenuName = "";
 let categories = [];
 let menuItems = [];
 let order = [];
-let savedMenuName = "";  // ✅ 宣告為全域變數
 let currentOrderRef = null;
 let hasInitialRender = false; // 為了避免初次載入時誤判狀態變更
+let savedMenuName = localStorage.getItem('currentMenuName') || "";
+if (savedMenuName) {
+  loadMenu(savedMenuName);
+}
 
 function switchMode(mode) {
   const orderMode = document.getElementById("order-mode");
@@ -47,6 +50,12 @@ function switchMode(mode) {
 savedMenuName = localStorage.getItem('currentMenuName');
 if (savedMenuName) {
   loadMenu(savedMenuName);
+}
+
+
+const menuDiv = document.getElementById("currentMenuName");
+if (menuDiv) {
+  menuDiv.textContent = `目前菜單：${savedMenuName}`;
 }
 
 
@@ -556,16 +565,6 @@ function deleteMenu() {
 // 預設切換到點餐模式
 switchMode("order");
 
-// 🔥 頁面載入時自動從 localStorage 載入之前選過的菜單
-const savedMenuName = localStorage.getItem('currentMenuName');
-if (savedMenuName) {
-  loadMenu(savedMenuName);
-}
-
-const menuDiv = document.getElementById("currentMenuName");
-if (menuDiv) {
-  menuDiv.textContent = `目前菜單：${savedMenuName}`;
-}
 
 
 function scrollToOrderHistory() {
