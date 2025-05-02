@@ -12,6 +12,7 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
+const menuRef = db.ref("menus");
 
 let currentMenuName = "";
 let categories = [];
