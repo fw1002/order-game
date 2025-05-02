@@ -332,7 +332,7 @@ function renderOrder() {
   order.forEach((item, index) => {
     total += item.price;
 
-    let itemHTML = `${item.name} - $${item.price}`;
+    let itemHTML = `<div><strong>${item.name}</strong> - $${item.price}</div>`;
     if (item.note) {
       itemHTML += `<div style="font-size: 0.9em; color: #555;">備註：${item.note}</div>`;
     }
@@ -340,6 +340,7 @@ function renderOrder() {
     const li = document.createElement("li");
     li.innerHTML = `
       ${itemHTML}
+      <button onclick="editNote(${index})">✏️ 編輯備註</button>
       <button class="delete-btn" onclick="removeOrderItem(${index})">🗑️</button>
     `;
 
@@ -349,10 +350,18 @@ function renderOrder() {
   totalLabel.textContent = "總金額：$" + total;
 }
 
-
 function removeOrderItem(index) {
   order.splice(index, 1);
   renderOrder();
+}
+
+function editNote(index) {
+  const currentNote = order[index].note || "";
+  const newNote = prompt("請輸入新的備註：", currentNote);
+  if (newNote !== null) {
+    order[index].note = newNote;
+    renderOrder();
+  }
 }
 
 
