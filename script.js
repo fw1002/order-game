@@ -20,6 +20,7 @@ let categories = [];
 let menuItems = [];
 let order = [];
 let currentOrderRef = null;
+let hasInitialRender = false; // 為了避免初次載入時誤判狀態變更
 
 function switchMode(mode) {
   const orderMode = document.getElementById("order-mode");
@@ -57,13 +58,15 @@ function renderOrderHistory() {
     return;
   }
 
-  // ✅ 如果之前綁過監聽，要先解除
   if (currentOrderRef) {
-    currentOrderRef.off();
+    currentOrderRef.off(); // 移除舊的監聽
   }
 
   const orderRef = db.ref("orders/" + menuName);
   currentOrderRef = orderRef;
+
+  // 🔔 綁定 child_changed 音效監聽（僅一次）
+  setupStatusChangeListener(orderRef);
 
   orderRef.on("value", snapshot => {
     if (!snapshot.exists()) {
@@ -77,40 +80,36 @@ function renderOrderHistory() {
       orders.push({ key: child.key, ...orderData });
     });
 
-    
-    // 依時間新到舊排序
+    // 按時間排序 & 過濾今天的訂單
     orders.sort((a, b) => new Date(b.time) - new Date(a.time));
-    
-    // 🔥 只挑出今天的訂單
+
     const now = new Date();
     const todayOrders = orders.filter(order => {
       const orderTime = new Date(order.time);
       return now.toDateString() === orderTime.toDateString();
     });
-    
-    // 🔥 然後用 todayOrders 去 .map() 畫出來
+
     historyDiv.innerHTML = todayOrders.map(order => {
       const timeObj = new Date(order.time);
       const formattedTime = timeObj.toLocaleDateString('zh-TW') + " " +
-                             timeObj.toLocaleTimeString('zh-TW', { hour: '2-digit', minute: '2-digit', hour12: false });
+                            timeObj.toLocaleTimeString('zh-TW', { hour: '2-digit', minute: '2-digit', hour12: false });
 
       const statusText = order.status === "completed" ? "✅ 已完成"
-                       : order.status === "cancelled" ? "❌ 已取消"
-                       : order.status === "cooking" ? "🍳 製作中"
-                       : "🟢 待處理";
+                        : order.status === "cancelled" ? "❌ 已取消"
+                        : order.status === "cooking" ? "🍳 製作中"
+                        : "🟢 待處理";
 
       let cardBgColor = "#f9f9f9";
       if (order.status === "completed") cardBgColor = "#e0f7e9";
       else if (order.status === "cancelled") cardBgColor = "#ffe0e0";
       else if (order.status === "cooking") cardBgColor = "#fff3e0";
-      
+
       const itemList = order.items.map(item => {
         const noteLine = item.note ? `<div style="font-size: 0.9em; color: #555;">備註：${item.note}</div>` : "";
         return `<li>${item.name} - $${item.price}${noteLine}</li>`;
       }).join("");
 
-
-      const total = order.items.reduce((sum, item) => sum + (item.price || 0), 0); // 🔥 加在這裡
+      const total = order.items.reduce((sum, item) => sum + (item.price || 0), 0);
 
       let actionButton = "";
       if (order.status === "cancelled") {
@@ -121,13 +120,35 @@ function renderOrderHistory() {
         <div style="border:1px solid #ccc; padding:10px; margin-bottom:10px; border-radius:8px; background:${cardBgColor};">
           <strong>時間：</strong> ${formattedTime}<br>
           <strong>狀態：</strong> ${statusText}<br>
-          <strong>總金額：</strong> $${total}<br> <!-- 🔥 加在這裡 -->
+          <strong>總金額：</strong> $${total}<br>
           <strong>餐點：</strong>
           <ul>${itemList}</ul>
           ${actionButton}
         </div>
       `;
     }).join("");
+
+    hasInitialRender = true; // 首次渲染完成
+  });
+}
+
+// 🎯 播放音效函式
+function playCompletionSound() {
+  const audio = new Audio("assets/sounds/completed.mp3"); // 確保這檔案存在
+  audio.play();
+}
+
+// 🔔 專門綁定狀態變更監聽（只綁一次 per menu）
+function setupStatusChangeListener(orderRef) {
+  orderRef.on("child_changed", snapshot => {
+    const order = snapshot.val();
+    const orderId = snapshot.key;
+
+    if (!hasInitialRender) return; // 初始渲染中不做事
+
+    if (order.status === "completed") {
+      playCompletionSound();
+    }
   });
 }
 
