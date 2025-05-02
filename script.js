@@ -10,6 +10,21 @@ const firebaseConfig = {
   measurementId: "G-YJ4P4QZRJV"
 };
 
+// === 音效函式區（共用） ===
+function playCompletionSound() {
+  if (completionAudio) {
+    completionAudio.currentTime = 0;
+    completionAudio.play().catch(err => console.warn("❌ 播放 completed.mp3 失敗", err));
+  }
+}
+
+function playNewOrderSound() {
+  if (newOrderAudio) {
+    newOrderAudio.currentTime = 0;
+    newOrderAudio.play().catch(err => console.warn("❌ 播放 AUDIO001.mp3 失敗", err));
+  }
+}
+
 
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
