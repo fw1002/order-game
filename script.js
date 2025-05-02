@@ -289,6 +289,10 @@ function addItem() {
 }
 
 function renderMenu(filter = null) { 
+  const menuDiv = document.getElementById("currentMenuName");
+  if (menuDiv && savedMenuName) {
+    menuDiv.textContent = `目前菜單：${savedMenuName}`;
+  }
   const menu = document.getElementById("menu");
   const catButtons = document.getElementById("category-buttons");
   if (!menu || !catButtons) return;
