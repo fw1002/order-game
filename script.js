@@ -12,7 +12,6 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
-const menuRef = db.ref("menus");
 
 let currentMenuName = "";
 let categories = [];
@@ -23,12 +22,19 @@ let hasInitialRender = false; // 為了避免初次載入時誤判狀態變更
 // ✅ 全域變數：目前使用中的菜單名稱
 let savedMenuName = localStorage.getItem('currentMenuName') || "";
 
-// ✅ DOM 完成載入後，再初始化菜單
 window.addEventListener("DOMContentLoaded", () => {
+  // ✅ 初始化菜單
   if (savedMenuName) {
-    loadMenu(savedMenuName); // 預設載入上次使用的菜單
+    loadMenu(savedMenuName);
   }
+
+  // ✅ 音效解鎖 for iOS
+  document.body.addEventListener("touchstart", initAudiosForiOS, { once: true });
+  document.body.addEventListener("click", initAudiosForiOS, { once: true });
 });
+
+
+
 
 // ✅ 模式切換（編輯模式 <-> 點餐模式）
 function switchMode(mode) {
@@ -57,22 +63,6 @@ function switchMode(mode) {
     if (typeof renderOrderHistory === "function") renderOrderHistory();
   }
 }
-
-// ✅ 顯示餐點的主函式，會更新「目前菜單」名稱
-function renderMenu(filter = null) {
-  const menuDiv = document.getElementById("currentMenuName");
-  if (menuDiv && savedMenuName) {
-    menuDiv.textContent = `目前菜單：${savedMenuName}`;
-  }
-
-  const menu = document.getElementById("menu");
-  const catButtons = document.getElementById("category-buttons");
-  if (!menu || !catButtons) return;
-
-  // ... 渲染分類與餐點卡片邏輯 ...
-}
-
-
 
 
 // 🔥 顯示訂單歷史
@@ -162,11 +152,6 @@ function renderOrderHistory() {
   });
 }
 
-// 🎯 播放音效函式
-function playCompletionSound() {
-  const audio = new Audio("completed.mp3"); // 確保這檔案存在
-  audio.play();
-}
 
 // 🔔 專門綁定狀態變更監聽（只綁一次 per menu）
 function setupStatusChangeListener(orderRef) {
@@ -454,7 +439,7 @@ function saveMenu() {
 
   showStatusMessage("⏳ 儲存中，請稍候...");
 
-  const menuRef = db.ref("menus/" + name);
+  const ref = menuRef.child(name);
 
   menuRef.once("value", snapshot => {
     const data = snapshot.val();
@@ -633,8 +618,4 @@ function playNewOrderSound() {
   source.start(0);
 }
 
-window.addEventListener("DOMContentLoaded", () => {
-  document.body.addEventListener("touchstart", initAudiosForiOS, { once: true });
-  document.body.addEventListener("click", initAudiosForiOS, { once: true });
-});
 
