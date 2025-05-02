@@ -592,7 +592,7 @@ let completionAudio = null;
 let newOrderAudio = null;
 
 function initAudiosForiOS() {
-  // 完成音效
+  // 完成訂單音效
   completionAudio = new Audio("completed.mp3");
   completionAudio.load();
   completionAudio.play().then(() => {
@@ -615,5 +615,8 @@ function initAudiosForiOS() {
   });
 }
 
-// 📲 第一次觸控時預載音效
-document.body.addEventListener("touchstart", initAudiosForiOS, { once: true });
+// ✅ 保證 DOM 載入後再綁定觸控與點擊（避免 iOS 錯過觸發）
+window.addEventListener("DOMContentLoaded", () => {
+  document.body.addEventListener("touchstart", initAudiosForiOS, { once: true });
+  document.body.addEventListener("click", initAudiosForiOS, { once: true }); // 更保險
+});
