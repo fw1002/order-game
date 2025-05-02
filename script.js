@@ -572,3 +572,33 @@ function saveCurrentMenu() {
 
   db.ref("menus/" + menuName).set({ categories, menuItems });
 }
+
+let completionAudio = null;
+let newOrderAudio = null;
+
+function initAudiosForiOS() {
+  // 完成音效
+  completionAudio = new Audio("completed.mp3");
+  completionAudio.load();
+  completionAudio.play().then(() => {
+    completionAudio.pause();
+    completionAudio.currentTime = 0;
+    console.log("🔊 completed.mp3 解鎖成功");
+  }).catch(err => {
+    console.warn("❌ 解鎖 completed.mp3 失敗：", err);
+  });
+
+  // 新訂單音效
+  newOrderAudio = new Audio("AUDIO001.mp3");
+  newOrderAudio.load();
+  newOrderAudio.play().then(() => {
+    newOrderAudio.pause();
+    newOrderAudio.currentTime = 0;
+    console.log("🔊 new_order.mp3 解鎖成功");
+  }).catch(err => {
+    console.warn("❌ 解鎖 new_order.mp3 失敗：", err);
+  });
+}
+
+// 📲 第一次觸控時預載音效
+document.body.addEventListener("touchstart", initAudiosForiOS, { once: true });
