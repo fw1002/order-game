@@ -20,11 +20,17 @@ let menuItems = [];
 let order = [];
 let currentOrderRef = null;
 let hasInitialRender = false; // 為了避免初次載入時誤判狀態變更
+// ✅ 全域變數：目前使用中的菜單名稱
 let savedMenuName = localStorage.getItem('currentMenuName') || "";
-if (savedMenuName) {
-  loadMenu(savedMenuName);
-}
 
+// ✅ DOM 完成載入後，再初始化菜單
+window.addEventListener("DOMContentLoaded", () => {
+  if (savedMenuName) {
+    loadMenu(savedMenuName); // 預設載入上次使用的菜單
+  }
+});
+
+// ✅ 模式切換（編輯模式 <-> 點餐模式）
 function switchMode(mode) {
   const orderMode = document.getElementById("order-mode");
   const editMode = document.getElementById("edit-mode");
@@ -39,24 +45,33 @@ function switchMode(mode) {
     if (typeof renderMenuList === "function") renderMenuList();
     if (typeof renderSavedMenus === "function") renderSavedMenus();
   } else {
+    // ✅ 點餐模式：儲存目前所選的菜單名稱
+    const selectedMenu = document.getElementById("menuSelector");
+    if (selectedMenu) {
+      savedMenuName = selectedMenu.value;
+      localStorage.setItem("currentMenuName", savedMenuName);
+    }
+
     if (typeof renderMenu === "function") renderMenu();
     if (typeof renderOrder === "function") renderOrder();
     if (typeof renderOrderHistory === "function") renderOrderHistory();
-
   }
 }
 
-// 嘗試從 localStorage 讀取之前使用者選過的菜單
-savedMenuName = localStorage.getItem('currentMenuName');
-if (savedMenuName) {
-  loadMenu(savedMenuName);
+// ✅ 顯示餐點的主函式，會更新「目前菜單」名稱
+function renderMenu(filter = null) {
+  const menuDiv = document.getElementById("currentMenuName");
+  if (menuDiv && savedMenuName) {
+    menuDiv.textContent = `目前菜單：${savedMenuName}`;
+  }
+
+  const menu = document.getElementById("menu");
+  const catButtons = document.getElementById("category-buttons");
+  if (!menu || !catButtons) return;
+
+  // ... 渲染分類與餐點卡片邏輯 ...
 }
 
-
-const menuDiv = document.getElementById("currentMenuName");
-if (menuDiv) {
-  menuDiv.textContent = `目前菜單：${savedMenuName}`;
-}
 
 
 
