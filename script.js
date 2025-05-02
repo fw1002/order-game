@@ -340,7 +340,7 @@ function renderOrder() {
     const li = document.createElement("li");
     li.innerHTML = `
       ${itemHTML}
-      <button onclick="editNote(${index})">✏️ 編輯備註</button>
+      <button class="edit-note-btn" onclick="editNote(${index})">✏️ 編輯備註</button>
       <button class="delete-btn" onclick="removeOrderItem(${index})">🗑️</button>
     `;
 
