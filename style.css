@@ -73,6 +73,16 @@ body {
   background: #ef6c00;
 }
 
+.edit-note-btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 4px 8px;
+    margin-right: 6px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
 .order-list {
   margin-top: 30px;
 }
