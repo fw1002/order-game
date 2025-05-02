@@ -18,6 +18,7 @@ let currentMenuName = "";
 let categories = [];
 let menuItems = [];
 let order = [];
+let savedMenuName = "";  // ✅ 宣告為全域變數
 let currentOrderRef = null;
 let hasInitialRender = false; // 為了避免初次載入時誤判狀態變更
 
@@ -40,6 +41,12 @@ function switchMode(mode) {
     if (typeof renderOrderHistory === "function") renderOrderHistory();
 
   }
+}
+
+// 嘗試從 localStorage 讀取之前使用者選過的菜單
+savedMenuName = localStorage.getItem('currentMenuName');
+if (savedMenuName) {
+  loadMenu(savedMenuName);
 }
 
 
