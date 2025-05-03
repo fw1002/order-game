@@ -25,28 +25,9 @@ let hasInitialRender = false; // 為了避免初次載入時誤判狀態變更
 let savedMenuName = localStorage.getItem('currentMenuName') || "";
 
 window.addEventListener("DOMContentLoaded", () => {
-  /* === 1. 初始化菜單 === */
   if (savedMenuName) {
-    loadMenu(savedMenuName);     // ← 這行若已存在就保留
+    loadMenu(savedMenuName);    
   }
-
-  /* === 2. 音效解鎖（完成訂單）=== */
-  const unlockCompletedSound = () => {
-    completedSound.play()
-      .then(() => {
-        completedSound.pause();
-        completedSound.currentTime = 0;
-        console.log("🔊 completed.mp3 已解鎖");
-      })
-      .catch(() => {});          // iOS 靜音模式時可能被拒絕，無妨
-  };
-
-  document.body.addEventListener("touchstart", unlockCompletedSound, { once: true });
-  document.body.addEventListener("click",      unlockCompletedSound, { once: true });
-});
-
-
-
 
 
 // ✅ 模式切換（編輯模式 <-> 點餐模式）
@@ -603,23 +584,27 @@ function updateCurrentMenuName(name) {
   }
 }
 
-// 取得 audio element
-const completedSound = document.getElementById("completedSound");
+/* ==== 完成訂單音效 ==== */
+window.addEventListener("DOMContentLoaded", () => {
+  const completedSound = document.getElementById("completedSound");          // ← DOM 已就緒，一定取得到
 
-// 第一次點擊 / 觸控 → 合法播放一次再停止，Safari 即視為授權
-function unlockCompletedSound() {
-  completedSound.play()
-    .then(() => {
-      completedSound.pause();
-      completedSound.currentTime = 0;
-      console.log("🔊 completed.mp3 已解鎖");
-    })
-    .catch(() => {});   // 若靜音模式會失敗，無妨
-}
+  // 首次互動 → 解鎖
+  function unlockCompletedSound() {
+    completedSound.play()
+      .then(() => {
+        completedSound.pause();
+        completedSound.currentTime = 0;
+        console.log("🔊 completed.mp3 已解鎖");
+      })
+      .catch(() => {});   // iOS 靜音失敗時忽略
+  }
 
+  document.body.addEventListener("touchstart", unlockCompletedSound, { once:true });
+  document.body.addEventListener("click",      unlockCompletedSound, { once:true });
 
-// 播放函式——只要呼叫這個即可
-function playCompletionSound() {
-  completedSound.currentTime = 0;
-  completedSound.play().catch(()=>{});
-}
+  // 全域播放函式（供 child_changed 呼叫）
+  window.playCompletionSound = () => {
+    completedSound.currentTime = 0;
+    completedSound.play().catch(()=>{});
+  };
+});
