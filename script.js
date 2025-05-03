@@ -602,3 +602,23 @@ function updateCurrentMenuName(name) {
   }
 }
 
+// 取得 audio element
+const completedSound = document.getElementById("completedSound");
+
+// 第一次點擊 / 觸控 → 合法播放一次再停止，Safari 即視為授權
+function unlockCompletedSound() {
+  completedSound.play()
+    .then(() => {
+      completedSound.pause();
+      completedSound.currentTime = 0;
+      console.log("🔊 completed.mp3 已解鎖");
+    })
+    .catch(() => {});   // 若靜音模式會失敗，無妨
+}
+
+
+// 播放函式——只要呼叫這個即可
+function playCompletionSound() {
+  completedSound.currentTime = 0;
+  completedSound.play().catch(()=>{});
+}
