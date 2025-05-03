@@ -24,15 +24,26 @@ let hasInitialRender = false; // 為了避免初次載入時誤判狀態變更
 let savedMenuName = localStorage.getItem('currentMenuName') || "";
 
 window.addEventListener("DOMContentLoaded", () => {
-  // ✅ 初始化菜單
+  /* === 1. 初始化菜單 === */
   if (savedMenuName) {
-    loadMenu(savedMenuName);
+    loadMenu(savedMenuName);     // ← 這行若已存在就保留
   }
 
-  // ✅ 音效解鎖 for iOS
-  document.body.addEventListener("touchstart", initAudiosForiOS, { once: true });
-  document.body.addEventListener("click", initAudiosForiOS, { once: true });
+  /* === 2. 音效解鎖（完成訂單）=== */
+  const unlockCompletedSound = () => {
+    completedSound.play()
+      .then(() => {
+        completedSound.pause();
+        completedSound.currentTime = 0;
+        console.log("🔊 completed.mp3 已解鎖");
+      })
+      .catch(() => {});          // iOS 靜音模式時可能被拒絕，無妨
+  };
+
+  document.body.addEventListener("touchstart", unlockCompletedSound, { once: true });
+  document.body.addEventListener("click",      unlockCompletedSound, { once: true });
 });
+
 
 
 
@@ -581,41 +592,7 @@ function saveCurrentMenu() {
   db.ref("menus/" + menuName).set({ categories, menuItems });
 }
 
-let audioCtx;
-let completedBuffer = null;
-let newOrderBuffer = null;
 
-async function initAudiosForiOS() {
-  try {
-    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-
-    const completedData = await fetch("completed.mp3").then(res => res.arrayBuffer());
-    completedBuffer = await audioCtx.decodeAudioData(completedData);
-
-    const newOrderData = await fetch("AUDIO001.mp3").then(res => res.arrayBuffer());
-    newOrderBuffer = await audioCtx.decodeAudioData(newOrderData);
-
-    console.log("🔊 音效已解鎖並預載完成");
-  } catch (err) {
-    console.warn("❌ 音效解鎖失敗：", err);
-  }
-}
-
-function playCompletionSound() {
-  if (!audioCtx || !completedBuffer) return;
-  const source = audioCtx.createBufferSource();
-  source.buffer = completedBuffer;
-  source.connect(audioCtx.destination);
-  source.start(0);
-}
-
-function playNewOrderSound() {
-  if (!audioCtx || !newOrderBuffer) return;
-  const source = audioCtx.createBufferSource();
-  source.buffer = newOrderBuffer;
-  source.connect(audioCtx.destination);
-  source.start(0);
-}
 
 // ✅ 更新畫面上的目前菜單名稱
 function updateCurrentMenuName(name) {
