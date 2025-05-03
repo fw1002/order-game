@@ -28,7 +28,7 @@ window.addEventListener("DOMContentLoaded", () => {
   if (savedMenuName) {
     loadMenu(savedMenuName);    
   }
-+});
+});
 
 // ✅ 模式切換（編輯模式 <-> 點餐模式）
 function switchMode(mode) {
