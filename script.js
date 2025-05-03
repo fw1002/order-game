@@ -517,6 +517,7 @@ function renderSavedMenus() {
 function loadMenu(name, callback) {
   if (!name) return;
   currentMenuName = name; // 🔥 這行是新的，放在最前面，記住現在是哪個菜單
+  savedMenuName = name; // ✅ 補這一行，讓 renderMenu() 能顯示正確名稱
   localStorage.setItem('currentMenuName', name); // 🔥 存到 localStorage
   db.ref("menus/" + name).once("value", snapshot => {
     if (snapshot.exists()) {
