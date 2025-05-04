@@ -298,8 +298,9 @@ function addItem() {
   renderMenuList();
 }
 
-function renderMenu(filter = null) { 
+function renderMenu(filter = null) {
   updateCurrentMenuName(savedMenuName);
+
   const menu = document.getElementById("menu");
   const catButtons = document.getElementById("category-buttons");
   if (!menu || !catButtons) return;
@@ -322,42 +323,52 @@ function renderMenu(filter = null) {
   items.forEach((item, index) => {
     const cat = categories.find(c => c.name === item.category);
     const textColor = cat?.textColor || "#ffffff";
+
     const card = document.createElement("div");
     card.className = "menu-item";
     card.style.backgroundColor = cat?.color || "#999";
     card.style.color = textColor;
 
+    // **這裡是唯一一次的反引號包裹**，沒有多餘註解或其他字串拼接
     card.innerHTML = `
       <div style="font-size: 20px;">${item.name}</div>
       <div style="font-weight: normal;">${item.category}</div>
-// 在 renderMenu() 的模板中，把小份＋大份都改成下面這樣：
 
-// 假設 menuHTML 是一整段用反引號包起來的字串
-menuHTML += `
-  <div class="menu-item">
-    ${item.price != null
-      ? `<div>一般 $${item.price} <button
-           class="select-button"
-           onclick="handleSelect(this, \`${item.name}\`, ${item.price}, ${index}, '一般')"
-         >選擇</button></div>`
-      : `<div style="height:1.8em;"></div>`}
-    ${item.largePrice != null
-      ? `<div>大份 $${item.largePrice} <button
-           class="select-button"
-           onclick="handleSelect(this, \`${item.name}（大份）\`, ${item.largePrice}, ${index}, '大份')"
-         >選擇</button></div>`
-      : `<div style="height:1.8em;"></div>`}
-  </div>
-`;
+      ${item.price != null
+        ? `<div>
+             一般 $${item.price}
+             <button
+               class="select-button"
+               onclick="handleSelect(this, '${item.name}', ${item.price}, ${index}, '一般')"
+             >選擇</button>
+           </div>`
+        : `<div style="height:1.8em;"></div>`}
+
+      ${item.largePrice != null
+        ? `<div>
+             大份 $${item.largePrice}
+             <button
+               class="select-button"
+               onclick="handleSelect(this, '${item.name}（大份）', ${item.largePrice}, ${index}, '大份')"
+             >選擇</button>
+           </div>`
+        : `<div style="height:1.8em;"></div>`}
 
       <div>
-        備註：<input type="text" id="note-${index}" placeholder="例如：不要◯◯" style="width: 95%; margin-top: 4px; box-sizing: border-box;" />
+        備註：
+        <input
+          type="text"
+          id="note-${index}"
+          placeholder="例如：不要◯◯"
+          style="width: 95%; margin-top: 4px; box-sizing: border-box;"
+        />
       </div>
     `;
 
     menu.appendChild(card);
   });
 }
+
 
 
 function addToOrder(name, price, index, portion = "") {
