@@ -40,6 +40,7 @@ body {
 
 /* 餐點卡片樣式 */
 .menu-item {
+  position: relative;      /* 新增：讓絕對定位的提示文字能相對定位在卡片上 */
   flex: 0 0 200px;
   display: flex;
   flex-direction: column;
@@ -56,6 +57,37 @@ body {
 .menu-item::before {
   display: none;
 }
+
+/* 按鈕短暫變色反饋 */
+.select-button.feedback {
+  background-color: #4CAF50 !important;
+  color: #fff !important;
+  transition: background-color 0.2s;
+}
+
+/* 跳動文字動畫 */
+@keyframes bounce-text {
+  0%   { transform: translateY(0); opacity: 0; }
+  30%  { transform: translateY(-10px); opacity: 1; }
+  100% { transform: translateY(-30px); opacity: 0; }
+}
+
+/* 已加入訂單文字 */
+.order-notification {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.7);
+  color: #fff;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 14px;
+  pointer-events: none;
+  animation: bounce-text 0.8s ease-out forwards;
+  z-index: 10;
+}
+
 
 /* 點餐送出按鈕加大 */
 .button {
