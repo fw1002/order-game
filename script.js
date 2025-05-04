@@ -330,10 +330,30 @@ function renderMenu(filter = null) {
     card.innerHTML = `
       <div style="font-size: 20px;">${item.name}</div>
       <div style="font-weight: normal;">${item.category}</div>
-      <div>一般 $${item.price} <button onclick="addToOrder('${item.name}', ${item.price}, ${index}, '一般')">選</button></div>
-      ${item.largePrice != null
-        ? `<div>大份 $${item.largePrice} <button onclick="addToOrder('${item.name}（大份）', ${item.largePrice}, ${index}, '大份')">選</button></div>`
-        : `<div style="height: 1.8em;"></div>`}
+// 在 renderMenu() 的模板中，把小份＋大份都改成下面這樣：
+
+// 一般份
+`${item.price != null
+  ? `<div>
+       一般 $${item.price}
+       <button
+         class="select-button"
+         onclick="handleSelect(this, '${item.name}', ${item.price}, ${index}, '一般')"
+       >選擇</button>
+     </div>`
+  : `<div style="height: 1.8em;"></div>`}`
+
+// 大份
+`${item.largePrice != null
+  ? `<div>
+       大份 $${item.largePrice}
+       <button
+         class="select-button"
+         onclick="handleSelect(this, '${item.name}（大份）', ${item.largePrice}, ${index}, '大份')"
+       >選擇</button>
+     </div>`
+  : `<div style="height: 1.8em;"></div>`}`
+
       <div>
         備註：<input type="text" id="note-${index}" placeholder="例如：不要◯◯" style="width: 95%; margin-top: 4px; box-sizing: border-box;" />
       </div>
@@ -608,3 +628,22 @@ window.addEventListener("DOMContentLoaded", () => {
     completedSound.play().catch(()=>{});
   };
 });
+
+function handleSelect(btn, name, price, idx, size) {
+  // 1) 執行既有下單邏輯
+  addToOrder(name, price, idx, size);
+
+  // 2) 按鈕短暫變色
+  btn.classList.add('feedback');
+  setTimeout(() => btn.classList.remove('feedback'), 300);
+
+  // 3) 跳出「已加入訂單」文字
+  const card = btn.closest('.menu-item');
+  const notice = document.createElement('div');
+  notice.className = 'order-notification';
+  notice.textContent = '已加入訂單';
+  card.appendChild(notice);
+
+  // 4) 動畫結束後移除文字
+  notice.addEventListener('animationend', () => notice.remove());
+}
