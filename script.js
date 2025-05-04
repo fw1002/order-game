@@ -332,7 +332,7 @@ function renderMenu(filter = null) {
       <div style="font-weight: normal;">${item.category}</div>
 // 在 renderMenu() 的模板中，把小份＋大份都改成下面這樣：
 
-// 假設 menuHTML 是一整段用反引號(`)包起來的字串
+// 假設 menuHTML 是一整段用反引號包起來的字串
 menuHTML += `
   <div class="menu-item">
     ${item.price != null
