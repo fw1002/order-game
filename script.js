@@ -332,27 +332,23 @@ function renderMenu(filter = null) {
       <div style="font-weight: normal;">${item.category}</div>
 // 在 renderMenu() 的模板中，把小份＋大份都改成下面這樣：
 
-// 一般份
-`${item.price != null
-  ? `<div>
-       一般 $${item.price}
-       <button
-         class="select-button"
-         onclick="handleSelect(this, '${item.name}', ${item.price}, ${index}, '一般')"
-       >選擇</button>
-     </div>`
-  : `<div style="height: 1.8em;"></div>`}`
-
-// 大份
-`${item.largePrice != null
-  ? `<div>
-       大份 $${item.largePrice}
-       <button
-         class="select-button"
-         onclick="handleSelect(this, '${item.name}（大份）', ${item.largePrice}, ${index}, '大份')"
-       >選擇</button>
-     </div>`
-  : `<div style="height: 1.8em;"></div>`}`
+// 假設 menuHTML 是一整段用反引號(`)包起來的字串
+menuHTML += `
+  <div class="menu-item">
+    ${item.price != null
+      ? `<div>一般 $${item.price} <button
+           class="select-button"
+           onclick="handleSelect(this, \`${item.name}\`, ${item.price}, ${index}, '一般')"
+         >選擇</button></div>`
+      : `<div style="height:1.8em;"></div>`}
+    ${item.largePrice != null
+      ? `<div>大份 $${item.largePrice} <button
+           class="select-button"
+           onclick="handleSelect(this, \`${item.name}（大份）\`, ${item.largePrice}, ${index}, '大份')"
+         >選擇</button></div>`
+      : `<div style="height:1.8em;"></div>`}
+  </div>
+`;
 
       <div>
         備註：<input type="text" id="note-${index}" placeholder="例如：不要◯◯" style="width: 95%; margin-top: 4px; box-sizing: border-box;" />
