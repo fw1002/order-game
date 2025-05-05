@@ -334,6 +334,16 @@ function renderMenu(filter = null) {
       <div style="font-size: 20px;">${item.name}</div>
       <div style="font-weight: normal;">${item.category}</div>
 
+      <div>
+        備註：
+        <input
+          type="text"
+          id="note-${index}"
+          placeholder="例如：不要◯◯"
+          style="width: 95%; margin-top: 4px; box-sizing: border-box;"
+        />
+      </div>
+      
       ${item.price != null
         ? `<div>
              一般 $${item.price}
@@ -353,16 +363,6 @@ function renderMenu(filter = null) {
              >選擇</button>
            </div>`
         : `<div style="height:1.8em;"></div>`}
-
-      <div>
-        備註：
-        <input
-          type="text"
-          id="note-${index}"
-          placeholder="例如：不要◯◯"
-          style="width: 95%; margin-top: 4px; box-sizing: border-box;"
-        />
-      </div>
     `;
 
     menu.appendChild(card);
