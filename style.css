@@ -255,8 +255,9 @@ input[type="color"] {
 
 
 #category-buttons button {
+  margin: 0;
+  padding: 4px 10px
   font-size: 16px;
-  padding: 6px 14px;
   border-radius: 20px;
   border: 2px solid #ff9800;
   background-color: #fff;
