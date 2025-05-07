@@ -331,16 +331,11 @@ function renderMenu(filter = null) {
 
     // **這裡是唯一一次的反引號包裹**，沒有多餘註解或其他字串拼接
     card.innerHTML = `
-    <div style="font-size: 20px; line-height: 1.2; margin: 2px 0;">${item.name}</div>
-    <div style="margin: 2px 0; padding: 0 1%; font-size: 14px; line-height: 1.2;">
+     <div class="item-name">${item.name}</div>
+     <div class="remark-block">
       備註：
-      <input
-        type="text"
-        id="note-${index}"
-        placeholder="例如：不要◯◯"
-        style="width: 100%; margin-top: 2px; padding: 2px 6px; font-size: 14px; height: 24px; box-sizing: border-box;"
-      />
-    </div>
+      <input type="text" class="remark-input" id="note-${index}" placeholder="例如：不要◯◯" />
+     </div>
       
   <div>
     ${item.price != null
