@@ -245,13 +245,14 @@ input[type="color"] {
     width: 100%;
   }
 
-  #category-buttons {
+ #category-buttons {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
+  gap: 4px 4px; 
   justify-content: flex-start;
-  padding: 0 10px;
+  padding: 4px 8px;
 }
+
 
 #category-buttons button {
   font-size: 16px;
