@@ -183,6 +183,7 @@ input[type="color"] {
     font-size: 18px;
     background-color: #f8f9fa;
     overflow-x: hidden;
+    font-family: "Segoe UI", sans-serif;
   }
 
   .top-bar, .header {
@@ -193,38 +194,12 @@ input[type="color"] {
     align-items: stretch;
   }
 
-  .menu-item {
-    width: 100%;
-    max-width: 100%;
-    margin: 10px 0;
-    padding: 16px;
-    font-size: 18px;
-    box-sizing: border-box;
-  }
-
-  .menu-item button {
-    font-size: 18px;
-    padding: 10px 16px;
-    width: 100%;
-    margin-top: 4px;
-  }
-
-  .order-box, #category-buttons, #menu, #edit-mode, #order-mode {
-    padding: 0 10px;
-    box-sizing: border-box;
-  }
-
-  
-  select, input, button {
-    font-size: 18px !important;
-  }
-
-  .order-summary {
-    font-size: 18px;
-  }
-
-  .edit-section, .order-box {
-    width: 100%;
+  .top-bar {
+    display: flex;
+    flex-direction: column;
+    padding: 12px;
+    gap: 10px;
+    background-color: #fff3e0;
   }
 
   .top-bar button {
@@ -239,29 +214,109 @@ input[type="color"] {
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   }
 
-  .top-bar {
+  .mobile-top-bar {
     display: flex;
     flex-direction: column;
-    padding: 12px;
     gap: 10px;
-    background-color: #fff3e0;
+    padding: 16px;
+    background-color: #ffe0b2;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   }
-}
-.mobile-top-bar {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  padding: 16px;
-  background-color: #ffe0b2;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
 
-.mobile-top-bar button {
-  font-size: 18px;
-  padding: 12px;
-  border: none;
-  border-radius: 8px;
-  background-color: #ff7043;
-  color: white;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  .mobile-top-bar button {
+    font-size: 18px;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    background-color: #ff7043;
+    color: white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+
+  select, input, button {
+    font-size: 18px !important;
+  }
+
+  .order-summary {
+    font-size: 18px;
+  }
+
+  .edit-section, .order-box {
+    width: 100%;
+  }
+
+  .menu-item {
+    width: 100%;
+    max-width: 100%;
+    margin: 12px 0;
+    padding: 16px;
+    border-radius: 16px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    box-sizing: border-box;
+    color: #fff; /* 若JS有指定textColor則會覆蓋 */
+  }
+
+  .menu-item > div:first-child {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+
+  .menu-item input[type="text"] {
+    font-size: 16px;
+    padding: 8px;
+    width: 100%;
+    box-sizing: border-box;
+    border: none;
+    border-radius: 8px;
+    margin-top: 4px;
+  }
+
+  .menu-item div {
+    margin-bottom: 10px;
+  }
+
+  .menu-item div:nth-child(3) {
+    font-size: 16px;
+  }
+
+  .menu-item div:nth-child(4),
+  .menu-item div:nth-child(5) {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .menu-item button.select-button {
+    width: 48%;
+    padding: 12px;
+    font-size: 18px;
+    border-radius: 10px;
+    border: 2px solid #ff9800;
+    background-color: #fff;
+    color: #ff9800;
+    font-weight: bold;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  }
+
+  .menu-item button.select-button.feedback {
+    background-color: #ff9800;
+    color: #fff;
+  }
+
+  .order-notification {
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 8px;
+    animation: fadeOut 1.2s ease forwards;
+    text-align: center;
+  }
+
+  @keyframes fadeOut {
+    0% { opacity: 1; }
+    80% { opacity: 1; }
+    100% { opacity: 0; transform: translateY(-10px); }
+  }
 }
