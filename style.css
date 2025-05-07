@@ -88,6 +88,26 @@ body {
   z-index: 10;
 }
 
+#category-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 4px; 
+  justify-content: flex-start;
+  padding: 4px 8px;
+}
+
+
+#category-buttons button {
+  margin: 0;
+  padding: 4px 10px;
+  font-size: 16px;
+  border-radius: 20px;
+  border: 2px solid #ff9800;
+  background-color: #fff;
+  color: #ff9800;
+  font-weight: bold;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
 
 /* 點餐送出按鈕加大 */
 .button {
@@ -244,28 +264,7 @@ input[type="color"] {
   .edit-section, .order-box {
     width: 100%;
   }
-
- #category-buttons {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px 4px; 
-  justify-content: flex-start;
-  padding: 4px 8px;
-}
-
-
-#category-buttons button {
-  margin: 0;
-  padding: 4px 10px;
-  font-size: 16px;
-  border-radius: 20px;
-  border: 2px solid #ff9800;
-  background-color: #fff;
-  color: #ff9800;
-  font-weight: bold;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-}
-
+ 
   .menu-item {
     width: 100%;
     max-width: 100%;
