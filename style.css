@@ -196,6 +196,28 @@ input[type="color"] {
   box-shadow: 2px 2px 4px rgba(0,0,0,0.1);
 }
 
+.item-name {
+  font-size: 20px;
+  font-weight: bold;
+  line-height: 1.2;
+  margin: 4px 0;
+}
+.remark-block {
+  margin: 6px 0; /* 預設空間：適合一般螢幕 */
+  font-size: 14px;
+  line-height: 1.2;
+}
+
+.remark-input {
+  width: 100%;
+  margin-top: 4px;
+  padding: 4px 6px;
+  font-size: 14px;
+  height: 28px;
+  box-sizing: border-box;
+}
+
+
 /* 手機顯示變大 */
 @media (max-width: 600px) {
   html, body {
@@ -265,7 +287,22 @@ input[type="color"] {
   .edit-section, .order-box {
     width: 100%;
   }
- 
+
+  .item-name {
+    font-size: 18px;
+    margin: 2px 0;
+  }
+  
+  .remark-block {
+    margin: 4px 0; /* 比一般畫面小一點，維持可讀又不擁擠 */
+  }
+
+  .remark-input {
+    height: 26px;
+    padding: 3px 4px;
+  }
+}
+  
   .menu-item {
     width: 100%;
     max-width: 100%;
