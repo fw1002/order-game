@@ -332,8 +332,7 @@ function renderMenu(filter = null) {
     // **這裡是唯一一次的反引號包裹**，沒有多餘註解或其他字串拼接
     card.innerHTML = `
       <div style="font-size: 20px;">${item.name}</div>
-      <div style="font-weight: normal;">${item.category}</div>
-
+      
       <div>
         備註：
         <input
@@ -347,20 +346,20 @@ function renderMenu(filter = null) {
       ${item.price != null
         ? `<div>
              一般 $${item.price}
-             <button
-               class="select-button"
-               onclick="handleSelect(this, '${item.name}', ${item.price}, ${index}, '一般')"
-             >選擇</button>
-           </div>`
+           <button class="select-button"
+            onclick="handleSelect(this, '${item.name}', ${item.price}, ${index}, '一般')">
+            一般 $${item.price}
+           </button>
+                 </div>`
         : `<div style="height:1.8em;"></div>`}
 
       ${item.largePrice != null
         ? `<div>
              大份 $${item.largePrice}
-             <button
-               class="select-button"
-               onclick="handleSelect(this, '${item.name}（大份）', ${item.largePrice}, ${index}, '大份')"
-             >選擇</button>
+          <button class="select-button"
+            onclick="handleSelect(this, '${item.name}（大份）', ${item.largePrice}, ${index}, '大份')">
+            大份 $${item.largePrice}
+          </button>
            </div>`
         : `<div style="height:1.8em;"></div>`}
     `;
