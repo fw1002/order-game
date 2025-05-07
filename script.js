@@ -343,25 +343,35 @@ function renderMenu(filter = null) {
         />
       </div>
       
-      ${item.price != null
-        ? `<div>
-             一般 $${item.price}
-           <button class="select-button"
-            onclick="handleSelect(this, '${item.name}', ${item.price}, ${index}, '一般')">
-            一般 $${item.price}
-           </button>
-                 </div>`
-        : `<div style="height:1.8em;"></div>`}
+      card.innerHTML = `
+  <div style="font-size: 20px;">${item.name}</div>
+  <div>
+    備註：
+    <input
+      type="text"
+      id="note-${index}"
+      placeholder="例如：不要◯◯"
+      style="width: 95%; margin-top: 4px; box-sizing: border-box;"
+    />
+  </div>
 
-      ${item.largePrice != null
-        ? `<div>
-             大份 $${item.largePrice}
-          <button class="select-button"
-            onclick="handleSelect(this, '${item.name}（大份）', ${item.largePrice}, ${index}, '大份')">
-            大份 $${item.largePrice}
-          </button>
-           </div>`
-        : `<div style="height:1.8em;"></div>`}
+  <div>
+    ${item.price != null
+      ? `<button class="select-button"
+           onclick="handleSelect(this, '${item.name}', ${item.price}, ${index}, '一般')">
+           一般 $${item.price}
+         </button>`
+      : ""
+    }
+
+    ${item.largePrice != null
+      ? `<button class="select-button"
+           onclick="handleSelect(this, '${item.name}（大份）', ${item.largePrice}, ${index}, '大份')">
+           大份 $${item.largePrice}
+         </button>`
+      : ""
+    }
+  </div>
     `;
 
     menu.appendChild(card);
