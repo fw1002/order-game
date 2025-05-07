@@ -319,4 +319,12 @@ input[type="color"] {
     80% { opacity: 1; }
     100% { opacity: 0; transform: translateY(-10px); }
   }
+body.mobile #menu {
+    display: block !important;
+  }
+
+  body.mobile .menu-item {
+    width: 90% !important;
+    margin: 12px auto;
+  }
 }
