@@ -343,18 +343,6 @@ function renderMenu(filter = null) {
         />
       </div>
       
-      card.innerHTML = `
-  <div style="font-size: 20px;">${item.name}</div>
-  <div>
-    備註：
-    <input
-      type="text"
-      id="note-${index}"
-      placeholder="例如：不要◯◯"
-      style="width: 95%; margin-top: 4px; box-sizing: border-box;"
-    />
-  </div>
-
   <div>
     ${item.price != null
       ? `<button class="select-button"
