@@ -546,27 +546,64 @@ function loadMenu(name, callback) {
   });
 }
 
-function deleteMenu() {
-  const select = document.getElementById("savedMenus");
-  const name = select?.value;
-  if (!name) return alert("請選擇要刪除的菜單");
-
-  db.ref("menus/" + name).once("value", snapshot => {
+function saveMenu() {
+  const input = document.getElementById("menuName");
+  if (!input) return;
+  const name = input.value.trim();
+  if (!name) return alert("請輸入菜單名稱");
+  showStatusMessage("⏳ 儲存中，請稍候...");
+  const ref = menuRef.child(name);
+  ref.once("value", snapshot => { // 注意：這裡使用ref而不是menuRef
     const data = snapshot.val();
-    if (!data) return alert("找不到該菜單資料");
-
-    const inputPassword = prompt("請輸入密碼以刪除菜單：" + name);
-    if (!inputPassword) return alert("已取消刪除");
-
-    if (inputPassword !== data.password) {
-      return alert("❌ 密碼錯誤，無法刪除");
-    }
-
-    // 密碼正確，確認後刪除
-    if (confirm("確定要刪除菜單：" + name + "？")) {
-      db.ref("menus/" + name).remove();
-      alert("✅ 已刪除菜單：" + name);
-      renderSavedMenus();
+    if (data) {
+      // 已存在的菜單，要求輸入密碼驗證
+      const inputPassword = prompt("這是已存在的菜單，請輸入密碼以儲存修改：");
+      if (!inputPassword) {
+        showStatusMessage("❌ 已取消儲存");
+        return;
+      }
+      if (inputPassword !== data.password) {
+        showStatusMessage("❌ 密碼錯誤，無法儲存");
+        return;
+      }
+      // 密碼正確，允許儲存
+      ref.set({ categories, menuItems, password: data.password }, (error) => { // 使用ref而不是menuRef
+        if (error) {
+          showStatusMessage("❌ 儲存失敗");
+          console.error(error);
+        } else {
+          showStatusMessage("✅ 已儲存並載入菜單：" + name);
+          renderSavedMenus();
+          setTimeout(() => {
+            const select = document.getElementById("savedMenus");
+            if (select) select.value = name;
+            currentMenuName = name;
+            loadMenu(name);
+          }, 100);
+        }
+      });
+    } else {
+      // 新菜單，要求設定新密碼
+      const newPassword = prompt("這是新菜單，請設定一組密碼保護：");
+      if (!newPassword) {
+        showStatusMessage("❌ 未設定密碼，已取消儲存");
+        return;
+      }
+      ref.set({ categories, menuItems, password: newPassword }, (error) => { // 使用ref而不是menuRef
+        if (error) {
+          showStatusMessage("❌ 儲存失敗");
+          console.error(error);
+        } else {
+          showStatusMessage("✅ 已儲存並載入菜單：" + name);
+          renderSavedMenus();
+          setTimeout(() => {
+            const select = document.getElementById("savedMenus");
+            if (select) select.value = name;
+            currentMenuName = name;
+            loadMenu(name);
+          }, 100);
+        }
+      });
     }
   });
 }
