@@ -329,7 +329,6 @@ function renderMenu(filter = null) {
     card.style.backgroundColor = cat?.color || "#999";
     card.style.color = textColor;
 
-    // **這裡是唯一一次的反引號包裹**，沒有多餘註解或其他字串拼接
     card.innerHTML = `
      <div class="item-name">${item.name}</div>
      <div class="remark-block">
@@ -346,7 +345,7 @@ function renderMenu(filter = null) {
       : ""
     }
 
-    ${item.largePrice != null
+    ${item.largePrice !== undefined && item.largePrice !== null && item.largePrice !== ""
       ? `<button class="select-button"
            onclick="handleSelect(this, '${item.name}（大份）', ${item.largePrice}, ${index}, '大份')">
            大份 $${item.largePrice}
@@ -359,6 +358,7 @@ function renderMenu(filter = null) {
     menu.appendChild(card);
   });
 }
+
 
 
 
