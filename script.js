@@ -452,7 +452,13 @@ function saveMenu() {
 
   menuRef.once("value", snapshot => {
     const data = snapshot.val();
-
+    
+    // ✅ 在這裡處理 largePrice 為 undefined/null 的問題
+    const cleanedMenuItems = menuItems.map(item => ({
+      ...item,
+      largePrice: item.largePrice !== undefined && item.largePrice !== null ? item.largePrice : ""
+    }));
+    
     if (data) {
       // 已存在的菜單，要求輸入密碼驗證
       const inputPassword = prompt("這是已存在的菜單，請輸入密碼以儲存修改：");
@@ -465,7 +471,7 @@ function saveMenu() {
         return;
       }
       // 密碼正確，允許儲存
-      menuRef.set({ categories, menuItems, password: data.password }, (error) => {
+      menuRef.set({ categories, menuItems: cleanedMenuItems, password: data.password }, (error) => {
         if (error) {
           showStatusMessage("❌ 儲存失敗");
           console.error(error);
@@ -488,7 +494,7 @@ function saveMenu() {
         showStatusMessage("❌ 未設定密碼，已取消儲存");
         return;
       }
-      menuRef.set({ categories, menuItems, password: newPassword }, (error) => {
+      menuRef.set({ categories, menuItems: cleanedMenuItems, password: newPassword }, (error) => {
         if (error) {
           showStatusMessage("❌ 儲存失敗");
           console.error(error);
