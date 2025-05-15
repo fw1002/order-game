@@ -435,7 +435,9 @@ function renderMenuList() {
   ul.innerHTML = "";
   menuItems.forEach((item, i) => {
     const li = document.createElement("li");
-    li.innerHTML = `${item.name} (${item.category}) - $${item.price}${item.largePrice !== null ? `/$${item.largePrice}` : ""} <button onclick="menuItems.splice(${i},1);renderMenu();renderMenuList()">刪除</button>`;
+    const hasLarge = item.largePrice !== undefined && item.largePrice !== null && item.largePrice !== "";
+    const priceText = hasLarge ? `$${item.price}/$${item.largePrice}` : `$${item.price}`;
+    li.innerHTML = `${item.name} (${item.category}) - ${priceText} <button onclick="menuItems.splice(${i},1);renderMenu();renderMenuList()">刪除</button>`;
     ul.appendChild(li);
   });
 }
