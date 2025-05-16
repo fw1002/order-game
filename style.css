@@ -318,6 +318,7 @@ input[type="color"] {
 .mobile-top-bar button {
   flex: 1;
   min-width: 0;
+  max-width:100%;
   font-size: 16px;
   padding: 10px 14px;
   border: none;
@@ -328,7 +329,7 @@ input[type="color"] {
   cursor: pointer;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   white-space: normal;
-  word-break: keep-all;
+  word-break: break-word;
   text-align: center;
 }
 
