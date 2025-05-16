@@ -315,7 +315,11 @@ input[type="color"] {
     background-color: #ff7043;
     color: white;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    white-space: normal;  /* ✅ 允許換行 */
+    word-break: keep-all; /* ⭕ 可選：保持詞語不拆字 */
+    text-align: center;   /* ✅ 讓多行文字置中 */
   }
+
 
   select, input, button {
     font-size: 18px !important;
