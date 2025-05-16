@@ -18,10 +18,10 @@
   <select id="savedMenusMobile" onchange="loadMenu(this.value, renderMenu)">
     <option value="">請選擇菜單</option>
   </select>
-  <div style="display: flex; justify-content: center; gap: 8px; margin-top: 10px;">
-    <button onclick="location.href='select_role.html'  style="flex: 1; padding: 10px 14px; font-size: 18px;">👤 前往角色選擇頁</button>
-    <button onclick="startOrderMobile()" style="flex: 1; padding: 10px 14px; font-size: 18px;">開始點餐</button>
-    <button onclick="scrollToOrderHistory()" style="flex: 1; background-color: #90caf9; color: #333; padding: 10px 14px; font-size: 16px; border: none; border-radius: 6px; cursor: pointer;">點餐紀錄</button>
+  <div class="mobile-top-button-group">
+    <button class="role-button" onclick="location.href='select_role.html'">👤 前往角色選擇頁</button>
+    <button class="role-button" onclick="startOrderMobile()">開始點餐</button>
+    <button class="role-button third" onclick="scrollToOrderHistory()">點餐紀錄</button>
   </div>
 </div>
 
