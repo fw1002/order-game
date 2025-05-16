@@ -310,13 +310,25 @@ input[type="color"] {
     justify-content: space-between;
   }
 
-  .menu-item {
-    flex: 1 1 calc(33.333% - 16px);
-    box-sizing: border-box;
-    max-width: calc(33.333% - 16px);
-    margin-bottom: 16px;
-  }
+.menu-item {
+  position: relative;      /* 新增：讓絕對定位的提示文字能相對定位在卡片上 */
+  flex: 0 0 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 160px;
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  font-weight: bold;
+  background: #6c63ff;
+}
 
+/* 不使用遮罩背景 */
+.menu-item::before {
+  display: none;
+}
+ 
 
 /* 手機顯示變大 */
 @media (max-width: 600px) {
