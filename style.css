@@ -298,27 +298,46 @@ input[type="color"] {
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   }
 
-  .mobile-top-bar {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    padding: 16px;
-    background-color: #ffe0b2;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  }
+ .mobile-top-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px;
+  background-color: #ffe0b2;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
 
-  .mobile-top-bar button {
-    font-size: 18px;
-    padding: 12px;
-    border: none;
-    border-radius: 8px;
-    background-color: #ff7043;
-    color: white;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    white-space: normal;  /* ✅ 允許換行 */
-    word-break: keep-all; /* ⭕ 可選：保持詞語不拆字 */
-    text-align: center;   /* ✅ 讓多行文字置中 */
-  }
+/* ✅ 讓 button 所在的容器橫向排列 */
+.mobile-top-bar > div {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+/* ✅ 統一三顆按鈕樣式，等寬、可換行、置中 */
+.mobile-top-bar button {
+  flex: 1;
+  min-width: 0;
+  font-size: 16px;
+  padding: 10px 14px;
+  border: none;
+  border-radius: 8px;
+  background-color: #ff7043;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  white-space: normal;
+  word-break: keep-all;
+  text-align: center;
+}
+
+/* ✅ 可選：第三顆按鈕（點餐紀錄）換個顏色 */
+.mobile-top-bar button:last-child {
+  background-color: #90caf9;
+  color: #333;
+}
+
 
 
   select, input, button {
