@@ -259,6 +259,65 @@ input[type="color"] {
 }
 
 
+@media (min-width: 601px) and (max-width: 1024px) {
+  /* ✅ top-bar 使用手機樣式*/
+ .mobile-top-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px;
+  background-color: #ffe0b2;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* ✅ 讓 button 所在的容器橫向排列 */
+.mobile-top-bar > div {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+/* ✅ 統一三顆按鈕樣式，等寬、可換行、置中 */
+.mobile-top-bar button {
+  flex: 1;
+  min-width: 0;
+  max-width:100%;
+  font-size: 16px;
+  padding: 10px 14px;
+  border: none;
+  border-radius: 8px;
+  background-color: #ff7043;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  white-space: normal;
+  word-break: break-word;
+  text-align: center;
+}
+
+/* ✅ 可選：第三顆按鈕（點餐紀錄）換個顏色 */
+.mobile-top-bar button:last-child {
+  background-color: #90caf9;
+  color: #333;
+}
+  
+  /* ✅ 餐點卡片：一列 3 個 */
+  #menu {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    justify-content: space-between;
+  }
+
+  .menu-item {
+    flex: 1 1 calc(33.333% - 16px);
+    box-sizing: border-box;
+    max-width: calc(33.333% - 16px);
+    margin-bottom: 16px;
+  }
+
+
 /* 手機顯示變大 */
 @media (max-width: 600px) {
   html, body {
