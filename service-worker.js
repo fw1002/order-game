@@ -1,12 +1,13 @@
 const CACHE_NAME = "order-game-cache-v2";
 const urlsToCache = [
-  "/index.html",
-  "/mobile.html",
-  "/style.css",
-  "/script.js",
-  "/icons/icon-192.png",
-  "/icons/icon-512.png"
+  "/order-game/index.html",
+  "/order-game/mobile.html",
+  "/order-game/style.css",
+  "/order-game/script.js",
+  "/order-game/icons/icon-192.png",
+  "/order-game/icons/icon-512.png"
 ];
+
 
 // 安裝階段：快取所有靜態資源
 self.addEventListener("install", event => {
