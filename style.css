@@ -328,7 +328,7 @@ input[type="color"] {
 .menu-item::before {
   display: none;
 }
- 
+} 
 
 /* 手機顯示變大 */
 @media (max-width: 600px) {
