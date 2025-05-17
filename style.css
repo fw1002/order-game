@@ -40,23 +40,88 @@ body {
 
 /* 餐點卡片樣式 */
 .menu-item {
-  position: relative;      /* 新增：讓絕對定位的提示文字能相對定位在卡片上 */
-  flex: 0 0 200px;
+  position: relative;              /* 讓提示文字能定位在卡片內部 */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   min-height: 160px;
-  padding: 15px;
-  border-radius: 12px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  padding: 15px;                   /* 通用留白 */
+  border-radius: 12px;             /* 圓角 */
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* 卡片陰影 */
+  box-sizing: border-box;          /* 包含 padding 不會超出寬度 */
   font-weight: bold;
-  background: #6c63ff;
+  background: #6c63ff;            /* 預設背景，可被 JS 覆蓋 */
+  color: #fff;                    /* 預設字色，可被 JS 覆蓋 */
 }
 
-/* 不使用遮罩背景 */
+/* 若有指定遮罩，這裡預設不使用 */
 .menu-item::before {
   display: none;
 }
+
+  .menu-item > div:first-child {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+
+  .menu-item input[type="text"] {
+    font-size: 16px;
+    padding: 8px;
+    width: 100%;
+    box-sizing: border-box;
+    border: none;
+    border-radius: 8px;
+    margin-top: 4px;
+  }
+
+  .menu-item div {
+    margin-bottom: 10px;
+  }
+
+  .menu-item div:nth-child(3) {
+    font-size: 16px;
+  }
+
+  .menu-item div:nth-child(4),
+  .menu-item div:nth-child(5) {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .menu-item button.select-button {
+    width: 48%;
+    padding: 12px;
+    font-size: 18px;
+    border-radius: 10px;
+    border: 2px solid #ff9800;
+    background-color: #fff;
+    color: #ff9800;
+    font-weight: bold;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  }
+
+  .menu-item button.select-button.feedback {
+    background-color: #ff9800;
+    color: #fff;
+  }
+
+  .order-notification {
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 8px;
+    animation: fadeOut 1.2s ease forwards;
+    text-align: center;
+  }
+
+  @keyframes fadeOut {
+    0% { opacity: 1; }
+    80% { opacity: 1; }
+    100% { opacity: 0; transform: translateY(-10px); }
+  }
 
 /* 按鈕短暫變色反饋 */
 .select-button.feedback {
@@ -411,7 +476,6 @@ input[type="color"] {
 }
 
 
-
   select, input, button {
     font-size: 18px !important;
   }
@@ -437,82 +501,7 @@ input[type="color"] {
     height: 26px;
     padding: 3px 4px;
   }
-}
-  
-  .menu-item {
-    width: 100%;
-    max-width: 100%;
-    margin: 12px 0;
-    padding: 16px;
-    border-radius: 16px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    box-sizing: border-box;
-    color: #fff; /* 若JS有指定textColor則會覆蓋 */
-  }
 
-  .menu-item > div:first-child {
-    font-size: 22px;
-    font-weight: bold;
-    margin-bottom: 10px;
-  }
-
-  .menu-item input[type="text"] {
-    font-size: 16px;
-    padding: 8px;
-    width: 100%;
-    box-sizing: border-box;
-    border: none;
-    border-radius: 8px;
-    margin-top: 4px;
-  }
-
-  .menu-item div {
-    margin-bottom: 10px;
-  }
-
-  .menu-item div:nth-child(3) {
-    font-size: 16px;
-  }
-
-  .menu-item div:nth-child(4),
-  .menu-item div:nth-child(5) {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 10px;
-    flex-wrap: wrap;
-  }
-
-  .menu-item button.select-button {
-    width: 48%;
-    padding: 12px;
-    font-size: 18px;
-    border-radius: 10px;
-    border: 2px solid #ff9800;
-    background-color: #fff;
-    color: #ff9800;
-    font-weight: bold;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-  }
-
-  .menu-item button.select-button.feedback {
-    background-color: #ff9800;
-    color: #fff;
-  }
-
-  .order-notification {
-    font-size: 16px;
-    font-weight: bold;
-    margin-top: 8px;
-    animation: fadeOut 1.2s ease forwards;
-    text-align: center;
-  }
-
-  @keyframes fadeOut {
-    0% { opacity: 1; }
-    80% { opacity: 1; }
-    100% { opacity: 0; transform: translateY(-10px); }
-  }
 body.mobile #menu {
     display: block !important;
   }
@@ -522,3 +511,5 @@ body.mobile #menu {
     margin: 12px auto;
   }
 }
+
+
