@@ -59,7 +59,20 @@
   button:hover {
     background-color: #43a047;
   }
-</style>
+
+  .in-progress-btn {
+  background-color: #ffa726 !important;  /* 橘色 */
+  color: white !important;
+  cursor: default;
+  font-weight: bold;
+}
+
+.order-in-progress {
+  background-color: #fff8e1;  /* 淡黃背景 */
+  transition: background-color 0.3s ease;
+}
+
+  </style>
 
 </head>
 <body>
@@ -141,10 +154,19 @@ function markOrderCooking(branch, key, btn) {
   if (!confirmed) return;
 
   db.ref("orders/" + branch + "/" + key).update({ status: "cooking" });
+
+  // 視覺回饋
   btn.disabled = true;
-  btn.textContent = "🍳 製作中";
+  btn.textContent = "✅ 已開始製作";
+  btn.classList.add("in-progress-btn");
+
+  const card = btn.closest(".order-card");
+  if (card) {
+    card.classList.add("order-in-progress");
+  }
 }
 
+    
 function markOrderCompleted(branch, key, btn) {
   const confirmed = confirm("確定要將此訂單標記為『已完成』嗎？");
   if (!confirmed) return;
