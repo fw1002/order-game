@@ -61,16 +61,13 @@
   }
 
   .in-progress-btn {
-  background-color: #ffa726 !important;  /* 橘色 */
-  color: white !important;
+  background-color: #455a64 !important;  /* 深灰藍 */
+  color: #ffffff !important;
   cursor: default;
   font-weight: bold;
+  border: none;
 }
 
-.order-in-progress {
-  background-color: #fff8e1;  /* 淡黃背景 */
-  transition: background-color 0.3s ease;
-}
 
   </style>
 
@@ -159,11 +156,6 @@ function markOrderCooking(branch, key, btn) {
   btn.disabled = true;
   btn.textContent = "🍳 已開始製作";
   btn.classList.add("in-progress-btn");
-
-  const card = btn.closest(".order-box");
-  if (card) {
-    card.classList.add("order-in-progress");
-  }
 }
 
     
