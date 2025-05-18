@@ -5,6 +5,14 @@ body {
   margin: 0;
   padding: 0;
 }
+
+/* 確保畫面不被手機上方狀態列遮住 */
+body {
+  padding-top: env(safe-area-inset-top);
+  /* 為相容舊裝置（可選） */
+  padding-top: constant(safe-area-inset-top);
+}
+
 .top-bar {
   background-color: #1e88e5;
   padding: 10px;
