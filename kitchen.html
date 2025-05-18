@@ -160,7 +160,7 @@ function markOrderCooking(branch, key, btn) {
   btn.textContent = "🍳 已開始製作";
   btn.classList.add("in-progress-btn");
 
-  const card = btn.closest(".order-card");
+  const card = btn.closest(".order-box");
   if (card) {
     card.classList.add("order-in-progress");
   }
