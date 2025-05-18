@@ -296,6 +296,14 @@ function addItem() {
   menuItems.push({ name, category, price, largePrice });
   renderMenu();
   renderMenuList();
+  // ✅ 清空欄位
+  nameEl.value = "";
+  categoryEl.value = 0; // 保留分類選擇
+  priceEl.value = "";
+  largePriceEl.value = "";
+
+  // ✅ 將游標移回名稱欄位，方便快速連續輸入
+  nameEl.focus();
 }
 
 function renderMenu(filter = null) {
