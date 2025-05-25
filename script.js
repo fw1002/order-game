@@ -14,6 +14,18 @@ firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 const menuRef = db.ref("menus");
 
+// 驗證登入（除了 login.html）
+const path = window.location.pathname;
+const filename = path.substring(path.lastIndexOf("/") + 1).toLowerCase();
+
+if (filename !== "login.html") {
+  firebase.auth().onAuthStateChanged(user => {
+    if (!user) {
+      alert("請先登入");
+      window.location.href = "login.html";
+    }
+  });
+}
 
 let currentMenuName = "";
 let categories = [];
