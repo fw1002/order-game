@@ -1,18 +1,23 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>登入</title>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js"></script>
+
+  <!-- ✅ 用 compat 版本 -->
+  <script src="https://www.gstatic.com/firebasejs/11.6.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/11.6.0/firebase-auth-compat.js"></script>
+
   <script>
     const firebaseConfig = {
       apiKey: "AIzaSyBpXLkIwSKwuNIHcBOd1LfUNl-SQ7Hw9iY",
       authDomain: "order-game-home.firebaseapp.com",
       projectId: "order-game-home",
-      appId: "1:1002665277636:web:042f46862f9cbc06907191",
+      appId: "1:1002665277636:web:042f46862f9cbc06907191"
     };
+
     firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
   </script>
 </head>
 <body>
@@ -23,13 +28,13 @@
   <p id="error" style="color: red;"></p>
 
   <script>
-    const auth = firebase.auth();
     function login() {
       const email = document.getElementById("email").value;
       const password = document.getElementById("password").value;
+
       auth.signInWithEmailAndPassword(email, password)
         .then(() => {
-          location.href = "admin.html"; // 登入成功跳轉
+          location.href = "select_role.html";
         })
         .catch(error => {
           document.getElementById("error").innerText = error.message;
