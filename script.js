@@ -18,14 +18,23 @@ const menuRef = db.ref("menus");
 const path = window.location.pathname;
 const filename = path.substring(path.lastIndexOf("/") + 1).toLowerCase();
 
-if (filename !== "login.html") {
-  firebase.auth().onAuthStateChanged(user => {
-    if (!user) {
+firebase.auth().onAuthStateChanged(user => {
+  if (!user) {
+    // ✅ 未登入 → 導向 login
+    if (filename !== "login.html") {
       alert("請先登入");
       window.location.href = "login.html";
     }
-  });
-}
+  } else {
+    // ✅ 已登入
+    if (filename === "login.html") {
+      // 從 login.html 登入成功 → 自動導向 select_role.html
+      window.location.href = "select_role.html";
+    }
+    // 其他情況（已登入 & 非 login.html）→ 繼續原頁面
+  }
+});
+
 
 let currentMenuName = "";
 let categories = [];
