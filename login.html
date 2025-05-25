@@ -19,14 +19,64 @@
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
   </script>
+  <style>
+    body {
+      font-family: "Microsoft JhengHei", sans-serif;
+      background-color: #f9f9f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .login-container {
+      background-color: #fff;
+      padding: 40px;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      width: 90%;
+      max-width: 400px;
+    }
+    h2 {
+      font-size: 32px;
+      margin-bottom: 30px;
+      color: #333;
+    }
+    input[type="email"],
+    input[type="password"] {
+      width: 100%;
+      padding: 16px;
+      margin: 12px 0;
+      font-size: 18px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+    button {
+      width: 100%;
+      padding: 16px;
+      font-size: 20px;
+      font-weight: bold;
+      background-color: #fb8c00;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background-color: #f57c00;
+    }
+  </style>
 </head>
 <body>
-  <h2>登入</h2>
-  <input type="email" id="email" placeholder="Email" />
-  <input type="password" id="password" placeholder="密碼" />
-  <button onclick="login()">登入</button>
-  <p id="error" style="color: red;"></p>
-
+  <div class="login-container">
+    <h2>登入</h2>
+    <input type="email" id="email" placeholder="Email" />
+    <input type="password" id="password" placeholder="密碼" />
+    <button onclick="login()">登入</button>
+  </div>
+  
   <script>
     function login() {
       const email = document.getElementById("email").value;
