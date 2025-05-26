@@ -14,27 +14,45 @@ firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 const menuRef = db.ref("menus");
 
-// 驗證登入（除了 login.html）
+// 驗證登入狀態相關
 const path = window.location.pathname;
 const filename = path.substring(path.lastIndexOf("/") + 1).toLowerCase();
 
+let isAuthInitialized = false;
+let isLoggedIn = false;
+
 firebase.auth().onAuthStateChanged(user => {
+  isAuthInitialized = true;
+  isLoggedIn = !!user;
+
   if (!user) {
-    // ✅ 未登入 → 導向 login
     if (filename !== "login.html") {
       alert("請先登入");
-      window.location.href = "login.html";
+      window.location.replace("login.html");
     }
   } else {
-    // ✅ 已登入
     if (filename === "login.html") {
-      // 從 login.html 登入成功 → 自動導向 select_role.html
-      window.location.href = "select_role.html";
+      window.location.replace("select_role.html");
     }
-    // 其他情況（已登入 & 非 login.html）→ 繼續原頁面
+    // 已登入 → 可進行後續邏輯，但要等 DOMContentLoaded 再開始
   }
 });
 
+// 你的應用邏輯初始化（延後到登入狀態確認後）
+window.addEventListener("DOMContentLoaded", () => {
+  const waitForAuth = setInterval(() => {
+    if (isAuthInitialized) {
+      clearInterval(waitForAuth);
+
+      if (isLoggedIn && filename !== "login.html") {
+        // ✅ 僅在已登入時才初始化資料
+        if (savedMenuName) {
+          loadMenu(savedMenuName);
+        }
+      }
+    }
+  }, 50); // 每 50ms 檢查一次，直到 Firebase 驗證完成
+});
 
 let currentMenuName = "";
 let categories = [];
@@ -45,11 +63,6 @@ let hasInitialRender = false; // 為了避免初次載入時誤判狀態變更
 // ✅ 全域變數：目前使用中的菜單名稱
 let savedMenuName = localStorage.getItem('currentMenuName') || "";
 
-window.addEventListener("DOMContentLoaded", () => {
-  if (savedMenuName) {
-    loadMenu(savedMenuName);    
-  }
-});
 
 // ✅ 模式切換（編輯模式 <-> 點餐模式）
 function switchMode(mode) {
