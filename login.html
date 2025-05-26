@@ -1,48 +1,39 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="zh-Hant">
 <head>
-  <meta charset="UTF-8">
-  <title>登入</title>
-
-  <!-- ✅ 用 compat 版本 -->
-  <script src="https://www.gstatic.com/firebasejs/11.6.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/11.6.0/firebase-auth-compat.js"></script>
-
-  <script>
-    const firebaseConfig = {
-      apiKey: "AIzaSyBpXLkIwSKwuNIHcBOd1LfUNl-SQ7Hw9iY",
-      authDomain: "order-game-home.firebaseapp.com",
-      projectId: "order-game-home",
-      appId: "1:1002665277636:web:042f46862f9cbc06907191"
-    };
-
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>登入頁面</title>
   <style>
     body {
       font-family: "Microsoft JhengHei", sans-serif;
-      background-color: #f9f9f9;
+      margin: 0;
+      height: 100vh;
+      background-image: url('bg.jpg'); /* 底圖 */
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
-      margin: 0;
     }
+
     .login-container {
-      background-color: #fff;
+      background-color: rgba(255, 255, 255, 0.92);
       padding: 40px;
       border-radius: 16px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
       text-align: center;
       width: 90%;
       max-width: 400px;
     }
+
     h2 {
       font-size: 32px;
       margin-bottom: 30px;
       color: #333;
     }
+
     input[type="email"],
     input[type="password"] {
       width: 100%;
@@ -52,6 +43,7 @@
       border: 1px solid #ccc;
       border-radius: 8px;
     }
+
     button {
       width: 100%;
       padding: 16px;
@@ -64,6 +56,7 @@
       cursor: pointer;
       transition: background 0.3s;
     }
+
     button:hover {
       background-color: #f57c00;
     }
@@ -76,19 +69,10 @@
     <input type="password" id="password" placeholder="密碼" />
     <button onclick="login()">登入</button>
   </div>
-  
+
   <script>
     function login() {
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
-
-      auth.signInWithEmailAndPassword(email, password)
-        .then(() => {
-          location.href = "select_role.html";
-        })
-        .catch(error => {
-          document.getElementById("error").innerText = error.message;
-        });
+      alert("嘗試登入...");
     }
   </script>
 </body>
