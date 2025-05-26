@@ -9,7 +9,7 @@
       font-family: "Microsoft JhengHei", sans-serif;
       margin: 0;
       height: 100vh;
-      background-image: url('bg.jpg'); /* 底圖 */
+      background-image: url('bg.jpg'); /* 背景圖 */
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
@@ -60,7 +60,29 @@
     button:hover {
       background-color: #f57c00;
     }
+
+    .error-message {
+      color: red;
+      margin-top: 10px;
+    }
   </style>
+
+  <!-- ✅ Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/11.6.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/11.6.0/firebase-auth-compat.js"></script>
+  <script>
+    // ✅ 請確認這段 config 與你的 script.js 相同
+    const firebaseConfig = {
+      apiKey: "AIzaSyBY2JkCQErm8pyh2B1uCZmeuDohi8DNces",
+      authDomain: "order-game-3a2c3.firebaseapp.com",
+      projectId: "order-game-3a2c3",
+      storageBucket: "order-game-3a2c3.appspot.com",
+      messagingSenderId: "793590994015",
+      appId: "1:793590994015:web:d089bf8bea249a3837f7ea"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+  </script>
 </head>
 <body>
   <div class="login-container">
@@ -68,11 +90,32 @@
     <input type="email" id="email" placeholder="Email" />
     <input type="password" id="password" placeholder="密碼" />
     <button onclick="login()">登入</button>
+    <div class="error-message" id="errorMsg"></div>
   </div>
 
   <script>
     function login() {
-      alert("嘗試登入...");
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value.trim();
+      const errorMsg = document.getElementById("errorMsg");
+      errorMsg.textContent = "";
+
+      if (!email || !password) {
+        errorMsg.textContent = "請輸入 Email 和 密碼";
+        return;
+      }
+
+      firebase.auth().signInWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+          // 登入成功
+          console.log("登入成功", userCredential.user.email);
+          localStorage.setItem("userLoggedIn", "true");
+          window.location.href = "select_role.html";
+        })
+        .catch((error) => {
+          console.error("登入失敗", error);
+          errorMsg.textContent = "登入失敗：" + (error.message || "請檢查帳號與密碼");
+        });
     }
   </script>
 </body>
