@@ -5,6 +5,31 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>點餐遊戲 - 選擇角色</title>
   <link rel="stylesheet" href="style.css">
+
+  <!-- ✅ Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/11.6.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/11.6.0/firebase-auth-compat.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyBpXLkIwSKwuNIHcBOd1LfUNl-SQ7Hw9iY",
+      authDomain: "order-game-home.firebaseapp.com",
+      databaseURL: "https://order-game-home-default-rtdb.firebaseio.com",
+      projectId: "order-game-home",
+      storageBucket: "order-game-home.appspot.com",
+      messagingSenderId: "1002665277636",
+      appId: "1:1002665277636:web:042f46862f9cbc06907191",
+      measurementId: "G-YJ4P4QZRJV"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+
+    firebase.auth().onAuthStateChanged(user => {
+      if (!user) {
+        alert("請先登入");
+        window.location.replace("login.html");
+      }
+    });
+  </script>
 </head>
 <body>
   <div class="logo-area">
