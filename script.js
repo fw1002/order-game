@@ -693,18 +693,24 @@ window.addEventListener("DOMContentLoaded", () => {
   const completedSound = document.getElementById("completedSound");          // ← DOM 已就緒，一定取得到
 
   // 首次互動 → 解鎖
-  function unlockCompletedSound() {
-    completedSound.play()
-      .then(() => {
-        completedSound.pause();
-        completedSound.currentTime = 0;
-        console.log("🔊 completed.mp3 已解鎖");
-      })
-      .catch(() => {});   // iOS 靜音失敗時忽略
-  }
+  function unlockAudioPermission() {
+  const unlockSound = document.getElementById("unlockSound");
+  if (!unlockSound) return;
 
-  document.body.addEventListener("touchstart", unlockCompletedSound, { once:true });
-  document.body.addEventListener("click",      unlockCompletedSound, { once:true });
+  unlockSound.play()
+    .then(() => {
+      unlockSound.pause();
+      unlockSound.currentTime = 0;
+      console.log("🔓 unlock.m4a 已解鎖");
+    })
+    .catch(() => {
+      // 靜音或未載入音效時忽略
+    });
+}
+
+document.body.addEventListener("touchstart", unlockAudioPermission, { once: true });
+document.body.addEventListener("click", unlockAudioPermission, { once: true });
+
 
   // 全域播放函式（供 child_changed 呼叫）
   window.playCompletionSound = () => {
