@@ -24,35 +24,34 @@ let isLoggedIn = false;
 firebase.auth().onAuthStateChanged(user => {
   isAuthInitialized = true;
   isLoggedIn = !!user;
-
-  if (!user) {
-    if (filename !== "login.html") {
-      alert("請先登入");
-      window.location.replace("login.html");
-    }
-  } else {
-    if (filename === "login.html") {
-      window.location.replace("select_role.html");
-    }
-    // 已登入 → 可進行後續邏輯，但要等 DOMContentLoaded 再開始
-  }
 });
 
-// 你的應用邏輯初始化（延後到登入狀態確認後）
 window.addEventListener("DOMContentLoaded", () => {
   const waitForAuth = setInterval(() => {
-    if (isAuthInitialized) {
-      clearInterval(waitForAuth);
+    if (!isAuthInitialized) return;
 
-      if (isLoggedIn && filename !== "login.html") {
-        // ✅ 僅在已登入時才初始化資料
-        if (savedMenuName) {
-          loadMenu(savedMenuName);
-        }
+    clearInterval(waitForAuth);
+
+    if (!isLoggedIn && filename !== "login.html") {
+      alert("請先登入");
+      location.replace("login.html");
+      return;
+    }
+
+    if (isLoggedIn && filename === "login.html") {
+      location.replace("select_role.html");
+      return;
+    }
+
+    // ✅ 登入後初始化（非 login.html）
+    if (isLoggedIn && filename !== "login.html") {
+      if (savedMenuName) {
+        loadMenu(savedMenuName);
       }
     }
-  }, 50); // 每 50ms 檢查一次，直到 Firebase 驗證完成
+  }, 50);
 });
+
 
 let currentMenuName = "";
 let categories = [];
