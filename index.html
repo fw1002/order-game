@@ -3,16 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script>
-    // 一開始就執行轉到login
-    const path = location.pathname;
-    const isIndex = path.endsWith("/") || path.endsWith("/index.html") || path.includes("/order-game");
-    const isLogin = path.includes("login.html");
-
-    if (isIndex && !isLogin && !localStorage.getItem("userLoggedIn")) {
-      window.location.href = "login.html";
-    }
-  </script>
+  
   <link rel="manifest" href="manifest.json">
   <script>
   if ("serviceWorker" in navigator) {
