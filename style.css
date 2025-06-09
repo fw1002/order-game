@@ -36,23 +36,39 @@ body {
   padding: 30px;
 }
 
-/* 分類按鈕加大 */
-#category-buttons button {
+
+
+/* 分類按鈕區塊排版（不負責按鈕樣式） */
+#category-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 4px;
+  justify-content: flex-start;
+  padding: 4px 8px;
+  margin-bottom: 16px;
+}
+
+/* 分類按鈕統一樣式 */
+.category-button {
   padding: 14px 24px;
   margin: 8px;
   font-size: 18px;
   font-weight: bold;
-  border-radius: 12px;
+  border-radius: 20px;
+  border: 2px solid #ff9800;
+  background-color: #fff;
+  color: #ff9800;
   cursor: pointer;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease;
 }
 
 /* 分類按鈕點選後，視覺凸顯 */
 .category-button.active {
-  background-color: #fb8c00;                     /* 指定橘色底 */
-  color: white;                                   /* 白色文字 */
-  box-shadow: 0 0 0 3px rgba(251, 140, 0, 0.5);   /* 對應橘色的半透明光暈 */
-  font-weight: bold;                              /* 字體加粗 */
-  transform: scale(1.05);                         /* 稍微放大 */
+  background-color: #fb8c00 !important;
+  color: white !important;
+  box-shadow: 0 0 0 3px rgba(251, 140, 0, 0.5);
+  transform: scale(1.05);
 }
 
 
@@ -172,27 +188,6 @@ body {
   z-index: 10;
 }
 
-#category-buttons {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px 4px; 
-  justify-content: flex-start;
-  padding: 4px 8px;
-  margin-bottom: 16px;
-}
-
-
-#category-buttons button {
-  margin: 0;
-  padding: 4px 10px;
-  font-size: 16px;
-  border-radius: 20px;
-  border: 2px solid #ff9800;
-  background-color: #fff;
-  color: #ff9800;
-  font-weight: bold;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-}
 
 /* 點餐送出按鈕加大 */
 .button {
