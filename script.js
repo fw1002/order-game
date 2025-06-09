@@ -347,10 +347,12 @@ function renderMenu(filter = null) {
   if (!menu || !catButtons) return;
 
   menu.innerHTML = "";
-  catButtons.innerHTML = "<button onclick='renderMenu()'>全部</button>";
+  catButtons.innerHTML = `<button class="category-button ${!filter ? "active" : ""}" onclick="renderMenu()">全部</button>`;
   categories.forEach(cat => {
-    catButtons.innerHTML += `<button onclick="renderMenu('${cat.name}')">${cat.name}</button>`;
-  });
+  const isActive = filter === cat.name ? "active" : "";
+  catButtons.innerHTML += `<button class="category-button ${isActive}" onclick="renderMenu('${cat.name}')">${cat.name}</button>`;
+});
+
 
   const items = menuItems
     .filter(item => !filter || item.category === filter)
