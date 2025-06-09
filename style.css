@@ -46,6 +46,15 @@ body {
   cursor: pointer;
 }
 
+/* 分類按鈕點選後，視覺凸顯 */
+.category-button.active {
+  filter: brightness(85%);                       /* 底色加深 */
+  box-shadow: 0 0 0 3px rgba(255, 112, 67, 0.5); /* 橘色外框光暈 */
+  font-weight: bold;                             /* 字體加粗 */
+  transform: scale(1.05);                        /* 略微放大 */
+}
+
+
 /* 餐點卡片樣式 */
 .menu-item {
   position: relative;              /* 讓提示文字能定位在卡片內部 */
